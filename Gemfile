@@ -49,3 +49,8 @@ end
 group :staging, :production do
   gem 'puma', '~> 2.11.1'
 end
+
+################################################################
+################# Performance Indicators Gems ##################
+
+gem 'nokogiri', '~> 1.6.6.2'

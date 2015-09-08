@@ -31,6 +31,10 @@ class PlaceGeAd
     address_array[0]
   end
 
+  def get_area_from_address
+    address_array[1]
+  end
+
   def initialize(uri)
     @uri = uri
     @page = Nokogiri::HTML(open(@uri))
@@ -41,10 +45,11 @@ class PlaceGeAd
     @renovation_type = scrape_renovation_type
     @address = scrape_address
     @city = get_city_from_address
+    @area = get_area_from_address
   end
 
   def to_s
-    "\nScraping place.ge! Real Estate Ad Uri: #{@uri}\n------------------------------------------------------\nPrice: #{@price}\nSize: #{@size} #{@size_unit}\nRenovation: #{@renovation_type}\nAddress: #{@address}\nCity: #{@city}"
+    "\nScraping place.ge! Real Estate Ad Uri: #{@uri}\n------------------------------------------------------\nPrice: #{@price}\nSize: #{@size} #{@size_unit}\nRenovation: #{@renovation_type}\nAddress: #{@address}\nCity: #{@city}\nArea: #{@area}"
   end
 end
 

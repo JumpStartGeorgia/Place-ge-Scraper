@@ -7,11 +7,11 @@ class PlaceGeAd
     @page.css('.top-ad .price')[0].content[/\$.*\//].remove_non_numbers.to_i
   end
 
-  def scrape_area
+  def scrape_size
     @page.detail_value('Space').remove_non_numbers.to_i
   end
 
-  def scrape_area_unit
+  def scrape_size_unit
     @page.detail_value('Space').remove_numbers.strip
   end
 
@@ -36,15 +36,15 @@ class PlaceGeAd
     @page = Nokogiri::HTML(open(@uri))
 
     @price = scrape_price
-    @area = scrape_area
-    @area_unit = scrape_area_unit
+    @size = scrape_size
+    @size_unit = scrape_size_unit
     @renovation_type = scrape_renovation_type
     @address = scrape_address
     @city = get_city_from_address
   end
 
   def to_s
-    "\nScraping place.ge! Real Estate Ad Uri: #{@uri}\n------------------------------------------------------\nPrice: #{@price}\nArea: #{@area} #{@area_unit}\nRenovation: #{@renovation_type}\nAddress: #{@address}\nCity: #{@city}"
+    "\nScraping place.ge! Real Estate Ad Uri: #{@uri}\n------------------------------------------------------\nPrice: #{@price}\nSize: #{@size} #{@size_unit}\nRenovation: #{@renovation_type}\nAddress: #{@address}\nCity: #{@city}"
   end
 end
 

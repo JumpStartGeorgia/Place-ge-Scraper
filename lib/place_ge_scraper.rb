@@ -10,7 +10,7 @@ class PlaceGeAd
   end
 
   def to_s
-    "Uri: #{@uri}\nPrice: #{@price}\nArea: #{@area}"
+    "\nScraping place.ge! Real Estate Ad Uri: #{@uri}\n------------------------------------------------------\nPrice: #{@price}\nArea: #{@area}"
   end
 
   def scrape_price

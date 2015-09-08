@@ -1,6 +1,7 @@
 require 'nokogiri'
 require 'open-uri'
 
+# Real estate ad on place.ge
 class PlaceGeAd
   def scrape_price
     price_content = @page.css('.top-ad .price')[0].content
@@ -13,12 +14,8 @@ class PlaceGeAd
   end
 
   def scrape_area
-    area_whole_text = detail_value(@page, 'Space')
+    area_whole_text = @page.detail_value('Space')
     area_whole_text.remove_non_numbers.to_i
-  end
-
-  def detail_value(page, detail_label)
-    page.xpath("//*[contains(concat(' ', @class, ' '), ' detailBox2 ' )][contains(., '#{detail_label}')]//*[contains(concat(' ', @class, ' '), ' detailRight ')]/text()").text
   end
 
   def initialize(uri)
@@ -34,8 +31,16 @@ class PlaceGeAd
   end
 end
 
+# Adds place.ge specific helper methods to String
 class String
   def remove_non_numbers
     self.gsub!(/[^0-9]/, '')
+  end
+end
+
+# Adds place.ge specific helper methods to Nokogiri
+class Nokogiri::XML::Node
+  def detail_value(detail_label)
+    self.xpath("//*[contains(concat(' ', @class, ' '), ' detailBox2 ' )][contains(., '#{detail_label}')]//*[contains(concat(' ', @class, ' '), ' detailRight ')]/text()").text
   end
 end

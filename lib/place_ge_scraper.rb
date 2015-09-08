@@ -18,16 +18,22 @@ class PlaceGeAd
     area_whole_text.remove_non_numbers.to_i
   end
 
+  def scrape_area_unit
+    area_whole_text = @page.detail_value('Space')
+    area_whole_text.remove_numbers.strip
+  end
+
   def initialize(uri)
     @uri = uri
     @page = Nokogiri::HTML(open(@uri))
 
     @price = scrape_price
     @area = scrape_area
+    @area_unit = scrape_area_unit
   end
 
   def to_s
-    "\nScraping place.ge! Real Estate Ad Uri: #{@uri}\n------------------------------------------------------\nPrice: #{@price}\nArea: #{@area}"
+    "\nScraping place.ge! Real Estate Ad Uri: #{@uri}\n------------------------------------------------------\nPrice: #{@price}\nArea: #{@area} #{@area_unit}"
   end
 end
 
@@ -35,6 +41,10 @@ end
 class String
   def remove_non_numbers
     self.gsub!(/[^0-9]/, '')
+  end
+
+  def remove_numbers
+    self.gsub!(/[0-9]/, '')
   end
 end
 

@@ -4,18 +4,15 @@ require 'open-uri'
 # Real estate ad on place.ge
 class PlaceGeAd
   def scrape_price
-    price_whole_text = @page.css('.top-ad .price')[0].content
-    price_whole_text[/\$.*\//].remove_non_numbers.to_i
+    @page.css('.top-ad .price')[0].content[/\$.*\//].remove_non_numbers.to_i
   end
 
   def scrape_area
-    area_whole_text = @page.detail_value('Space')
-    area_whole_text.remove_non_numbers.to_i
+    @page.detail_value('Space').remove_non_numbers.to_i
   end
 
   def scrape_area_unit
-    area_whole_text = @page.detail_value('Space')
-    area_whole_text.remove_numbers.strip
+    @page.detail_value('Space').remove_numbers.strip
   end
 
   def scrape_renovation_type

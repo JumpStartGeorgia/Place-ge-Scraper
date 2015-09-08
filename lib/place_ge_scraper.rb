@@ -18,6 +18,10 @@ class PlaceGeAd
     area_whole_text.remove_numbers.strip
   end
 
+  def scrape_renovation
+    @page.detail_value('Renovation')
+  end
+
   def initialize(uri)
     @uri = uri
     @page = Nokogiri::HTML(open(@uri))
@@ -25,10 +29,11 @@ class PlaceGeAd
     @price = scrape_price
     @area = scrape_area
     @area_unit = scrape_area_unit
+    @renovation = scrape_renovation
   end
 
   def to_s
-    "\nScraping place.ge! Real Estate Ad Uri: #{@uri}\n------------------------------------------------------\nPrice: #{@price}\nArea: #{@area} #{@area_unit}"
+    "\nScraping place.ge! Real Estate Ad Uri: #{@uri}\n------------------------------------------------------\nPrice: #{@price}\nArea: #{@area} #{@area_unit}\nRenovation: #{@renovation}"
   end
 end
 

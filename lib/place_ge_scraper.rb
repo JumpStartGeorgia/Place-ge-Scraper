@@ -18,7 +18,7 @@ class PlaceGeAd
     area_whole_text.remove_numbers.strip
   end
 
-  def scrape_renovation
+  def scrape_renovation_type
     @page.detail_value('Renovation')
   end
 
@@ -29,11 +29,11 @@ class PlaceGeAd
     @price = scrape_price
     @area = scrape_area
     @area_unit = scrape_area_unit
-    @renovation = scrape_renovation
+    @renovation_type = scrape_renovation_type
   end
 
   def to_s
-    "\nScraping place.ge! Real Estate Ad Uri: #{@uri}\n------------------------------------------------------\nPrice: #{@price}\nArea: #{@area} #{@area_unit}\nRenovation: #{@renovation}"
+    "\nScraping place.ge! Real Estate Ad Uri: #{@uri}\n------------------------------------------------------\nPrice: #{@price}\nArea: #{@area} #{@area_unit}\nRenovation: #{@renovation_type}"
   end
 end
 

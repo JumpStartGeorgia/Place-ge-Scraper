@@ -5,7 +5,7 @@ require 'open-uri'
 class PlaceGeAd
   def scrape_price
     price_whole_text = @page.css('.top-ad .price')[0].content
-    price_content[/\$.*\//].remove_non_numbers.to_i
+    price_whole_text[/\$.*\//].remove_non_numbers.to_i
   end
 
   def scrape_area

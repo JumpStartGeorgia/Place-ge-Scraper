@@ -67,3 +67,8 @@ test_place_ge_ad(459002, {
   building_number: '13',
   apartment_number: '6'
 })
+
+test_place_ge_ad(428272, {
+  price: 280000,
+  renovation_type: 'Renovated'
+})

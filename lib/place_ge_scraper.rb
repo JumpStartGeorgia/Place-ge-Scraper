@@ -80,6 +80,42 @@ class PlaceGeAd
   def size
     @size
   end
+
+  def size_unit
+    @size_unit
+  end
+
+  def renovation_type
+    @renovation_type
+  end
+
+  def address
+    @address
+  end
+
+  def city
+    @city
+  end
+
+  def area
+    @area
+  end
+
+  def district
+    @district
+  end
+
+  def street
+    @street
+  end
+
+  def building_number
+    @building_number
+  end
+
+  def apartment_number
+    @apartment_number
+  end
 end
 
 # Adds place.ge specific helper methods to String

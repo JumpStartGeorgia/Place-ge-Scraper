@@ -7,11 +7,11 @@ class PlaceGeAd
     @page.css('.top-ad .price')[0].content[/\$.*\//].remove_non_numbers.to_i
   end
 
-  def scrape_size
+  def scrape_area
     @page.detail_value('Space').remove_non_numbers.to_i
   end
 
-  def scrape_size_unit
+  def scrape_area_unit
     @page.detail_value('Space').remove_numbers.strip
   end
 
@@ -53,8 +53,8 @@ class PlaceGeAd
 
   def scrape_all
     @price = scrape_price
-    @size = scrape_size
-    @size_unit = scrape_size_unit
+    @area = scrape_area
+    @area_unit = scrape_area_unit
 
     @condition = scrape_condition
     @address = scrape_address

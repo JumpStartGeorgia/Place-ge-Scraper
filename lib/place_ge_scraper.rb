@@ -73,10 +73,10 @@ class PlaceGeAd
     @has_fireplace = features.include? 'Fireplace'
     @has_storage_area = features.include? 'Storeroom'
     @has_wardrobe = nil
-    @has_air_conditioner = nil
+    @has_air_conditioning = features.include? 'Air conditioning'
     @has_heating = features.include? 'Heating'
     @has_loggia = features.include? 'Loggia'
-    @has_technology = nil
+    @has_appliances = features.include? 'Appliances'
     @has_hot_water = features.include? 'Hot water'
     @has_tv = features.include? 'Television'
     @has_phone = nil
@@ -305,8 +305,8 @@ class PlaceGeAd
     @has_wardrobe
   end
 
-  def has_air_conditioner
-    @has_air_conditioner
+  def has_air_conditioning
+    @has_air_conditioning
   end
 
   def has_heating
@@ -317,8 +317,8 @@ class PlaceGeAd
     @has_loggia
   end
 
-  def has_technology
-    @has_technology
+  def has_appliances
+    @has_appliances
   end
 
   def has_hot_water

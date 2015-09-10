@@ -183,8 +183,8 @@ def test_place_ge_ad(id, expected)
         expect(@ad.has_wardrobe).to eq(expected[:has_wardrobe])
       end
 
-      it 'has_air_conditioner is correct' do
-        expect(@ad.has_air_conditioner).to eq(expected[:has_air_conditioner])
+      it 'has_air_conditioning is correct' do
+        expect(@ad.has_air_conditioning).to eq(expected[:has_air_conditioning])
       end
 
       it 'has_heating is correct' do
@@ -195,8 +195,8 @@ def test_place_ge_ad(id, expected)
         expect(@ad.has_loggia).to eq(expected[:has_loggia])
       end
 
-      it 'has_technology is correct' do
-        expect(@ad.has_technology).to eq(expected[:has_technology])
+      it 'has_appliances is correct' do
+        expect(@ad.has_appliances).to eq(expected[:has_appliances])
       end
 
       it 'has_hot_water is correct' do

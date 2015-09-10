@@ -1,5 +1,6 @@
 require 'nokogiri'
 require 'open-uri'
+require 'pry-byebug'
 
 # Real estate ad on place.ge
 class PlaceGeAd
@@ -21,6 +22,10 @@ class PlaceGeAd
 
   def scrape_land_area_unit
     @page.detail_value('Land').remove_numbers.strip
+  end
+
+  def scrape_room_count
+    @page.detail_value('Rooms').remove_non_numbers.to_i
   end
 
   def scrape_condition
@@ -66,6 +71,7 @@ class PlaceGeAd
     @land_area = scrape_land_area
     @land_area_unit = scrape_land_area_unit
 
+    @room_count = scrape_room_count
     @condition = scrape_condition
     @address = scrape_address
     @city = get_city_from_address
@@ -364,11 +370,11 @@ end
 # Adds place.ge specific helper methods to String
 class String
   def remove_non_numbers
-    self.gsub!(/[^0-9]/, '')
+    gsub(/[^0-9]/, '')
   end
 
   def remove_numbers
-    self.gsub!(/[0-9]/, '')
+    gsub(/[0-9]/, '')
   end
 end
 

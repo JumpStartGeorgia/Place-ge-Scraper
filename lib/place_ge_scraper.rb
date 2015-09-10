@@ -15,6 +15,14 @@ class PlaceGeAd
     @page.detail_value('Space').remove_numbers.strip
   end
 
+  def scrape_land_area
+    @page.detail_value('Land').remove_non_numbers.to_i
+  end
+
+  def scrape_land_area_unit
+    @page.detail_value('Land').remove_numbers.strip
+  end
+
   def scrape_condition
     @page.detail_value('Renovation')
   end
@@ -55,6 +63,8 @@ class PlaceGeAd
     @price = scrape_price
     @area = scrape_area
     @area_unit = scrape_area_unit
+    @land_area = scrape_land_area
+    @land_area_unit = scrape_land_area_unit
 
     @condition = scrape_condition
     @address = scrape_address

@@ -51,11 +51,7 @@ class PlaceGeAd
     @page.detail_value('Appartment No.')
   end
 
-  def initialize(place_ge_ad_id)
-    @place_ge_id = place_ge_ad_id
-    @link = "http://place.ge/en/ads/view/#{@place_ge_id}"
-    @page = Nokogiri::HTML(open(@link))
-
+  def scrape_all
     @price = scrape_price
     @size = scrape_size
     @size_unit = scrape_size_unit
@@ -68,6 +64,14 @@ class PlaceGeAd
     @street = get_street_from_address
     @building_number = scrape_building_number
     @apartment_number = scrape_apartment_number
+  end
+
+  def initialize(place_ge_ad_id)
+    @place_ge_id = place_ge_ad_id
+    @link = "http://place.ge/en/ads/view/#{@place_ge_id}"
+    @page = Nokogiri::HTML(open(@link))
+
+    scrape_all
   end
 
   def to_s

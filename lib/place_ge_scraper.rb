@@ -67,7 +67,33 @@ class PlaceGeAd
   def scrape_features
     features = @page.xpath("//div[contains(concat(' ', @class, ' '), ' detailBox22 ' )]/following-sibling::p").text
     @is_bank_real_estate = features.include? 'Banking Real Estate'
+    @has_lift = nil
+    @has_furniture = nil
+    @has_fireplace = nil
     @has_storage_area = features.include? 'Storeroom'
+    @has_wardrobe = nil
+    @has_air_conditioner = nil
+    @has_heating = features.include? 'Heating'
+    @has_loggia = nil
+    @has_technology = nil
+    @has_hot_water = features.include? 'Hot water'
+    @has_tv = nil
+    @has_phone = nil
+    @has_internet = nil
+    @has_alarm = nil
+    @has_doorphone = nil
+    @has_security = nil
+    @has_conference_hall = nil
+    @has_showcase = nil
+    @has_veranda = nil
+    @is_mansard = nil
+    @has_electricity = nil
+    @has_gas = nil
+    @has_water = nil
+    @has_sewage = nil
+    @has_inventory = nil
+    @has_network = nil
+    @has_generator = nil
   end
 
   def scrape_all

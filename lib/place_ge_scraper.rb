@@ -31,7 +31,7 @@ class PlaceGeAd
     address_array[0]
   end
 
-  def get_area_from_address
+  def get_region_from_address
     address_array[1]
   end
 
@@ -59,7 +59,7 @@ class PlaceGeAd
     @condition = scrape_condition
     @address = scrape_address
     @city = get_city_from_address
-    @area = get_area_from_address
+    @region = get_region_from_address
     @district = get_district_from_address
     @street = get_street_from_address
     @building_number = scrape_building_number

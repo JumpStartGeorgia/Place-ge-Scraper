@@ -51,8 +51,9 @@ class PlaceGeAd
     @page.detail_value('Appartment No.')
   end
 
-  def initialize(link)
-    @link = link
+  def initialize(place_ge_ad_id)
+    @place_ge_id = place_ge_ad_id
+    @link = "http://place.ge/en/ads/view/#{@place_ge_id}"
     @page = Nokogiri::HTML(open(@link))
 
     @price = scrape_price

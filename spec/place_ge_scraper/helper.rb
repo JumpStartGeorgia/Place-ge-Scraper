@@ -4,7 +4,7 @@ def test_place_ge_ad(id, expected)
   describe 'PlaceGeAd' do
     describe "ID #{id}" do
       before :context do
-        @ad = PlaceGeAd.new("http://place.ge/en/ads/view/#{id}")
+        @ad = PlaceGeAd.new(id)
       end
 
       it 'place_ge_id is correct' do

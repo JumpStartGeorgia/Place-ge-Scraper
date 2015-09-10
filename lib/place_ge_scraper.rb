@@ -64,14 +64,10 @@ class PlaceGeAd
     @page.detail_value('Appartment No.')
   end
 
-  def scrape_has_storage_area
+  def scrape_features
     features = @page.xpath("//div[contains(concat(' ', @class, ' '), ' detailBox22 ' )]/following-sibling::p").text
-    return features.include? 'Storeroom'
-  end
-
-  def scrape_is_bank_real_estate
-    features = @page.xpath("//div[contains(concat(' ', @class, ' '), ' detailBox22 ' )]/following-sibling::p").text
-    return features.include? 'Banking Real Estate'
+    @is_bank_real_estate = features.include? 'Banking Real Estate'
+    @has_storage_area = features.include? 'Storeroom'
   end
 
   def scrape_all
@@ -91,8 +87,7 @@ class PlaceGeAd
     @building_number = scrape_building_number
     @apartment_number = scrape_apartment_number
 
-    @is_bank_real_estate = scrape_is_bank_real_estate
-    @has_storage_area = scrape_has_storage_area
+    scrape_features
   end
 
   def initialize(place_ge_ad_id)

@@ -15,7 +15,7 @@ class PlaceGeAd
     @page.detail_value('Space').remove_numbers.strip
   end
 
-  def scrape_renovation_type
+  def scrape_condition
     @page.detail_value('Renovation')
   end
 
@@ -56,7 +56,7 @@ class PlaceGeAd
     @size = scrape_size
     @size_unit = scrape_size_unit
 
-    @renovation_type = scrape_renovation_type
+    @condition = scrape_condition
     @address = scrape_address
     @city = get_city_from_address
     @area = get_area_from_address

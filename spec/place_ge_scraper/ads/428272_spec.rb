@@ -10,7 +10,7 @@ test_place_ge_ad(428272, {
   region: nil,
   district_id: nil,
   district: nil,
-  street_id: nil
+  street_id: nil,
   street: nil,
   price: 280000,
   price_per_area_unit: 315,

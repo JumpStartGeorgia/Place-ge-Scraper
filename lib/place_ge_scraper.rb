@@ -70,7 +70,7 @@ class PlaceGeAd
   end
 
   def scrape_additional_information
-    @page.css('.contentInfo').text.sub('Additional information:', '').strip
+    @page.css('.contentInfo').text.gsub(/.*Additional information:/m, '').strip
   end
 
   def scrape_features

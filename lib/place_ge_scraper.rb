@@ -33,6 +33,10 @@ class PlaceGeAd
     @page.detail_value('Rooms').remove_non_numbers.to_i
   end
 
+  def scrape_bathroom_count
+    @page.detail_value('Bathrooms').remove_non_numbers.to_nil_or_i
+  end
+
   def scrape_condition
     @page.detail_value('Renovation')
   end
@@ -119,6 +123,7 @@ class PlaceGeAd
     @land_area_unit = scrape_land_area_unit
 
     @room_count = scrape_room_count
+    @bathroom_count = scrape_bathroom_count
     @condition = scrape_condition
     @address = scrape_address
     @city = get_city_from_address
@@ -435,6 +440,10 @@ class String
 
   def remove_numbers
     gsub(/[0-9]/, '')
+  end
+
+  def to_nil_or_i
+    empty? ? nil : to_i
   end
 end
 

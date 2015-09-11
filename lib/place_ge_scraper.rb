@@ -4,6 +4,51 @@ require 'pry-byebug'
 
 # Real estate ad on place.ge
 class PlaceGeAd
+  def initialize(place_ge_ad_id)
+    @place_ge_id = place_ge_ad_id
+    @link = "http://place.ge/en/ads/view/#{@place_ge_id}"
+    @page = Nokogiri::HTML(open(@link))
+
+    scrape_all
+  end
+
+  def to_s
+    "\nScraping place.ge! Real Estate Ad Uri: #{@uri}\n------------------------------------------------------\nPrice: #{@price}\nSize: #{@size}\nSize unit: #{@size_unit}\nRenovation: #{@renovation_type}\n\nAddress: #{@address}\nCity: #{@city}\nArea: #{@area}\nDistrict: #{@district}\nStreet: #{@street}\nBuilding number: #{@building_number}\nApartment number: #{@apartment_number}"
+  end
+
+  ########################################################################
+  ######################## Scrapers ######################################
+
+  def scrape_all
+    @publication_date = scrape_publication_date
+    @price = scrape_price
+    @area = scrape_area
+    @area_unit = scrape_area_unit
+    @land_area = scrape_land_area
+    @land_area_unit = scrape_land_area_unit
+
+    @room_count = scrape_room_count
+    @bathroom_count = scrape_bathroom_count
+    @bedroom_count = scrape_bedroom_count
+    @balcony_count = scrape_balcony_count
+
+    scrape_floor_info
+
+    @condition = scrape_condition
+    @address = scrape_address
+    @city = get_city_from_address
+    @region = get_region_from_address
+    @district = get_district_from_address
+    @street = get_street_from_address
+    @building_number = scrape_building_number
+    @apartment_number = scrape_apartment_number
+
+    scrape_features
+
+    @additional_information = scrape_additional_information
+    @telephone_number = scrape_telephone_number
+  end
+
   def scrape_publication_date
     date = @page.css('.titleRight').text.sub('added: ', '')
     Date.strptime(date, '%m/%d/%Y')
@@ -143,48 +188,8 @@ class PlaceGeAd
     @page.css('.item.call').text.strip.split(' ')[0]
   end
 
-  def scrape_all
-    @publication_date = scrape_publication_date
-    @price = scrape_price
-    @area = scrape_area
-    @area_unit = scrape_area_unit
-    @land_area = scrape_land_area
-    @land_area_unit = scrape_land_area_unit
-
-    @room_count = scrape_room_count
-    @bathroom_count = scrape_bathroom_count
-    @bedroom_count = scrape_bedroom_count
-    @balcony_count = scrape_balcony_count
-
-    scrape_floor_info
-
-    @condition = scrape_condition
-    @address = scrape_address
-    @city = get_city_from_address
-    @region = get_region_from_address
-    @district = get_district_from_address
-    @street = get_street_from_address
-    @building_number = scrape_building_number
-    @apartment_number = scrape_apartment_number
-
-    scrape_features
-
-    @additional_information = scrape_additional_information
-    @telephone_number = scrape_telephone_number
-  end
-
-  def initialize(place_ge_ad_id)
-    @place_ge_id = place_ge_ad_id
-    @link = "http://place.ge/en/ads/view/#{@place_ge_id}"
-    @page = Nokogiri::HTML(open(@link))
-
-    scrape_all
-  end
-
-  def to_s
-    "\nScraping place.ge! Real Estate Ad Uri: #{@uri}\n------------------------------------------------------\nPrice: #{@price}\nSize: #{@size}\nSize unit: #{@size_unit}\nRenovation: #{@renovation_type}\n\nAddress: #{@address}\nCity: #{@city}\nArea: #{@area}\nDistrict: #{@district}\nStreet: #{@street}\nBuilding number: #{@building_number}\nApartment number: #{@apartment_number}"
-  end
-
+  ########################################################################
+  ######################## Field Getters #################################
   def place_ge_id
     @place_ge_id
   end

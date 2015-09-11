@@ -30,11 +30,15 @@ class PlaceGeAd
   end
 
   def scrape_room_count
-    @page.detail_value('Rooms').remove_non_numbers.to_i
+    @page.detail_value('Rooms').remove_non_numbers.to_nil_or_i
   end
 
   def scrape_bathroom_count
     @page.detail_value('Bathrooms').remove_non_numbers.to_nil_or_i
+  end
+
+  def scrape_bedroom_count
+    @page.detail_value('Bedrooms').remove_non_numbers.to_nil_or_i
   end
 
   def scrape_condition
@@ -124,6 +128,7 @@ class PlaceGeAd
 
     @room_count = scrape_room_count
     @bathroom_count = scrape_bathroom_count
+    @bedroom_count = scrape_bedroom_count
     @condition = scrape_condition
     @address = scrape_address
     @city = get_city_from_address

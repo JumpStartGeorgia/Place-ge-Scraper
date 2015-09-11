@@ -66,5 +66,7 @@ test_place_ge_ad(428272, {
   has_network: false,
   has_generator: false,
   additional_information: 'იყიდება, დაბა ბაკურიანში, სასტუმროს ტიპის "სამთო-სათხილამურო სპორტ-სკოლა, კოხტას გადასახვევთან, სასტუმრო მგზავრებთან ახლოს. მიწის ფართი 1000 კვ.მ. შენობის ფართი 890 კვ.მ. გარემონტებული. დარეკეთ ამ ნომერზე: 595338448 ხვიჩა',
-  telephone_number: '5-95-113932'
+  telephone_number: '5-95-113932',
+  seller_type: 'Bank',
+  seller_name: nil
 })

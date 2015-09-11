@@ -45,6 +45,27 @@ class PlaceGeAd
     @page.detail_value('Balcony').remove_non_numbers.to_nil_or_i
   end
 
+  def scrape_floor_info
+    floor_string = @page.detail_value('Floor')
+
+    # If the floor string contains a /, then the real estate is on one floor
+    # in a building with multiple floors. @floor_number is the floor number,
+    # and @total_floor_count is the number of floors in the building.
+    #
+    # If the floor string does not contain a /, then the real estate has
+    # multiple floors. @total_floor_count is the number of floors in the
+    # real estate.
+    if floor_string.include? '/'
+      floor_data = floor_string.split('/')
+
+      @floor_number = floor_data[0].to_nil_or_i
+      @total_floor_count = floor_data[1].to_nil_or_i
+    else
+      @floor_number = nil
+      @total_floor_count = floor_string.to_nil_or_i
+    end
+  end
+
   def scrape_condition
     @page.detail_value('Renovation')
   end
@@ -134,6 +155,9 @@ class PlaceGeAd
     @bathroom_count = scrape_bathroom_count
     @bedroom_count = scrape_bedroom_count
     @balcony_count = scrape_balcony_count
+
+    scrape_floor_info
+
     @condition = scrape_condition
     @address = scrape_address
     @city = get_city_from_address

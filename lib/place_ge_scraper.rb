@@ -69,6 +69,10 @@ class PlaceGeAd
     @page.detail_value('Appartment No.')
   end
 
+  def scrape_additional_information
+    @page.css('.contentInfo').text.sub('Additional information:', '').strip
+  end
+
   def scrape_features
     features = @page.xpath("//div[contains(concat(' ', @class, ' '), ' detailBox22 ' )]/following-sibling::p").text
     @is_bank_real_estate = features.include? 'Banking Real Estate'
@@ -119,6 +123,8 @@ class PlaceGeAd
     @street = get_street_from_address
     @building_number = scrape_building_number
     @apartment_number = scrape_apartment_number
+
+    @additional_information = scrape_additional_information
 
     scrape_features
   end

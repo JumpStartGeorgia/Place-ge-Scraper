@@ -4,6 +4,11 @@ require 'pry-byebug'
 
 # Real estate ad on place.ge
 class PlaceGeAd
+  def scrape_publication_date
+    date = @page.css('.titleRight').text.sub('added: ', '')
+    Date.strptime(date, '%m/%d/%Y')
+  end
+
   def scrape_price
     @page.css('.top-ad .price')[0].content[/\$.*\//].remove_non_numbers.to_i
   end
@@ -98,6 +103,7 @@ class PlaceGeAd
   end
 
   def scrape_all
+    @publication_date = scrape_publication_date
     @price = scrape_price
     @area = scrape_area
     @area_unit = scrape_area_unit

@@ -106,6 +106,10 @@ class PlaceGeAd
     @page.css('.contentInfo').text.gsub(/.*Additional information:/m, '').strip
   end
 
+  def scrape_telephone_number
+    @page.css('.item.call').text.strip.split(' ')[0]
+  end
+
   def scrape_all
     @publication_date = scrape_publication_date
     @price = scrape_price
@@ -124,9 +128,10 @@ class PlaceGeAd
     @building_number = scrape_building_number
     @apartment_number = scrape_apartment_number
 
-    @additional_information = scrape_additional_information
-
     scrape_features
+
+    @additional_information = scrape_additional_information
+    @telephone_number = scrape_telephone_number
   end
 
   def initialize(place_ge_ad_id)

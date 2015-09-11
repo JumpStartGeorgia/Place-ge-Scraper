@@ -278,6 +278,14 @@ def test_place_ge_ad(id, expected)
       it 'telephone_number is correct' do
         expect(@ad.telephone_number).to eq(expected[:telephone_number])
       end
+
+      it 'seller_type is correct' do
+        expect(@ad.seller_type).to eq(expected[:seller_type])
+      end
+
+      it 'seller_name is correct' do
+        expect(@ad.seller_name).to eq(expected[:seller_name])
+      end
     end
   end
 end

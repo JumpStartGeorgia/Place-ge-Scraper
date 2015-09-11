@@ -412,6 +412,14 @@ class PlaceGeAd
   def telephone_number
     @telephone_number
   end
+
+  def seller_type
+    @seller_type
+  end
+
+  def seller_name
+    @seller_name
+  end
 end
 
 # Adds place.ge specific helper methods to String

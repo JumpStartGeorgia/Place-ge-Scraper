@@ -69,10 +69,6 @@ class PlaceGeAd
     @page.detail_value('Appartment No.')
   end
 
-  def scrape_additional_information
-    @page.css('.contentInfo').text.gsub(/.*Additional information:/m, '').strip
-  end
-
   def scrape_features
     @features = @page.xpath("//div[contains(concat(' ', @class, ' '), ' detailBox22 ' )]/following-sibling::p").text
     @is_bank_real_estate = @features.include? 'Banking Real Estate'
@@ -104,6 +100,10 @@ class PlaceGeAd
     @has_inventory = nil
     @has_network = nil
     @has_generator = nil
+  end
+
+  def scrape_additional_information
+    @page.css('.contentInfo').text.gsub(/.*Additional information:/m, '').strip
   end
 
   def scrape_all

@@ -47,6 +47,8 @@ class PlaceGeAd
 
     @additional_information = scrape_additional_information
     @telephone_number = scrape_telephone_number
+
+    scrape_seller_info
   end
 
   def scrape_publication_date
@@ -186,6 +188,21 @@ class PlaceGeAd
 
   def scrape_telephone_number
     @page.css('.item.call').text.strip.split(' ')[0]
+  end
+
+  def scrape_seller_info
+    seller_data = @page.css('.group-agent .desc')
+    seller_string = seller_data.text.strip
+    if seller_data.empty?
+      @seller_type = nil
+      @seller_name = nil
+    elsif seller_string == 'Banking Real Estate'
+      @seller_type = 'Bank'
+      @seller_name = nil
+    else
+      @seller_name = seller_data.css('a').text.to_nil_if_empty
+      @seller_type = seller_string.sub(@seller_name, '').strip.to_nil_if_empty
+    end
   end
 
   ########################################################################
@@ -483,6 +500,14 @@ class String
 
   def to_nil_or_i
     empty? ? nil : to_i
+  end
+
+  def to_nil_if_empty
+    if empty?
+      return nil
+    else
+      return self
+    end
   end
 end
 

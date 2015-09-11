@@ -66,5 +66,7 @@ test_place_ge_ad(id, {
   has_network: false,
   has_generator: false,
   additional_information: nil,
-  telephone_number: nil
+  telephone_number: nil,
+  seller_type: nil,
+  seller_name: nil
 })

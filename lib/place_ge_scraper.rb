@@ -155,11 +155,11 @@ class PlaceGeAd
   end
 
   def scrape_building_number
-    @page.detail_value('Building №').to_nil_if_empty
+    @page.detail_value('Building №').to_nil_or_i
   end
 
   def scrape_apartment_number
-    @page.detail_value('Appartment No.').to_nil_if_empty
+    @page.detail_value('Appartment No.').to_nil_or_i
   end
 
   def scrape_features

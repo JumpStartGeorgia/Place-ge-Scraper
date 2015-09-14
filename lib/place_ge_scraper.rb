@@ -22,6 +22,7 @@ class PlaceGeAd
   def scrape_all
     @publication_date = scrape_publication_date
 
+    scrape_breadcrums_info
     scrape_price_info
 
     @area = scrape_area
@@ -40,10 +41,7 @@ class PlaceGeAd
     @status = scrape_status
     @project = scrape_project
     @address = scrape_address
-    @city = get_city_from_address
-    @region = get_region_from_address
-    @district = get_district_from_address
-    @street = get_street_from_address
+
     @building_number = scrape_building_number
     @apartment_number = scrape_apartment_number
 
@@ -53,6 +51,21 @@ class PlaceGeAd
     @telephone_number = scrape_telephone_number
 
     scrape_seller_info
+  end
+
+  def scrape_breadcrums_info
+    breadcrums = @page.css('div.breadcrums a')
+    breadcrums.delete(breadcrums[0])
+    breadcrums.each do |breadcrum|
+      link = breadcrum.attributes['href'].value
+      unless link.include? '&'
+        param = link.slice(link.index('?') + 1, link.size)
+        param_name = param.slice(0, param.index('='))
+        param_value = param.slice(param.index('=') + 1, param.size)
+        @deal_type = param_value
+      end
+      # last_ampersand_index = link.enum_for(:scan, /&/).map { Regexp.last_match.begin(0) }.last
+    end
   end
 
   def scrape_publication_date
@@ -70,7 +83,7 @@ class PlaceGeAd
   def scrape_price_info
     @price_info = @page.css('.top-ad .price').children
 
-    # If 'urgently' markup is next to price, remove it 
+    # If 'urgently' markup is next to price, remove it
     if @price_info[1].text == 'urgently'
       @price_info.delete(@price_info[0])
       @price_info.delete(@price_info[0])
@@ -152,26 +165,6 @@ class PlaceGeAd
 
   def scrape_address
     @page.detail_value('Address').to_nil_if_empty
-  end
-
-  def address_array
-    @address.split(',').map(&:strip)
-  end
-
-  def get_city_from_address
-    address_array[0]
-  end
-
-  def get_region_from_address
-    address_array[1]
-  end
-
-  def get_district_from_address
-    address_array[2]
-  end
-
-  def get_street_from_address
-    address_array[3]
   end
 
   def scrape_building_number

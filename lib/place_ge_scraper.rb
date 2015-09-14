@@ -35,6 +35,7 @@ class PlaceGeAd
     scrape_floor_info
 
     @condition = scrape_condition
+    @status = scrape_status
     @address = scrape_address
     @city = get_city_from_address
     @region = get_region_from_address
@@ -118,6 +119,10 @@ class PlaceGeAd
 
   def scrape_condition
     @page.detail_value('Renovation').to_nil_if_empty
+  end
+
+  def scrape_status
+    @page.detail_value('Status').to_nil_if_empty
   end
 
   def scrape_address

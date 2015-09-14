@@ -111,7 +111,7 @@ class PlaceGeAd
 
       @floor_number = floor_data[0].to_nil_or_i
       @total_floor_count = floor_data[1].to_nil_or_i
-    elsif
+    else
       @floor_number = nil
       @total_floor_count = floor_string.to_i
     end

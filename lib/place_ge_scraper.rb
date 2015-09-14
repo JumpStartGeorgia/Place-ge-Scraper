@@ -57,23 +57,23 @@ class PlaceGeAd
   end
 
   def scrape_price
-    @page.css('.top-ad .price')[0].content[/\$.*\//].remove_non_numbers.to_i
+    @page.css('.top-ad .price')[0].content[/\$.*\//].remove_non_numbers.to_nil_or_i
   end
 
   def scrape_area
-    @page.detail_value('Space').remove_non_numbers.to_i
+    @page.detail_value('Space').remove_non_numbers.to_nil_or_i
   end
 
   def scrape_area_unit
-    @page.detail_value('Space').remove_numbers.strip
+    @page.detail_value('Space').remove_numbers.strip.to_nil_if_empty
   end
 
   def scrape_land_area
-    @page.detail_value('Land').remove_non_numbers.to_i
+    @page.detail_value('Land').remove_non_numbers.to_nil_or_i
   end
 
   def scrape_land_area_unit
-    @page.detail_value('Land').remove_numbers.strip
+    @page.detail_value('Land').remove_numbers.strip.to_nil_if_empty
   end
 
   def scrape_room_count
@@ -93,7 +93,7 @@ class PlaceGeAd
   end
 
   def scrape_floor_info
-    floor_string = @page.detail_value('Floor')
+    floor_string = @page.detail_value('Floor').to_nil_if_empty
 
     # If the floor string contains a /, then the real estate is on one floor
     # in a building with multiple floors. @floor_number is the floor number,
@@ -102,23 +102,26 @@ class PlaceGeAd
     # If the floor string does not contain a /, then the real estate has
     # multiple floors. @total_floor_count is the number of floors in the
     # real estate.
-    if floor_string.include? '/'
+    if floor_string.nil?
+      @floor_number = nil
+      @total_floor_count = nil
+    elsif floor_string.include? '/'
       floor_data = floor_string.split('/')
 
       @floor_number = floor_data[0].to_nil_or_i
       @total_floor_count = floor_data[1].to_nil_or_i
-    else
+    elsif
       @floor_number = nil
-      @total_floor_count = floor_string.to_nil_or_i
+      @total_floor_count = floor_string.to_i
     end
   end
 
   def scrape_condition
-    @page.detail_value('Renovation')
+    @page.detail_value('Renovation').to_nil_if_empty
   end
 
   def scrape_address
-    @page.detail_value('Address')
+    @page.detail_value('Address').to_nil_if_empty
   end
 
   def address_array
@@ -142,11 +145,11 @@ class PlaceGeAd
   end
 
   def scrape_building_number
-    @page.detail_value('Building №')
+    @page.detail_value('Building №').to_nil_if_empty
   end
 
   def scrape_apartment_number
-    @page.detail_value('Appartment No.')
+    @page.detail_value('Appartment No.').to_nil_if_empty
   end
 
   def scrape_features
@@ -183,11 +186,11 @@ class PlaceGeAd
   end
 
   def scrape_additional_information
-    @page.css('.contentInfo').text.gsub(/.*Additional information:/m, '').strip
+    @page.css('.contentInfo').text.gsub(/.*Additional information:/m, '').strip.to_nil_if_empty
   end
 
   def scrape_telephone_number
-    @page.css('.item.call').text.strip.split(' ')[0]
+    @page.css('.item.call').text.strip.split(' ')[0].to_nil_if_empty
   end
 
   def scrape_seller_info

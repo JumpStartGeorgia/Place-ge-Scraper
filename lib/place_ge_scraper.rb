@@ -36,6 +36,7 @@ class PlaceGeAd
 
     @condition = scrape_condition
     @status = scrape_status
+    @project = scrape_project
     @address = scrape_address
     @city = get_city_from_address
     @region = get_region_from_address
@@ -123,6 +124,10 @@ class PlaceGeAd
 
   def scrape_status
     @page.detail_value('Status').to_nil_if_empty
+  end
+
+  def scrape_project
+    @page.detail_value('Project').to_nil_if_empty
   end
 
   def scrape_address

@@ -53,18 +53,44 @@ class PlaceGeAd
     scrape_seller_info
   end
 
+  def set_field_from_param(param, link_text)
+    param_name = param.slice(0, param.index('='))
+    param_value = param.slice(param.index('=') + 1, param.size)
+
+    case param_name
+    when 'type'
+      @deal_type = param_value.to_nil_if_empty
+    when 'object_type'
+      @property_type = param_value.to_nil_if_empty
+    when 'city_id'
+      @city_id = param_value.to_nil_or_i
+      @city = link_text.to_nil_if_empty
+    when 'region_id'
+      @region_id = param_value.to_nil_or_i
+      @region = link_text.to_nil_if_empty
+    when 'district_id'
+      @district_id = param_value.to_nil_or_i
+      @district = link_text.to_nil_if_empty
+    when 'street_id'
+      @street_id = param_value.to_nil_or_i
+      @street = link_text.to_nil_if_empty
+    end
+  end
+
   def scrape_breadcrums_info
     breadcrums = @page.css('div.breadcrums a')
-    breadcrums.delete(breadcrums[0])
+    breadcrums.delete(breadcrums[0]) # Remove Home link
+
     breadcrums.each do |breadcrum|
       link = breadcrum.attributes['href'].value
       unless link.include? '&'
         param = link.slice(link.index('?') + 1, link.size)
-        param_name = param.slice(0, param.index('='))
-        param_value = param.slice(param.index('=') + 1, param.size)
-        @deal_type = param_value
+        set_field_from_param(param, breadcrum.text)
+      else
+        last_ampersand_index = link.enum_for(:scan, /&/).map { Regexp.last_match.begin(0) }.last
+        param = link.slice(last_ampersand_index + 1, link.size)
+        set_field_from_param(param, breadcrum.text)
       end
-      # last_ampersand_index = link.enum_for(:scan, /&/).map { Regexp.last_match.begin(0) }.last
     end
   end
 

@@ -43,8 +43,8 @@ def test_place_ge_ad(id, expected)
         expect(@ad.region).to eq(expected[:region])
       end
 
-      it 'disrict_id is correct' do
-        expect(@ad.disrict_id).to eq(expected[:disrict_id])
+      it 'district_id is correct' do
+        expect(@ad.district_id).to eq(expected[:district_id])
       end
 
       it 'district is correct' do

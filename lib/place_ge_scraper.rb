@@ -21,7 +21,9 @@ class PlaceGeAd
 
   def scrape_all
     @publication_date = scrape_publication_date
-    @price = scrape_price
+
+    scrape_price_info
+
     @area = scrape_area
     @area_unit = scrape_area_unit
     @land_area = scrape_land_area
@@ -58,8 +60,26 @@ class PlaceGeAd
     Date.strptime(date, '%m/%d/%Y')
   end
 
-  def scrape_price
-    @page.css('.top-ad .price')[0].content[/\$.*\//].remove_non_numbers.to_nil_or_i
+  def set_price_currency(currency)
+    case currency
+    when '$'
+      @price_currency = 'dollar'
+    end
+  end
+
+  def scrape_price_info
+    @price_info = @page.css('.top-ad .price').children
+
+    # If 'urgently' markup is next to price, remove it 
+    if @price_info[1].text == 'urgently'
+      @price_info.delete(@price_info[0])
+      @price_info.delete(@price_info[0])
+    end
+
+    @full_price = @price_info[0].text.strip
+    @price = @full_price.remove_non_numbers.to_nil_or_i
+    @price_per_area_unit = @price_info[1].text.remove_non_numbers.to_nil_or_i
+    set_price_currency(@full_price.strip.remove_numbers.sub(',', ''))
   end
 
   def scrape_area

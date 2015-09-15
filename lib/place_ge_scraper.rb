@@ -250,7 +250,13 @@ class PlaceGeAd
   end
 
   def scrape_additional_information
-    @page.css('.contentInfo').text.gsub(/.*Additional information:/m, '').strip.to_nil_if_empty
+    @page
+      .css('.contentInfo')
+      .text
+      .gsub(/.*Additional information:/m, '')
+      .gsub(/\r\n/, ' ')
+      .strip
+      .to_nil_if_empty
   end
 
   def scrape_telephone_number

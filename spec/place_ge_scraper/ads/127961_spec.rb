@@ -15,6 +15,7 @@ test_place_ge_ad(127961, {
   price: 38000,
   price_per_area_unit: 20,
   price_currency: 'dollar',
+  price_timeframe: nil,
   area: nil,
   area_unit: nil,
   land_area: 1902,

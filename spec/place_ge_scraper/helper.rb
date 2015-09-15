@@ -71,6 +71,10 @@ def test_place_ge_ad(id, expected)
         expect(@ad.price_currency).to eq(expected[:price_currency])
       end
 
+      it 'price_timeframe is correct' do
+        expect(@ad.price_timeframe).to eq(expected[:price_timeframe])
+      end
+
       it 'area is correct' do
         expect(@ad.area).to eq(expected[:area])
       end

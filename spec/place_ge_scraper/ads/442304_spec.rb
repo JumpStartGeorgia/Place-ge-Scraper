@@ -15,6 +15,7 @@ test_place_ge_ad(442304, {
   price: 45750,
   price_per_area_unit: 750,
   price_currency: 'dollar',
+  price_timeframe: nil,
   area: 61,
   area_unit: 'sq. m.',
   land_area: nil,

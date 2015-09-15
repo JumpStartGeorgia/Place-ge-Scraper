@@ -15,6 +15,7 @@ test_place_ge_ad(id, {
   price: nil,
   price_per_area_unit: nil,
   price_currency: nil,
+  price_timeframe: nil,
   area: nil,
   area_unit: nil,
   land_area: nil,

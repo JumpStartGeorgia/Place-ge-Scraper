@@ -11,7 +11,7 @@ test_place_ge_ad(267846, {
   district_id: 2,
   district: 'Vake',
   street_id: 47,
-  street: 'N. Divania st.',
+  street: 'N. Djvania st.',
   price: 1050,
   price_per_area_unit: 11,
   price_currency: 'dollar',
@@ -66,8 +66,8 @@ test_place_ge_ad(267846, {
   has_inventory: false,
   has_network: false,
   has_generator: false,
-  additional_information: nil,
-  telephone_number: nil,
-  seller_type: nil,
-  seller_name: nil
+  additional_information: 'Новая квартира в эко-комплексе "Тбилисия". В квартире сделан евро-ремонт. Вся техника и сантехника новая. Сантехника испанская фирма ROCA, техника фирма BOSH Подробнее на www.tbilisia.ru/ge',
+  telephone_number: '599076763, 599070026',
+  seller_type: 'Company',
+  seller_name: 'THECO limited'
 })

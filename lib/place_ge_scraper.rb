@@ -260,7 +260,15 @@ class PlaceGeAd
   end
 
   def scrape_telephone_number
-    @page.css('.item.call').text.strip.split(' ')[0].to_nil_if_empty
+    telephone_container = @page.css('.item.call')
+
+    telephone_container
+      .search('.//div')
+      .remove
+      .search('.//span')
+      .remove
+
+    telephone_container.text.strip.to_nil_if_empty
   end
 
   def scrape_seller_info

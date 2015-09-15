@@ -1,5 +1,6 @@
 require 'nokogiri'
 require 'open-uri'
+require 'fileutils'
 require 'pry-byebug'
 
 # Real estate ad on place.ge
@@ -7,10 +8,27 @@ class PlaceGeAd
   def initialize(place_ge_ad_id)
     @place_ge_id = place_ge_ad_id
     @link = "http://place.ge/en/ads/view/#{@place_ge_id}"
-    @page = Nokogiri::HTML(open(@link))
+    @scrape_time = Time.now
+
+    # Saves copies of scraped ad html in <project_dir>/place_ge_ads_html/
+    FileUtils.mkdir_p 'place_ge_ads_html'
+    open(ad_source_file_path, 'wb') do |file|
+      open(@link) do |uri|
+        ad_source = uri.read
+        file.write(ad_source)
+
+        @html_copy_path = File.expand_path(ad_source_file_path)
+        @page = Nokogiri::HTML(ad_source)
+      end
+    end
 
     scrape_all
   end
+
+  def ad_source_file_path
+    "place_ge_ads_html/place_ge_ad_#{@place_ge_id}_time_#{@scrape_time.strftime('%Y_%m_%d_%H_%M_%S')}.html"
+  end
+  private :ad_source_file_path
 
   def to_s
     "\nScraping place.ge! Real Estate Ad Uri: #{@uri}\n------------------------------------------------------\nPrice: #{@price}\nSize: #{@size}\nSize unit: #{@size_unit}\nRenovation: #{@renovation_type}\n\nAddress: #{@address}\nCity: #{@city}\nArea: #{@area}\nDistrict: #{@district}\nStreet: #{@street}\nBuilding number: #{@building_number}\nApartment number: #{@apartment_number}"

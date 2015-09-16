@@ -31,7 +31,7 @@ class PlaceGeAd
   private :ad_source_file_path
 
   def to_s
-    "\nScraping place.ge! Real Estate Ad Uri: #{@link}\n------------------------------------------------------\nPrice: #{@price}\nSize: #{@size}\nSize unit: #{@size_unit}\nRenovation: #{@renovation_type}\n\nAddress: #{@address}\nCity: #{@city}\nArea: #{@area}\nDistrict: #{@district}\nStreet: #{@street}\nBuilding number: #{@building_number}\nApartment number: #{@apartment_number}"
+    "\nScraping place.ge! Real Estate Ad Uri: #{link}\n------------------------------------------------------\nPlace.Ge ID: #{place_ge_id}\nTime of Scrape: #{time_of_scrape}\nPath to HTML Copy: #{html_copy_path}\nPublication Date: #{publication_date}\nDeal type: #{deal_type}\nProperty type: #{property_type}\nCity ID: #{city_id}\nCity: #{city}\nRegion ID: #{region_id}\nRegion: #{region}\nDistrict ID: #{district_id}\nDistrict: #{district}\nStreet ID: #{street_id}\nStreet: #{street}\nPrice: #{price}\nPrice per area unit: #{price_per_area_unit}\nPrice currency: #{price_currency}\nPrice timeframe: #{price_timeframe}\nArea: #{area}\nArea unit: #{area_unit}\nLand area: #{land_area}\nLand area unit: #{land_area_unit}\nDistance from Tbilisi: #{distance_from_tbilisi}\nDistance from main road: #{distance_from_main_road}\nCondition: #{condition}\nProject: #{project}\nStatus: #{status}\nArray: #{array}\nQuarter: #{quarter}\nNeighborhood: #{neighborhood}\nBuilding number: #{building_number}\nApartment number: #{apartment_number}\nAddress: #{address}\nFloor number: #{floor_number}\nTotal floor count: #{total_floor_count}\nRoom count: #{room_count}\nBathroom count: #{bathroom_count}\nBedroom count: #{bedroom_count}\nBalcony count: #{balcony_count}\nIs bank real estate: #{is_bank_real_estate}\nHas garage or parking: #{has_garage_or_parking}\nHas lift: #{has_lift}\nHas furniture: #{has_furniture}\nHas fireplace: #{has_fireplace}\nHas storage area: #{has_storage_area}\nHas wardrobe: #{has_wardrobe}\nHas air conditioning: #{has_air_conditioning}\nHas heating: #{has_heating}\nHas loggia: #{has_loggia}\nHas appliances: #{has_appliances}\nHas hot water: #{has_hot_water}\nHas TV: #{has_tv}\nHas phone: #{has_phone}\nHas internet: #{has_internet}\nHas alarm: #{has_alarm}\nHas doorphone: #{has_doorphone}\nHas security: #{has_security}\nHas conference hall: #{has_conference_hall}\nHas showcase: #{has_showcase}\nHas veranda: #{has_veranda}\nIs mansard: #{is_mansard}\nHas electricity: #{has_electricity}\nHas gas: #{has_gas}\nHas water: #{has_water}\nHas sewage: #{has_sewage}\nHas inventory: #{has_inventory}\nHas network: #{has_network}\nHas generator: #{has_generator}\nAdditional information: #{additional_information}\nTelephone number: #{telephone_number}\nSeller type: #{seller_type}\nSeller name: #{seller_name}"
   end
 
   ########################################################################
@@ -403,11 +403,13 @@ class PlaceGeAd
   end
 
   def distance_from_tbilisi
-    @distance_from_tbilisi
+    # @distance_from_tbilisi
+    'Not scraping'
   end
 
   def distance_from_main_road
-    @distance_from_main_road
+    # @distance_from_main_road
+    'Not scraping'
   end
 
   def condition
@@ -423,15 +425,18 @@ class PlaceGeAd
   end
 
   def array
-    @array
+    # @array
+    'Not scraping'
   end
 
   def quarter
-    @quarter
+    # @quarter
+    'Not scraping'
   end
 
   def neighborhood
-    @neighborhood
+    # @neighborhood
+    'Not scraping'
   end
 
   def building_number
@@ -543,11 +548,13 @@ class PlaceGeAd
   end
 
   def has_conference_hall
-    @has_conference_hall
+    # @has_conference_hall
+    'Not scraping'
   end
 
   def has_showcase
-    @has_showcase
+    # @has_showcase
+    'Not scraping'
   end
 
   def has_veranda
@@ -559,31 +566,38 @@ class PlaceGeAd
   end
 
   def has_electricity
-    @has_electricity
+    # @has_electricity
+    'Not scraping'
   end
 
   def has_gas
-    @has_gas
+    # @has_gas
+    'Not scraping'
   end
 
   def has_water
-    @has_water
+    # @has_water
+    'Not scraping'
   end
 
   def has_sewage
-    @has_sewage
+    # @has_sewage
+    'Not scraping'
   end
 
   def has_inventory
-    @has_inventory
+    # @has_inventory
+    'Not scraping'
   end
 
   def has_network
-    @has_network
+    # @has_network
+    'Not scraping'
   end
 
   def has_generator
-    @has_generator
+    # @has_generator
+    'Not scraping'
   end
 
   def additional_information

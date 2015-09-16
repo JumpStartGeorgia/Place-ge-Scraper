@@ -9,4 +9,5 @@ task :scrape_ad, [:place_ge_ad_id] do |_t, args|
   end
 
   ad = PlaceGeAd.new(args[:place_ge_ad_id])
+  puts ad.to_s
 end

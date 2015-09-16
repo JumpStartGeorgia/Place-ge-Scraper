@@ -66,7 +66,7 @@ test_place_ge_ad(468513, {
   has_inventory: false,
   has_network: false,
   has_generator: false,
-  additional_information: 'ქირავდება კერძო სახლი, გამწვანებული ეზოთი,52 მეტრი სარდაფით. მეტრო ნაძალავებიდან 5 წუთი ფეხით  591093081 მინიმალური ავეჯით',
+  additional_information: 'ქირავდება კერძო სახლი, გამწვანებული ეზოთი,52 მეტრი სარდაფით. მეტრო ნაძალავებიდან 5 წუთი ფეხით 591093081 მინიმალური ავეჯით',
   telephone_number: '5-91-093081',
   seller_type: nil,
   seller_name: nil

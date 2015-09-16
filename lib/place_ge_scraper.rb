@@ -281,6 +281,7 @@ class PlaceGeAd
       .text
       .gsub(/.*Additional information:/m, '')
       .gsub(/\r\n/, ' ')
+      .squeeze(" ")
       .strip
       .to_nil_if_empty
   end

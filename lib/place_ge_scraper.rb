@@ -11,7 +11,7 @@ class PlaceGeAd
     @time_of_scrape = Time.now
 
     # Saves copies of scraped ad html in <project_dir>/place_ge_ads_html/
-    FileUtils.mkdir_p 'place_ge_ads_html'
+    FileUtils.mkdir_p 'system/place_ge_ads_html'
     open(ad_source_file_path, 'wb') do |file|
       open(@link) do |uri|
         ad_source = uri.read
@@ -26,7 +26,7 @@ class PlaceGeAd
   end
 
   def ad_source_file_path
-    "place_ge_ads_html/place_ge_ad_#{place_ge_id}_time_#{time_of_scrape.strftime('%Y_%m_%d_%H_%M_%S')}.html"
+    "system/place_ge_ads_html/place_ge_ad_#{place_ge_id}_time_#{time_of_scrape.strftime('%Y_%m_%d_%H_%M_%S')}.html"
   end
   private :ad_source_file_path
 

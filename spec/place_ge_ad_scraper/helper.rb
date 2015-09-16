@@ -266,8 +266,8 @@ def test_place_ge_ad(id, expected)
         expect(@ad.has_gas).to eq(expected[:has_gas])
       end
 
-      it 'has_water is correct' do
-        expect(@ad.has_water).to eq(expected[:has_water])
+      it 'has_water_supply is correct' do
+        expect(@ad.has_water_supply).to eq(expected[:has_water_supply])
       end
 
       it 'has_sewage is correct' do

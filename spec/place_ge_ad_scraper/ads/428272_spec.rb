@@ -62,7 +62,7 @@ test_place_ge_ad(428272, {
   is_mansard: false,
   has_electricity: false,
   has_gas: false,
-  has_water: false,
+  has_water_supply: false,
   has_sewage: false,
   has_inventory: false,
   has_network: false,

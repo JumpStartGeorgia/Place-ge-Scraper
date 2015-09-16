@@ -1,7 +1,7 @@
 test_place_ge_ad(464223, {
   place_ge_id: 464223,
   link: "http://place.ge/en/ads/view/464223",
-  publication_date: Date.new(2015, 9, 12),
+  publication_date: Date.new(2015, 9, 16),
   deal_type: 'for_rent',
   property_type: 'flat',
   city_id: 3,

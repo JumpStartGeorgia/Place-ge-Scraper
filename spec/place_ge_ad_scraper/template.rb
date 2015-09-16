@@ -12,6 +12,7 @@ test_place_ge_ad(id, {
   district: nil,
   street_id: nil,
   street: nil,
+  is_urgent: false,
   price: nil,
   price_per_area_unit: nil,
   price_currency: nil,

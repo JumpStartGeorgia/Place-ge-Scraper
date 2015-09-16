@@ -12,6 +12,7 @@ test_place_ge_ad(267846, {
   district: 'Vake',
   street_id: 47,
   street: 'N. Djvania st.',
+  is_urgent: true,
   price: '1050',
   price_per_area_unit: '11',
   price_currency: 'dollar',

@@ -12,6 +12,7 @@ test_place_ge_ad(468513, {
   district: 'Chugureti',
   street_id: nil,
   street: nil,
+  is_urgent: false,
   price: '500',
   price_per_area_unit: '4',
   price_currency: 'dollar',

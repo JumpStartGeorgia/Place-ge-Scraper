@@ -59,6 +59,10 @@ def test_place_ge_ad(id, expected)
         expect(@ad.street).to eq(expected[:street])
       end
 
+      it 'is_urgent is correct' do
+        expect(@ad.is_urgent).to eq(expected[:is_urgent])
+      end
+
       it 'price is correct' do
         expect(@ad.price).to eq(expected[:price])
       end

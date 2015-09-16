@@ -12,6 +12,7 @@ test_place_ge_ad(325646, {
   district: nil,
   street_id: nil,
   street: nil,
+  is_urgent: false,
   price: 'Contract price',
   price_per_area_unit: nil,
   price_currency: nil,

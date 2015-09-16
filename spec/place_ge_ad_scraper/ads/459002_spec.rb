@@ -12,6 +12,7 @@ test_place_ge_ad(459002, {
   district: 'Saburtalo',
   street_id: 153,
   street: 'Kavtaradze st.',
+  is_urgent: false,
   price: '45000',
   price_per_area_unit: '804',
   price_currency: 'dollar',

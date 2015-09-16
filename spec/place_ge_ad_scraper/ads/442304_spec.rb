@@ -12,6 +12,7 @@ test_place_ge_ad(442304, {
   district: 'Saburtalo',
   street_id: 203,
   street: 'Shartava st.',
+  is_urgent: true,
   price: '45750',
   price_per_area_unit: '750',
   price_currency: 'dollar',

@@ -12,6 +12,7 @@ test_place_ge_ad(464223, {
   district: nil,
   street_id: nil,
   street: nil,
+  is_urgent: true,
   price: '50',
   price_per_area_unit: '1',
   price_currency: 'lari',

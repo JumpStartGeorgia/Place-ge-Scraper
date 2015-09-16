@@ -142,7 +142,7 @@ class PlaceGeAd
         price_info.delete(price_info[0])
       end
 
-      @price_per_area_unit = price_info[1].text.remove_non_numbers.to_nil_or_i
+      @price_per_area_unit = price_info[1].text.remove_non_numbers.to_nil_if_empty
 
       full_price = price_info[0].text.strip
 
@@ -156,14 +156,14 @@ class PlaceGeAd
         price_and_currency = full_price
       end
 
-      @price = price_and_currency.remove_non_numbers.to_nil_or_i
+      @price = price_and_currency.remove_non_numbers.to_nil_if_empty
       currency = price_and_currency.remove_numbers.sub(',', '').strip
       set_price_currency(currency)
     end
   end
 
   def scrape_area
-    @page.detail_value('Space').remove_non_numbers.to_nil_or_i
+    @page.detail_value('Space').remove_non_numbers.to_nil_if_empty
   end
 
   def scrape_area_unit
@@ -171,7 +171,7 @@ class PlaceGeAd
   end
 
   def scrape_land_area
-    @page.detail_value('Land').remove_non_numbers.to_nil_or_i
+    @page.detail_value('Land').remove_non_numbers.to_nil_if_empty
   end
 
   def scrape_land_area_unit
@@ -179,19 +179,19 @@ class PlaceGeAd
   end
 
   def scrape_room_count
-    @page.detail_value('Rooms').remove_non_numbers.to_nil_or_i
+    @page.detail_value('Rooms').remove_non_numbers.to_nil_if_empty
   end
 
   def scrape_bathroom_count
-    @page.detail_value('Bathrooms').remove_non_numbers.to_nil_or_i
+    @page.detail_value('Bathrooms').remove_non_numbers.to_nil_if_empty
   end
 
   def scrape_bedroom_count
-    @page.detail_value('Bedrooms').remove_non_numbers.to_nil_or_i
+    @page.detail_value('Bedrooms').remove_non_numbers.to_nil_if_empty
   end
 
   def scrape_balcony_count
-    @page.detail_value('Balcony').remove_non_numbers.to_nil_or_i
+    @page.detail_value('Balcony').remove_non_numbers.to_nil_if_empty
   end
 
   def scrape_floor_info
@@ -210,11 +210,11 @@ class PlaceGeAd
     elsif floor_string.include? '/'
       floor_data = floor_string.split('/')
 
-      @floor_number = floor_data[0].to_nil_or_i
-      @total_floor_count = floor_data[1].to_nil_or_i
+      @floor_number = floor_data[0].to_nil_if_empty
+      @total_floor_count = floor_data[1].to_nil_if_empty
     else
       @floor_number = nil
-      @total_floor_count = floor_string.to_i
+      @total_floor_count = floor_string.to_nil_if_empty
     end
   end
 

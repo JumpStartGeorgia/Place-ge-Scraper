@@ -101,6 +101,10 @@ def test_place_ge_ad(id, expected)
         expect(@ad.distance_from_main_road).to eq(expected[:distance_from_main_road])
       end
 
+      it 'function is correct' do
+        expect(@ad.function).to eq(expected[:function])
+      end
+
       it 'condition is correct' do
         expect(@ad.condition).to eq(expected[:condition])
       end

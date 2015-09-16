@@ -22,6 +22,7 @@ test_place_ge_ad(127961, {
   land_area_unit: 'sq. m.',
   distance_from_tbilisi: nil,
   distance_from_main_road: nil,
+  function: nil,
   condition: nil,
   project: nil,
   status: nil,

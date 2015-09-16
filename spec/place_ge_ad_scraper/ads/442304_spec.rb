@@ -22,6 +22,7 @@ test_place_ge_ad(442304, {
   land_area_unit: nil,
   distance_from_tbilisi: nil,
   distance_from_main_road: nil,
+  function: nil,
   condition: 'White Frame',
   project: nil,
   status: 'under construction',

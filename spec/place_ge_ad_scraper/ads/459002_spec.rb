@@ -22,6 +22,7 @@ test_place_ge_ad(459002, {
   land_area_unit: nil,
   distance_from_tbilisi: nil,
   distance_from_main_road: nil,
+  function: nil,
   condition: 'Old renovated',
   project: 'Khrushchev',
   status: 'old building',

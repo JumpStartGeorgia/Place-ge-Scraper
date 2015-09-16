@@ -22,6 +22,7 @@ test_place_ge_ad(id, {
   land_area_unit: nil,
   distance_from_tbilisi: nil,
   distance_from_main_road: nil,
+  function: nil,
   condition: nil,
   project: nil,
   status: nil,

@@ -22,6 +22,7 @@ test_place_ge_ad(267846, {
   land_area_unit: nil,
   distance_from_tbilisi: nil,
   distance_from_main_road: nil,
+  function: nil,
   condition: 'Newly renovated',
   project: 'Moscow',
   status: 'new building',

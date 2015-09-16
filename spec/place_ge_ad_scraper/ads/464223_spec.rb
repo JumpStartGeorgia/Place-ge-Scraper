@@ -28,7 +28,7 @@ test_place_ge_ad(464223, {
   array: nil,
   quarter: nil,
   neighborhood: nil,
-  building_number: 114,
+  building_number: '114',
   apartment_number: nil,
   address: 'Batumi, gorgiladzis',
   floor_number: 5,

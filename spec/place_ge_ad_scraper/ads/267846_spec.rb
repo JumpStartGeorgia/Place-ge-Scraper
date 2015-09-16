@@ -28,7 +28,7 @@ test_place_ge_ad(267846, {
   array: nil,
   quarter: nil,
   neighborhood: nil,
-  building_number: 28,
+  building_number: '28',
   apartment_number: nil,
   address: 'Tbilisi, Vake-Saburtalo, Vake, N. Djvania st.',
   floor_number: 6,

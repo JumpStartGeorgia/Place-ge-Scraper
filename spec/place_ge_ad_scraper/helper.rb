@@ -275,7 +275,6 @@ def test_place_ge_ad(id, expected)
       end
 
       it 'has_sewage is correct' do
-        skip('Need to scrape features string for this feature before enabling this test')
         expect(@ad.has_sewage).to eq(expected[:has_sewage])
       end
 

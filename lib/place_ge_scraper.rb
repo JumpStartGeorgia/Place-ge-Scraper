@@ -276,7 +276,7 @@ class PlaceGeAd
     @has_electricity = @features.include? 'Electricity'
     @has_gas = @features.include? 'Gas'
     @has_water_supply = @features.include? 'Water supply'
-    @has_sewage = nil
+    @has_sewage = @features.include? 'Sewage'
     @has_inventory = nil
     @has_network = nil
     @has_generator = nil
@@ -602,8 +602,7 @@ class PlaceGeAd
   end
 
   def has_sewage
-    # @has_sewage
-    'Not scraping'
+    @has_sewage
   end
 
   def has_inventory

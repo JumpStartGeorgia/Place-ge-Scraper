@@ -259,17 +259,14 @@ def test_place_ge_ad(id, expected)
       end
 
       it 'has_electricity is correct' do
-        skip('Need to scrape features string for this feature before enabling this test')
         expect(@ad.has_electricity).to eq(expected[:has_electricity])
       end
 
       it 'has_gas is correct' do
-        skip('Need to scrape features string for this feature before enabling this test')
         expect(@ad.has_gas).to eq(expected[:has_gas])
       end
 
       it 'has_water is correct' do
-        skip('Need to scrape features string for this feature before enabling this test')
         expect(@ad.has_water).to eq(expected[:has_water])
       end
 

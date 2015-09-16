@@ -271,9 +271,9 @@ class PlaceGeAd
     @has_showcase = nil
     @has_veranda = @features.include? 'Porch'
     @is_mansard = @features.include? 'Mansard'
-    @has_electricity = nil
-    @has_gas = nil
-    @has_water = nil
+    @has_electricity = @features.include? 'Electricity'
+    @has_gas = @features.include? 'Gas'
+    @has_water = @features.include? 'Water'
     @has_sewage = nil
     @has_inventory = nil
     @has_network = nil
@@ -584,18 +584,15 @@ class PlaceGeAd
   end
 
   def has_electricity
-    # @has_electricity
-    'Not scraping'
+    @has_electricity
   end
 
   def has_gas
-    # @has_gas
-    'Not scraping'
+    @has_gas
   end
 
   def has_water
-    # @has_water
-    'Not scraping'
+    @has_water
   end
 
   def has_sewage

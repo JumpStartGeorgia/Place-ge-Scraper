@@ -129,29 +129,37 @@ class PlaceGeAd
   def scrape_price_info
     price_info = @page.css('.top-ad .price').children
 
-    # If 'urgently' markup is next to price, remove it
-    if price_info[1].text == 'urgently'
-      price_info.delete(price_info[0])
-      price_info.delete(price_info[0])
-    end
-
-    @price_per_area_unit = price_info[1].text.remove_non_numbers.to_nil_or_i
-
-    full_price = price_info[0].text.strip
-
-    # If it contains a /, that means the price has a timeframe.
-    # Example: '50 lari / day' (as opposed to just '50 lari')
-    if full_price.include? '/'
-      full_price_index = full_price.index('/')
-      price_and_currency = full_price.slice(0, full_price_index)
-      @price_timeframe = full_price.slice(full_price_index + 1, full_price.size).strip
+    # If the only price info is the text 'Contract price'
+    if price_info.text.include? 'Contract price'
+      @price = 'Contract price'
+      @price_per_area_unit = nil
+      @price_timeframe = nil
+      @price_currency = nil
     else
-      price_and_currency = full_price
-    end
+      # If 'urgently' markup is next to price, remove it
+      if price_info[1].text == 'urgently'
+        price_info.delete(price_info[0])
+        price_info.delete(price_info[0])
+      end
 
-    @price = price_and_currency.remove_non_numbers.to_nil_or_i
-    currency = price_and_currency.remove_numbers.sub(',', '').strip
-    set_price_currency(currency)
+      @price_per_area_unit = price_info[1].text.remove_non_numbers.to_nil_or_i
+
+      full_price = price_info[0].text.strip
+
+      # If it contains a /, that means the price has a timeframe.
+      # Example: '50 lari / day' (as opposed to just '50 lari')
+      if full_price.include? '/'
+        full_price_index = full_price.index('/')
+        price_and_currency = full_price.slice(0, full_price_index)
+        @price_timeframe = full_price.slice(full_price_index + 1, full_price.size).strip
+      else
+        price_and_currency = full_price
+      end
+
+      @price = price_and_currency.remove_non_numbers.to_nil_or_i
+      currency = price_and_currency.remove_numbers.sub(',', '').strip
+      set_price_currency(currency)
+    end
   end
 
   def scrape_area

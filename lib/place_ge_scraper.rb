@@ -130,12 +130,9 @@ class PlaceGeAd
   def scrape_price_info
     price_info = @page.css('.top-ad .price').children
 
-    # If the only price info is the text 'Contract price'
-    if price_info.text.include? 'Contract price'
-      @price = 'Contract price'
-      @price_per_area_unit = nil
-      @price_timeframe = nil
-      @price_currency = nil
+    # Check if ad is urgent
+    if price_info[1].nil?
+      @is_urgent = false
     else
       @is_urgent = price_info[1].text == 'urgently'
 
@@ -144,7 +141,17 @@ class PlaceGeAd
         price_info.delete(price_info[0])
         price_info.delete(price_info[0])
       end
+    end
 
+    # If the only price info is the text 'Contract price'
+    if price_info.text.include? 'Contract price'
+      @price = 'Contract price'
+      @price_per_area_unit = nil
+      @price_timeframe = nil
+      @price_currency = nil
+
+    # If there's an actual price
+    else
       @price_per_area_unit = price_info[1].text.remove_non_numbers.to_nil_if_empty
 
       full_price = price_info[0].text.strip

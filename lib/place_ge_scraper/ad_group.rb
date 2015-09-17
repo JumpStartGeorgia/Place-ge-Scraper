@@ -7,42 +7,33 @@ require_relative 'helper'
 # Group of place.ge real estate ads
 class PlaceGeAdGroup
   def initialize
-    @start_date = Date.today - 7
-    @end_date = Date.today
+    @start_date = Date.today - 4
+    @end_date = Date.today - 2
 
-    @ad_ids = scrape_ad_ids
+    @ad_boxes = scrape_ad_boxes
   end
 
   def to_s
-    puts @ad_ids
+    puts @ad_boxes.map { |ad_box| puts "#{ad_box.id} | #{ad_box.pub_date}" }
   end
 
-  def scrape_ad_ids
+  def scrape_ad_boxes
     link = "http://place.ge/ge/ads/page:1?object_type=all&currency_id=2&mode=list&order_by=date&limit=30"
     page = Nokogiri.HTML(open(link))
 
-    ad_boxes = page.css('.tr-line')
-    ad_ids = []
+    all_ad_boxes = page.css('.tr-line')
+    desired_ad_boxes = []
 
-    ad_boxes.each do |ad_box_html|
+    all_ad_boxes.each do |ad_box_html|
       ad_box = PlaceGeAdBox.new(ad_box_html)
-      puts 'VIP' if ad_box.is_vip?
-      puts 'PAID' if ad_box.is_paid?
-      puts 'SIMPLE' if ad_box.is_simple?
-      process_ad_box(ad_box, ad_ids)
+      desired_ad_boxes.push(ad_box) if ad_box.between_dates?(@start_date, @end_date)
     end
 
-    ad_ids
-  end
-
-  def process_ad_box(ad_box, ad_ids)
-    return unless ad_box.pub_date == @date
-    return if ad_ids.include? ad_box.id
-
-    ad_ids.push(ad_box.id)
+    desired_ad_boxes
   end
 end
 
+# Box containing ad info in place.ge ad list
 class PlaceGeAdBox
   def initialize(html)
     @html = html
@@ -79,18 +70,22 @@ class PlaceGeAdBox
     @pub_date
   end
 
-  def is_vip?
+  def vip?
     @is_vip = scrape_is_vip if @is_vip.nil?
     @is_vip
   end
 
-  def is_paid?
+  def paid?
     @is_paid = scrape_is_paid if @is_paid.nil?
     @is_paid
   end
 
-  def is_simple?
+  def simple?
     @is_simple = scrape_is_simple if @is_simple.nil?
     @is_simple
+  end
+
+  def between_dates?(start_date, end_date)
+    (pub_date >= start_date) && (pub_date <= end_date)
   end
 end

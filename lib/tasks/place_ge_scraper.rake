@@ -1,4 +1,4 @@
-load 'lib/place_ge_scraper.rb'
+load 'lib/place_ge_scraper/ad.rb'
 
 desc 'Scrape place.ge real estate ad by id'
 task :scrape_ad, [:place_ge_ad_id] do |_t, args|

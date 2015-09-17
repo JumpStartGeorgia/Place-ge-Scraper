@@ -1,4 +1,4 @@
-require 'place_ge_scraper'
+require 'place_ge_scraper/ad'
 
 def test_place_ge_ad(id, expected)
   describe 'PlaceGeAd' do

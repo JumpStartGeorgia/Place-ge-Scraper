@@ -1,4 +1,11 @@
-load 'lib/place_ge_scraper/ad.rb'
+load 'lib/place_ge_scraper/ad_group.rb'
+
+desc "Scrape yesterday's ads"
+task :scrape_yesterday_ads do
+  ad_group = PlaceGeAdGroup.new
+
+  ad_group.to_s
+end
 
 desc 'Scrape place.ge real estate ad by id'
 task :scrape_ad, [:place_ge_ad_id] do |_t, args|

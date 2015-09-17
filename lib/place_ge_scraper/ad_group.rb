@@ -19,10 +19,15 @@ class PlaceGeAdGroup
 
   def scrape_ad_boxes
     page_num = 1
-    limit = 10
+    limit = 20
     ad_boxes = []
-    link = "http://place.ge/ge/ads/page:#{page_num}?object_type=all&currency_id=2&mode=list&order_by=date&limit=#{limit}"
-    ad_boxes.push(*scrape_ad_boxes_from_page(link))
+
+    while page_num < 3
+      link = "http://place.ge/ge/ads/page:#{page_num}?object_type=all&currency_id=2&mode=list&order_by=date&limit=#{limit}"
+      ad_boxes.push(*scrape_ad_boxes_from_page(link))
+      page_num += 1
+    end
+
     ad_boxes
   end
 

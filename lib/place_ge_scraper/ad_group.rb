@@ -23,25 +23,44 @@ class PlaceGeAdGroup
     ad_boxes = page.css('.tr-line')
     ad_ids = []
 
-    ad_boxes.each do |ad_box|
-      if date_matches_ad_box?(ad_box)
-        id = get_ad_box_id(ad_box)
-        unless ad_ids.include? id
-          ad_ids.push(get_ad_box_id(ad_box))
-        end
-      end
+    ad_boxes.each do |ad_box_html|
+      ad_box = PlaceGeAdBox.new(ad_box_html)
+      process_ad_box(ad_box, ad_ids)
     end
 
     ad_ids
   end
 
-  def date_matches_ad_box?(ad_box)
-    pub_date_string = ad_box.css('.pub-date').children[1].text
-    pub_date = Date.strptime(pub_date_string, '%d.%m.%Y')
-    return pub_date == @date
+  def process_ad_box(ad_box, ad_ids)
+    if ad_box.pub_date == @date
+      unless ad_ids.include? ad_box.id
+        ad_ids.push(ad_box.id)
+      end
+    end
+  end
+end
+
+class PlaceGeAdBox
+  def initialize(html)
+    @html = html
   end
 
-  def get_ad_box_id(ad_box)
-    ad_box.css('.editFilter').children.find { |x| x.text.include? 'ID: ' }.text.remove_non_numbers.to_nil_or_i
+  def scrape_id
+    @html.css('.editFilter').children.find { |x| x.text.include? 'ID: ' }.text.remove_non_numbers.to_nil_or_i
+  end
+
+  def scrape_pub_date
+    pub_date_string = @html.css('.pub-date').children[1].text
+    Date.strptime(pub_date_string, '%d.%m.%Y')
+  end
+
+  def id
+    @id = scrape_id if @id.nil?
+    @id
+  end
+
+  def pub_date
+    @pub_date = scrape_pub_date if @pub_date.nil?
+    @pub_date
   end
 end

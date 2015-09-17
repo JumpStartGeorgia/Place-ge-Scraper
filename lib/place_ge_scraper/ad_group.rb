@@ -7,42 +7,72 @@ require_relative 'helper'
 # Group of place.ge real estate ads
 class PlaceGeAdGroup
   def initialize
-    @start_date = Date.today - 4
-    @end_date = Date.today - 2
+    @finished_scraping = false
+    @found_simple_ad = false
 
-    @ad_boxes = scrape_ad_boxes
+    @start_date = Date.today
+    @end_date = Date.today
+
+    @ad_ids = []
+    scrape_ad_ids
   end
 
   def to_s
-    puts @ad_boxes.map { |ad_box| puts "#{ad_box.id} | #{ad_box.pub_date}" }
+    "Found #{ad_ids.size} ads"
   end
 
-  def scrape_ad_boxes
+  def scrape_ad_ids
     page_num = 1
-    limit = 20
-    ad_boxes = []
+    limit = 1000
 
-    while page_num < 3
+    while not_finished_scraping?
       link = "http://place.ge/ge/ads/page:#{page_num}?object_type=all&currency_id=2&mode=list&order_by=date&limit=#{limit}"
-      ad_boxes.push(*scrape_ad_boxes_from_page(link))
+      scrape_ad_ids_from_page(link)
       page_num += 1
     end
-
-    ad_boxes
   end
 
-  def scrape_ad_boxes_from_page(link)
-    desired_ad_boxes = []
-
+  def scrape_ad_ids_from_page(link)
     page = Nokogiri.HTML(open(link))
-    all_ad_boxes = page.css('.tr-line')
+    ad_boxes = page.css('.tr-line')
 
-    all_ad_boxes.each do |ad_box_html|
-      ad_box = PlaceGeAdBox.new(ad_box_html)
-      desired_ad_boxes.push(ad_box) if ad_box.between_dates?(@start_date, @end_date)
+    ad_boxes.each do |ad_box_html|
+      process_ad_box(PlaceGeAdBox.new(ad_box_html))
+
+      if finished_scraping?
+        break
+        binding.pry
+      end
     end
+  end
 
-    desired_ad_boxes
+  def process_ad_box(ad_box)
+    if ad_box.between_dates?(@start_date, @end_date)
+      # Save ad id if it has not been saved to @ad_ids yet
+      @ad_ids.push(ad_box.id) unless @ad_ids.include?(ad_box.id)
+
+      # Record when the first simple ad is found to allow scraping to finish
+      @found_simple_ad = true if not_found_simple_ad? && ad_box.simple?
+    else
+      # First must find simple ad, then stop when the next simple ad is found
+      @finished_scraping = true if found_simple_ad? && ad_box.simple?
+    end
+  end
+
+  def finished_scraping?
+    @finished_scraping
+  end
+
+  def not_finished_scraping?
+    !@finished_scraping
+  end
+
+  def found_simple_ad?
+    @found_simple_ad
+  end
+
+  def not_found_simple_ad?
+    !@found_simple_ad
   end
 end
 
@@ -61,14 +91,6 @@ class PlaceGeAdBox
     Date.strptime(pub_date_string, '%d.%m.%Y')
   end
 
-  def scrape_is_vip
-    @html.attributes['class'].value.include? 'vip-ad'
-  end
-
-  def scrape_is_paid
-    @html.attributes['class'].value.include? 'paid-ad'
-  end
-
   def scrape_is_simple
     @html.attributes['class'].value.include? 'simple-ad'
   end
@@ -81,16 +103,6 @@ class PlaceGeAdBox
   def pub_date
     @pub_date = scrape_pub_date if @pub_date.nil?
     @pub_date
-  end
-
-  def vip?
-    @is_vip = scrape_is_vip if @is_vip.nil?
-    @is_vip
-  end
-
-  def paid?
-    @is_paid = scrape_is_paid if @is_paid.nil?
-    @is_paid
   end
 
   def simple?

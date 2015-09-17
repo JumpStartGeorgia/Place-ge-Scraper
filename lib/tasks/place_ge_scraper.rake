@@ -3,7 +3,6 @@ load 'lib/place_ge_scraper/ad_group.rb'
 desc "Scrape multiple ads"
 task :scrape_ads do
   ad_group = PlaceGeAdGroup.new
-
   ad_group.to_s
 end
 

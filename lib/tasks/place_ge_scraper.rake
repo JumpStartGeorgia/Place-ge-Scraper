@@ -11,6 +11,7 @@ task :scrape_ad, [:place_ge_ad_id] do |_t, args|
   puts ad.to_s
 end
 
+desc 'Open place.ge real estate ad in default browser'
 task :open_ad_in_browser, [:place_ge_ad_id] do |_t, args|
   if args[:place_ge_ad_id].nil?
     puts 'Error: Please provide a place.ge ad ID as an argument.'

@@ -18,11 +18,19 @@ class PlaceGeAdGroup
   end
 
   def scrape_ad_boxes
-    link = "http://place.ge/ge/ads/page:1?object_type=all&currency_id=2&mode=list&order_by=date&limit=30"
-    page = Nokogiri.HTML(open(link))
+    page_num = 1
+    limit = 10
+    ad_boxes = []
+    link = "http://place.ge/ge/ads/page:#{page_num}?object_type=all&currency_id=2&mode=list&order_by=date&limit=#{limit}"
+    ad_boxes.push(*scrape_ad_boxes_from_page(link))
+    ad_boxes
+  end
 
-    all_ad_boxes = page.css('.tr-line')
+  def scrape_ad_boxes_from_page(link)
     desired_ad_boxes = []
+
+    page = Nokogiri.HTML(open(link))
+    all_ad_boxes = page.css('.tr-line')
 
     all_ad_boxes.each do |ad_box_html|
       ad_box = PlaceGeAdBox.new(ad_box_html)

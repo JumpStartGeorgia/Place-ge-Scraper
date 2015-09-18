@@ -18,20 +18,31 @@ class PlaceGeAdGroup
   end
 
   def set_dates
-    @start_date = Date.today
-    @end_date = Date.today
+    @start_date = Date.today - 2
+    @end_date = Date.today - 1
 
+    check_dates_are_valid
+  end
+
+  def check_dates_are_valid
     if @start_date > @end_date
       puts "\nERROR: The start date cannot be after the end date\n\n"
+      fail
+    elsif @start_date > Date.today
+      puts "\nERROR: The start date cannot be after today\n\n"
+      fail
+    elsif @end_date > Date.today
+      puts "\nERROR: The end date cannot be after today\n\n"
       fail
     end
   end
 
   def to_s
-    "Found #{ad_ids.size} ads"
+    "Found #{@ad_ids.size} ads posted between #{@start_date} and #{@end_date}"
   end
 
   def scrape_ad_ids
+    puts "\n---> Finding ids of ads posted between #{@start_date} and #{@end_date} for later scraping"
     page_num = 1
     limit = 1000
 
@@ -43,6 +54,8 @@ class PlaceGeAdGroup
   end
 
   def scrape_ad_ids_from_page(link)
+    puts '--------------------------------------------------'
+    puts "-----> Scraping #{link}"
     page = Nokogiri.HTML(open(link))
     ad_boxes = page.css('.tr-line')
 
@@ -50,16 +63,22 @@ class PlaceGeAdGroup
       process_ad_box(PlaceGeAdBox.new(ad_box_html))
 
       if finished_scraping?
-        break
+        puts "\nFinished scraping!\n"
         binding.pry
+        break
       end
     end
+
+    puts "\n-----> Found #{@ad_ids.size} ads posted between #{@start_date} and #{@end_date} so far"
   end
 
   def process_ad_box(ad_box)
     if ad_box.between_dates?(@start_date, @end_date)
       # Save ad id if it has not been saved to @ad_ids yet
-      @ad_ids.push(ad_box.id) unless @ad_ids.include?(ad_box.id)
+      unless @ad_ids.include?(ad_box.id)
+        @ad_ids.push(ad_box.id)
+        puts "-------> Found #{ad_box.id} (posted on #{ad_box.pub_date})"
+      end
 
       # Record when the first simple ad is found to allow scraping to finish
       @found_simple_ad = true if not_found_simple_ad? && ad_box.simple?

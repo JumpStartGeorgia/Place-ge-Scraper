@@ -1,5 +1,8 @@
 
-# Box containing ad info in place.ge ad list
+# Box containing summary of a place.ge real estate ad. Used in lists of
+# real estate ads. This scraper uses these ad boxes when searching for ads
+# published within a certain time period: if the ad falls in that time period,
+# it's ID is saved so that its full ad page can be scraped
 class PlaceGeAdBox
   def initialize(html)
     @html = html

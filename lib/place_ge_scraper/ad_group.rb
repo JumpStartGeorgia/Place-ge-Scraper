@@ -8,14 +8,23 @@ require_relative 'helper'
 # Group of place.ge real estate ads
 class PlaceGeAdGroup
   def initialize
+    set_dates
+
     @finished_scraping = false
     @found_simple_ad = false
 
+    @ad_ids = []
+    scrape_ad_ids
+  end
+
+  def set_dates
     @start_date = Date.today
     @end_date = Date.today
 
-    @ad_ids = []
-    scrape_ad_ids
+    if @start_date > @end_date
+      puts "\nERROR: The start date cannot be after the end date\n\n"
+      fail
+    end
   end
 
   def to_s

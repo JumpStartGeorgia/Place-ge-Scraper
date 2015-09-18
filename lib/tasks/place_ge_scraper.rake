@@ -1,8 +1,29 @@
 load 'lib/place_ge_scraper/ad_group.rb'
 
-desc "Scrape multiple ads"
-task :scrape_ads do
-  ad_group = PlaceGeAdGroup.new
+desc 'Scrape ads posted on place.ge today'
+task :scrape_ads_posted_today do
+  ad_group = PlaceGeAdGroup.new(Date.today, Date.today)
+  ad_group.to_s
+end
+
+desc 'Scrape ads posted on place.ge yesterday'
+task :scrape_ads_posted_yesterday do
+  ad_group = PlaceGeAdGroup.new(Date.today - 1, Date.today - 1)
+  ad_group.to_s
+end
+
+desc 'Scrape ads posted within provided time period; parameters should be in format yyyy-mm-dd, as in [2015-09-12,2015-09-14]'
+task :scrape_ads_posted_in_time_period, [:start_date, :end_date] do |_t, args|
+  if args[:start_date].nil?
+    puts 'ERROR: Please provide a start date'
+  elsif args[:end_date].nil?
+    puts 'ERROR: Please provide an end date'
+  end
+
+  start_date = Date.strptime(args[:start_date], '%Y-%m-%d')
+  end_date = Date.strptime(args[:end_date], '%Y-%m-%d')
+
+  ad_group = PlaceGeAdGroup.new(start_date, end_date)
   ad_group.to_s
 end
 

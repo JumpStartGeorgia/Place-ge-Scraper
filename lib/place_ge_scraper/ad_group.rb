@@ -7,19 +7,18 @@ require_relative 'helper'
 
 # Group of place.ge real estate ads
 class PlaceGeAdGroup
-  def initialize
-    set_dates
+  def initialize(start_date, end_date)
+    set_dates(start_date, end_date)
 
     @finished_scraping = false
     @found_simple_ad = false
 
-    @ad_ids = []
     scrape_ad_ids
   end
 
-  def set_dates
-    @start_date = Date.today - 2
-    @end_date = Date.today - 1
+  def set_dates(start_date, end_date)
+    @start_date = start_date
+    @end_date = end_date
 
     check_dates_are_valid
   end
@@ -42,7 +41,9 @@ class PlaceGeAdGroup
   end
 
   def scrape_ad_ids
-    puts "\n---> Finding ids of ads posted between #{@start_date} and #{@end_date} for later scraping"
+    puts "\n---> Finding ids of ads posted between #{@start_date} and #{@end_date}"
+
+    @ad_ids = []
     page_num = 1
     limit = 1000
 
@@ -51,6 +52,9 @@ class PlaceGeAdGroup
       scrape_ad_ids_from_page(link)
       page_num += 1
     end
+
+    puts "\nFinished scraping ad ids; found #{@ad_ids.size} ads\n"
+    puts '--------------------------------------------------'
   end
 
   def scrape_ad_ids_from_page(link)
@@ -63,8 +67,6 @@ class PlaceGeAdGroup
       process_ad_box(PlaceGeAdBox.new(ad_box_html))
 
       if finished_scraping?
-        puts "\nFinished scraping!\n"
-        binding.pry
         break
       end
     end

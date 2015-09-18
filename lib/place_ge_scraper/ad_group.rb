@@ -41,7 +41,11 @@ class PlaceGeAdGroup
   end
 
   def scrape_ad_ids
-    puts "\n---> Finding ids of ads posted between #{@start_date} and #{@end_date}"
+    if @start_date == @end_date
+      puts "\n---> Finding ids of ads posted on #{@start_date}"
+    else
+      puts "\n---> Finding ids of ads posted between #{@start_date} and #{@end_date}"
+    end
 
     @ad_ids = []
     page_num = 1

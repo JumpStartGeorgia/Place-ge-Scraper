@@ -92,19 +92,18 @@ class PlaceGeAdGroup
   end
 
   def process_ad_box(ad_box)
+    @found_simple_ad_box = true if not_found_simple_ad_box? && ad_box.simple?
+
     if ad_box.between_dates?(@start_date, @end_date)
       # Save ad id if it has not been saved to @ad_ids yet
       unless @ad_ids.include?(ad_box.id)
         @ad_ids.push(ad_box.id)
         puts "-------> Found #{ad_box.id} (posted on #{ad_box.pub_date})"
       end
-
-      # Record when the first simple ad is found and determine whether
-      # scraper should stop scraping IDs
-      @found_simple_ad_box = true if not_found_simple_ad_box? && ad_box.simple?
+    else
+      # Determine whether to stop scraping
       @finished_scraping_ids = true if found_simple_ad_box? && ad_box.simple?
     end
-
   end
 
   def finished_scraping_ids?

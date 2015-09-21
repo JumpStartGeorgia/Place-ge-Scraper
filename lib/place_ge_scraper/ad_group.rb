@@ -49,6 +49,13 @@ class PlaceGeAdGroup
   ########################################################################
   # Scrape ad ids #
 
+  # The site displays VIP ads, then paid ads, then simple ads. So, the scraper
+  # finds IDs of ads in the specified time period in the following manner:
+  #
+  # 1. Checks all VIP ads
+  # 2. Checks all paid ads
+  # 3. Checks simple ads. When a simple ad is found that does not match
+  #    the date criteria, the scraper stops scraping IDs.
   def scrape_ad_ids
     puts "\n---> Finding ids of ads posted #{dates_to_s}"
 
@@ -77,9 +84,8 @@ class PlaceGeAdGroup
     ad_boxes.each do |ad_box_html|
       process_ad_box(PlaceGeAdBox.new(ad_box_html))
 
-      if finished_scraping_ids?
-        break
-      end
+      # If finished, don't scrape the rest of the ad boxes
+      break if finished_scraping_ids?
     end
 
     puts "\n-----> Found #{@ad_ids.size} ads posted #{dates_to_s} so far"
@@ -93,12 +99,12 @@ class PlaceGeAdGroup
         puts "-------> Found #{ad_box.id} (posted on #{ad_box.pub_date})"
       end
 
-      # Record when the first simple ad is found to allow scraping to finish
+      # Record when the first simple ad is found and determine whether
+      # scraper should stop scraping IDs
       @found_simple_ad_box = true if not_found_simple_ad_box? && ad_box.simple?
-    else
-      # First must find simple ad, then stop when the next simple ad is found
       @finished_scraping_ids = true if found_simple_ad_box? && ad_box.simple?
     end
+
   end
 
   def finished_scraping_ids?

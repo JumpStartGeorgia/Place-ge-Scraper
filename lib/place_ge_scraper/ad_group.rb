@@ -10,10 +10,8 @@ class PlaceGeAdGroup
   def initialize(start_date, end_date)
     set_dates(start_date, end_date)
 
-    @finished_scraping = false
-    @found_simple_ad = false
-
     scrape_ad_ids
+    scrape_ads
   end
 
   def set_dates(start_date, end_date)
@@ -40,6 +38,9 @@ class PlaceGeAdGroup
     "Found #{@ad_ids.size} ads posted between #{@start_date} and #{@end_date}"
   end
 
+  ########################################################################
+  # Scrape ad ids #
+
   def scrape_ad_ids
     if @start_date == @end_date
       puts "\n---> Finding ids of ads posted on #{@start_date}"
@@ -47,11 +48,13 @@ class PlaceGeAdGroup
       puts "\n---> Finding ids of ads posted between #{@start_date} and #{@end_date}"
     end
 
+    @finished_scraping_ids = false
+    @found_simple_ad_box = false
     @ad_ids = []
     page_num = 1
     limit = 1000
 
-    while not_finished_scraping?
+    while not_finished_scraping_ids?
       link = "http://place.ge/ge/ads/page:#{page_num}?object_type=all&currency_id=2&mode=list&order_by=date&limit=#{limit}"
       scrape_ad_ids_from_page(link)
       page_num += 1
@@ -70,12 +73,16 @@ class PlaceGeAdGroup
     ad_boxes.each do |ad_box_html|
       process_ad_box(PlaceGeAdBox.new(ad_box_html))
 
-      if finished_scraping?
+      if finished_scraping_ids?
         break
       end
     end
 
-    puts "\n-----> Found #{@ad_ids.size} ads posted between #{@start_date} and #{@end_date} so far"
+    if @start_date == @end_date
+      puts "\n-----> Found #{@ad_ids.size} ads posted on #{@start_date} so far"
+    else
+      puts "\n-----> Found #{@ad_ids.size} ads posted between #{@start_date} and #{@end_date} so far"
+    end
   end
 
   def process_ad_box(ad_box)
@@ -87,26 +94,44 @@ class PlaceGeAdGroup
       end
 
       # Record when the first simple ad is found to allow scraping to finish
-      @found_simple_ad = true if not_found_simple_ad? && ad_box.simple?
+      @found_simple_ad_box = true if not_found_simple_ad_box? && ad_box.simple?
     else
       # First must find simple ad, then stop when the next simple ad is found
-      @finished_scraping = true if found_simple_ad? && ad_box.simple?
+      @finished_scraping_ids = true if found_simple_ad_box? && ad_box.simple?
     end
   end
 
-  def finished_scraping?
-    @finished_scraping
+  def finished_scraping_ids?
+    @finished_scraping_ids
   end
 
-  def not_finished_scraping?
-    !@finished_scraping
+  def not_finished_scraping_ids?
+    !@finished_scraping_ids
   end
 
-  def found_simple_ad?
-    @found_simple_ad
+  def found_simple_ad_box?
+    @found_simple_ad_box
   end
 
-  def not_found_simple_ad?
-    !@found_simple_ad
+  def not_found_simple_ad_box?
+    !@found_simple_ad_box
+  end
+
+  ########################################################################
+  # Scraping full ad info #
+
+  def scrape_ads
+    if @start_date == @end_date
+      puts "\n---> Scraping info of ads posted on #{@start_date}"
+    else
+      puts "\n---> Scraping info of ads posted between #{@start_date} and #{@end_date}"
+    end
+
+    @ads = []
+
+    @ad_ids.each do |ad_id|
+      puts "\n-----> Scraping info for ad with id #{ad_id}"
+      @ads.push(PlaceGeAd.new(ad_id))
+    end
   end
 end

@@ -290,7 +290,7 @@ class PlaceGeAd
     @has_water_supply = @features.include? 'Water supply'
     @has_sewage = @features.include? 'Sewage'
     @has_inventory = nil
-    @has_network = nil
+    @has_network = @features.include? 'Network'
     @has_generator = nil
   end
 
@@ -623,8 +623,7 @@ class PlaceGeAd
   end
 
   def has_network
-    # @has_network
-    'Not scraping'
+    @has_network
   end
 
   def has_generator

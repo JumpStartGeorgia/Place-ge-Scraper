@@ -10,8 +10,7 @@ class PlaceGeAdGroup
   def initialize(start_date, end_date)
     set_dates(start_date, end_date)
 
-    # scrape_ad_ids
-    @ad_ids = [12345666, 773277342]
+    scrape_ad_ids
     scrape_ads
   end
 
@@ -35,19 +34,23 @@ class PlaceGeAdGroup
     end
   end
 
+  def dates_to_s
+    if @start_date == @end_date
+      "on #{@start_date}"
+    else
+      "between #{@start_date} and #{@end_date}"
+    end
+  end
+
   def to_s
-    "Found #{@ad_ids.size} ads posted between #{@start_date} and #{@end_date}"
+    "Found #{@ad_ids.size} ads posted #{dates_to_s}"
   end
 
   ########################################################################
   # Scrape ad ids #
 
   def scrape_ad_ids
-    if @start_date == @end_date
-      puts "\n---> Finding ids of ads posted on #{@start_date}"
-    else
-      puts "\n---> Finding ids of ads posted between #{@start_date} and #{@end_date}"
-    end
+    puts "\n---> Finding ids of ads posted #{dates_to_s}"
 
     @finished_scraping_ids = false
     @found_simple_ad_box = false
@@ -79,11 +82,7 @@ class PlaceGeAdGroup
       end
     end
 
-    if @start_date == @end_date
-      puts "\n-----> Found #{@ad_ids.size} ads posted on #{@start_date} so far"
-    else
-      puts "\n-----> Found #{@ad_ids.size} ads posted between #{@start_date} and #{@end_date} so far"
-    end
+    puts "\n-----> Found #{@ad_ids.size} ads posted #{dates_to_s} so far"
   end
 
   def process_ad_box(ad_box)
@@ -122,17 +121,13 @@ class PlaceGeAdGroup
   # Scraping full ad info #
 
   def scrape_ads
-    if @start_date == @end_date
-      puts "\n---> Scraping info of ads posted on #{@start_date}"
-    else
-      puts "\n---> Scraping info of ads posted between #{@start_date} and #{@end_date}"
-    end
+    puts "\n---> Scraping info of ads posted #{dates_to_s}"
 
     @ads = []
     @ad_errors = []
 
     @ad_ids.each { |ad_id| scrape_ad(ad_id) }
-    puts "\n\n---> Finished scraping ads!\n\n"
+    puts "\n\n---> Finished scraping ads posted #{dates_to_s}!\n\n"
 
     display_ad_errors unless @ad_errors.empty?
   end

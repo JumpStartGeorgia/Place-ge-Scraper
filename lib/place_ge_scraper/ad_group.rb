@@ -131,10 +131,7 @@ class PlaceGeAdGroup
     @ads = []
     @ad_errors = []
 
-    @ad_ids.each do |ad_id|
-      scrape_ad(ad_id)
-    end
-
+    @ad_ids.each { |ad_id| scrape_ad(ad_id) }
     puts "\n\n---> Finished scraping ads!\n\n"
 
     display_ad_errors unless @ad_errors.empty?

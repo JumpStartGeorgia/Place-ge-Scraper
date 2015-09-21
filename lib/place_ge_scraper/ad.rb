@@ -291,7 +291,7 @@ class PlaceGeAd
     @has_sewage = @features.include? 'Sewage'
     @has_inventory = nil
     @has_network = @features.include? 'Network'
-    @has_generator = nil
+    @has_generator = @features.include? 'Generator'
   end
 
   def scrape_additional_information
@@ -300,7 +300,7 @@ class PlaceGeAd
       .text
       .gsub(/.*Additional information:/m, '')
       .gsub(/\r\n/, ' ')
-      .squeeze(" ")
+      .squeeze(' ')
       .strip
       .to_nil_if_empty
   end
@@ -627,8 +627,7 @@ class PlaceGeAd
   end
 
   def has_generator
-    # @has_generator
-    'Not scraping'
+    @has_generator
   end
 
   def additional_information

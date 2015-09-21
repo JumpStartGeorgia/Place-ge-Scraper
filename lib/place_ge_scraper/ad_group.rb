@@ -71,7 +71,7 @@ class PlaceGeAdGroup
       page_num += 1
     end
 
-    puts "\n--->Finished scraping ad ids; found #{@ad_ids.size} ads\n"
+    puts "\n--->Finished scraping ad ids; found #{@ad_ids.size} total ads\n"
     puts '--------------------------------------------------'
   end
 

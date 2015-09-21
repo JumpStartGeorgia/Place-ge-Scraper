@@ -10,7 +10,8 @@ class PlaceGeAdGroup
   def initialize(start_date, end_date)
     set_dates(start_date, end_date)
 
-    scrape_ad_ids
+    # scrape_ad_ids
+    @ad_ids = [12345666, 773277342]
     scrape_ads
   end
 
@@ -60,7 +61,7 @@ class PlaceGeAdGroup
       page_num += 1
     end
 
-    puts "\nFinished scraping ad ids; found #{@ad_ids.size} ads\n"
+    puts "\n--->Finished scraping ad ids; found #{@ad_ids.size} ads\n"
     puts '--------------------------------------------------'
   end
 
@@ -128,10 +129,32 @@ class PlaceGeAdGroup
     end
 
     @ads = []
+    @ad_errors = []
 
     @ad_ids.each do |ad_id|
-      puts "\n-----> Scraping info for ad with id #{ad_id}"
+      scrape_ad(ad_id)
+    end
+
+    puts "\n\n---> Finished scraping ads!\n\n"
+
+    display_ad_errors unless @ad_errors.empty?
+  end
+
+  def scrape_ad(ad_id)
+    puts "\n-----> Scraping info for ad with id #{ad_id}"
+    begin
       @ads.push(PlaceGeAd.new(ad_id))
+    rescue StandardError => error
+      puts "-------> ERROR! Ad ID #{ad_id} had following error while being scraped: #{error.inspect}"
+      @ad_errors.push([ad_id, error])
+    end
+  end
+
+  def display_ad_errors
+    puts '--------------------------------------------------'
+    puts "#{@ad_errors.size} ads had errors and could not be scraped:\n\n"
+    @ad_errors.each_with_index do |ad_error, index|
+      puts "#{index + 1}: AD ID #{ad_error[0]} Error - #{ad_error[1]}"
     end
   end
 end

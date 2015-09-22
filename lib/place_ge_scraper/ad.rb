@@ -645,4 +645,11 @@ class PlaceGeAd
   def seller_name
     @seller_name
   end
+
+  ########################################################################
+  # Save to database #
+
+  def save
+
+  end
 end

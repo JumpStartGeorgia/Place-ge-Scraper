@@ -1,9 +1,4 @@
-require 'nokogiri'
-require 'open-uri'
-require 'pry-byebug'
-require_relative 'ad'
-require_relative 'ad_box'
-require_relative 'helper'
+require_relative '../../environment'
 
 # Group of place.ge real estate ads
 class PlaceGeAdGroup

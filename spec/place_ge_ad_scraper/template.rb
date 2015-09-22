@@ -1,3 +1,5 @@
+require_relative '../../environment'
+
 test_place_ge_ad(id, {
   place_ge_id: id,
   link: "http://place.ge/en/ads/view/#{id}",

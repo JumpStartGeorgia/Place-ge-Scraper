@@ -1,3 +1,5 @@
+require_relative '../../environment'
+
 # Adds place.ge specific helper methods to String
 class String
   def remove_non_numbers

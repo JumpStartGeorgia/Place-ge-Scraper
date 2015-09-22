@@ -1,8 +1,4 @@
-require 'nokogiri'
-require 'open-uri'
-require 'fileutils'
-require 'pry-byebug'
-require_relative 'helper'
+require_relative '../../environment'
 
 # Real estate ad on place.ge
 class PlaceGeAd

@@ -1,4 +1,4 @@
-require 'place_ge_scraper/ad'
+require_relative '../../environment'
 
 def test_place_ge_ad(id, expected)
   describe 'PlaceGeAd' do

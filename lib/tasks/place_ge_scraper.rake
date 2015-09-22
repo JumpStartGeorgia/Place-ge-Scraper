@@ -1,4 +1,4 @@
-load 'lib/place_ge_scraper/ad_group.rb'
+require_relative '../../environment'
 
 desc 'Scrape ads posted on place.ge today'
 task :scrape_ads_posted_today do

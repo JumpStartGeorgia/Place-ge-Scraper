@@ -1,3 +1,4 @@
+require_relative '../../environment'
 
 # Box containing summary of a place.ge real estate ad. Used in lists of
 # real estate ads. This scraper uses these ad boxes when searching for ads

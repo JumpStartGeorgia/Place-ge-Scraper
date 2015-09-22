@@ -12,6 +12,7 @@ class PlaceGeAdGroup
 
     scrape_ad_ids
     scrape_ads
+    save_ads
   end
 
   def set_dates(start_date, end_date)
@@ -153,5 +154,20 @@ class PlaceGeAdGroup
     @ad_errors.each_with_index do |ad_error, index|
       puts "#{index + 1}: AD ID #{ad_error[0]} Error - #{ad_error[1]}"
     end
+  end
+
+  ########################################################################
+  # Save ads to database #
+
+  def save_ads
+    puts '--------------------------------------------------'
+    puts '---> Saving ads to database'
+    @ads.each { |ad| save_ad(ad) }
+    puts '---> Finished saving ads to database'
+  end
+
+  def save_ad(ad)
+    puts "-----> Saving ad ID #{ad.place_ge_id} to database"
+    ad.save
   end
 end

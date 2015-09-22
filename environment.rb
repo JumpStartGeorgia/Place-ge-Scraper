@@ -5,6 +5,8 @@ require 'fileutils'
 require 'pry-byebug'
 require 'active_record'
 require 'mysql2'
+require 'yaml'
+require 'erb'
 
 # recursively requires all files in ./lib and down that end in .rb
 Dir.glob('./lib/*').each do |folder|
@@ -14,13 +16,5 @@ Dir.glob('./lib/*').each do |folder|
 end
 
 # tells AR what db file to use
-ActiveRecord::Base.establish_connection(
-  adapter: 'mysql2',
-  database: ENV['DB_NAME'],
-  username: ENV['DB_USERNAME'],
-  password: ENV['DB_PASSWORD'],
-  encoding: 'utf8',
-  host: 'localhost',
-  port: 3306,
-  reconnect: true
-)
+db_config = YAML.load(ERB.new(File.read('db/config.yml')).result)['default']
+ActiveRecord::Base.establish_connection(db_config)

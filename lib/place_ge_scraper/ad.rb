@@ -646,18 +646,8 @@ class PlaceGeAd
   # Save to database #
 
   def save
-    db_config = YAML.load_file('database.yml')
-
-    mysql = Mysql2::Client.new(
-      database: ENV['DB_NAME'],
-      username: ENV['DB_USERNAME'],
-      password: ENV['DB_PASSWORD'],
-      encoding: 'utf8',
-      host: 'localhost',
-      port: 3306,
-      reconnect: true
+    RealEstateAd.create(
+      place_ge_id: place_ge_id
     )
-
-    binding.pry
   end
 end

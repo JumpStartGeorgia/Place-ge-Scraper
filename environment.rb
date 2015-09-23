@@ -21,3 +21,4 @@ end
 # tells AR what db file to use
 db_config = YAML.load(ERB.new(File.read('db/config.yml')).result)['default']
 ActiveRecord::Base.establish_connection(db_config)
+ActiveRecord::Base.logger = Logger.new(STDOUT)

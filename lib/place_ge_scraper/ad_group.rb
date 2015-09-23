@@ -7,7 +7,6 @@ class PlaceGeAdGroup
 
     scrape_ad_ids
     scrape_ads
-    save_ads
   end
 
   def set_dates(start_date, end_date)

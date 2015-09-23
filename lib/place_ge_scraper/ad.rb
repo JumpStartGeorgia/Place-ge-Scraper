@@ -507,6 +507,10 @@ class PlaceGeAd
     @balcony_count
   end
 
+  def features
+    @features
+  end
+
   def is_bank_real_estate
     @is_bank_real_estate
   end

@@ -647,7 +647,8 @@ class PlaceGeAd
 
   def save
     RealEstateAd.create(
-      place_ge_id: place_ge_id
+      place_ge_id: place_ge_id,
+      link: link
     )
   end
 end

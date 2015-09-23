@@ -1,4 +1,8 @@
-# require gems
+# load .env variables
+require 'dotenv'
+Dotenv.load
+
+# require other gems
 require 'nokogiri'
 require 'open-uri'
 require 'fileutils'

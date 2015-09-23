@@ -2,8 +2,9 @@ require_relative '../../environment'
 
 # Group of place.ge real estate ads
 class PlaceGeAdGroup
-  def initialize(start_date, end_date)
+  def initialize(start_date, end_date, ad_limit)
     set_dates(start_date, end_date)
+    @ad_limit = ad_limit
 
     scrape_ad_ids
     scrape_ads
@@ -49,6 +50,7 @@ class PlaceGeAdGroup
   #    the date criteria, the scraper stops scraping IDs.
   def scrape_ad_ids
     puts "\n---> Finding ids of ads posted #{dates_to_s}"
+    puts "---> Number of ad ids limited to #{@ad_limit}" unless @ad_limit.nil?
 
     @finished_scraping_ids = false
     @found_simple_ad_box = false
@@ -92,9 +94,14 @@ class PlaceGeAdGroup
         puts "-------> Found #{ad_box.id} (posted on #{ad_box.pub_date})"
       end
     else
-      # Determine whether to stop scraping
+      # Stop scraping if the ad box is not between the dates, is simple, and
+      # another simple ad box has been found
       @finished_scraping_ids = true if found_simple_ad_box? && ad_box.simple?
     end
+
+    # If the number of desired ads is limited, and the number of ad ids
+    # has reached that limit, stop scraping.
+    @finished_scraping_ids = true if !@ad_limit.nil? && @ad_ids.size == @ad_limit
   end
 
   def finished_scraping_ids?

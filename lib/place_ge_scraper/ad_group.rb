@@ -5,8 +5,7 @@ class PlaceGeAdGroup
   def initialize(start_date, end_date)
     set_dates(start_date, end_date)
 
-    # scrape_ad_ids
-    @ad_ids = [252686]
+    scrape_ad_ids
     scrape_ads
     save_ads
   end

@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'nokogiri', '~> 1.6.6.2'
-gem 'mysql2', '~> 0.3.20'
+gem 'mysql2', '~> 0.3.18'
 gem 'dotenv', '~> 2.0.2'
 gem 'activerecord', '~> 4.2.4'
 gem 'standalone_migrations', '~> 4.0.2'

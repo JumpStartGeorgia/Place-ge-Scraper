@@ -14,7 +14,6 @@ require 'erb'
 
 # recursively requires all files in ./lib and down that end in .rb
 Dir.glob('./lib/**/*.rb').each do |file|
-  puts "#{file}"
   require file
 end
 

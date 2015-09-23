@@ -2,14 +2,12 @@ require_relative '../../environment'
 
 desc 'Scrape ads posted on place.ge today'
 task :scrape_ads_posted_today do
-  ad_group = PlaceGeAdGroup.new(Date.today, Date.today)
-  ad_group.to_s
+  PlaceGeAdGroup.new(Date.today, Date.today)
 end
 
 desc 'Scrape ads posted on place.ge yesterday'
 task :scrape_ads_posted_yesterday do
-  ad_group = PlaceGeAdGroup.new(Date.today - 1, Date.today - 1)
-  ad_group.to_s
+  PlaceGeAdGroup.new(Date.today - 1, Date.today - 1)
 end
 
 desc 'Scrape ads posted within provided time period; parameters should be in format yyyy-mm-dd, as in [2015-09-12,2015-09-14]'
@@ -23,8 +21,7 @@ task :scrape_ads_posted_in_time_period, [:start_date, :end_date] do |_t, args|
   start_date = Date.strptime(args[:start_date], '%Y-%m-%d')
   end_date = Date.strptime(args[:end_date], '%Y-%m-%d')
 
-  ad_group = PlaceGeAdGroup.new(start_date, end_date)
-  ad_group.to_s
+  PlaceGeAdGroup.new(start_date, end_date)
 end
 
 desc 'Scrape place.ge real estate ad by id'

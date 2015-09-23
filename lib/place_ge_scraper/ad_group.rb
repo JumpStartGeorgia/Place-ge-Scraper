@@ -38,10 +38,6 @@ class PlaceGeAdGroup
     end
   end
 
-  def to_s
-    "Found #{@ad_ids.size} ads posted #{dates_to_s}"
-  end
-
   ########################################################################
   # Scrape ad ids #
 

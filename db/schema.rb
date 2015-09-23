@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150922093402) do
+ActiveRecord::Schema.define(version: 20150923070344) do
 
-  create_table 'real_estate_ads', force: :cascade do |t|
-    t.integer 'place_ge_id', limit: 4
+  create_table "real_estate_ads", force: :cascade do |t|
+    t.integer "place_ge_id", limit: 4
+    t.string  "link",        limit: 255
   end
 
 end

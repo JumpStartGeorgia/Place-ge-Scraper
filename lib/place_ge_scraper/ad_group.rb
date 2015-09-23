@@ -154,11 +154,11 @@ class PlaceGeAdGroup
     puts '--------------------------------------------------'
     puts '---> Saving ads to database'
     @ads.each { |ad| save_ad(ad) }
-    puts '---> Finished saving ads to database'
+    puts "\n---> Finished saving ads to database"
   end
 
   def save_ad(ad)
-    puts "-----> Saving ad ID #{ad.place_ge_id} to database"
+    puts "\n-----> Saving ad ID #{ad.place_ge_id} to database\n\n"
     ad.save
   end
 end

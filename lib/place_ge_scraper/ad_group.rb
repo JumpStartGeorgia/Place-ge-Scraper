@@ -50,7 +50,7 @@ class PlaceGeAdGroup
   #    the date criteria, the scraper stops scraping IDs.
   def scrape_ad_ids
     puts "\n---> Finding ids of ads posted #{dates_to_s}"
-    puts "---> Number of ad ids limited to #{@ad_limit}" unless @ad_limit.nil?
+    puts "---> Number of ad limited to #{@ad_limit}" unless @ad_limit.nil?
 
     @finished_scraping_ids = false
     @found_simple_ad_box = false

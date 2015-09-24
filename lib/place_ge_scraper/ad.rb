@@ -295,7 +295,7 @@ class PlaceGeAd
     @has_gas = @features.include? 'Gas'
     @has_water_supply = @features.include? 'Water supply'
     @has_sewage = @features.include? 'Sewage'
-    @has_inventory = nil
+    @has_inventory = @features.include? 'Implements'
     @has_network = @features.include? 'Network'
     @has_generator = @features.include? 'Generator'
   end
@@ -506,10 +506,7 @@ class PlaceGeAd
 
   attr_reader :has_sewage
 
-  def has_inventory
-    # @has_inventory
-    'Not scraping'
-  end
+  attr_reader :has_inventory
 
   attr_reader :has_network
 

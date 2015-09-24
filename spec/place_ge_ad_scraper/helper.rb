@@ -284,7 +284,6 @@ def test_place_ge_ad(id, expected)
       end
 
       it 'has_inventory is correct' do
-        skip('Need to scrape features string for this feature before enabling this test')
         expect(@ad.has_inventory).to eq(expected[:has_inventory])
       end
 

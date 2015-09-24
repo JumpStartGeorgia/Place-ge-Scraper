@@ -56,6 +56,6 @@ namespace :scraper do
   def clean_limit(unclean_limit)
     return nil if unclean_limit.nil?
     return nil unless unclean_limit =~ /[[:digit:]]/
-    return unclean_limit.to_i
+    unclean_limit.to_i
   end
 end

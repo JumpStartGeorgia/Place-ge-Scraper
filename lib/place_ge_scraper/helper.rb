@@ -26,6 +26,6 @@ end
 # Adds place.ge specific helper methods to Nokogiri
 class Nokogiri::XML::Node
   def detail_value(detail_label)
-    self.xpath("//*[contains(concat(' ', @class, ' '), ' detailBox2 ' )][contains(., '#{detail_label}')]//*[contains(concat(' ', @class, ' '), ' detailRight ')]/text()").text
+    xpath("//*[contains(concat(' ', @class, ' '), ' detailBox2 ' )][contains(., '#{detail_label}')]//*[contains(concat(' ', @class, ' '), ' detailRight ')]/text()").text
   end
 end

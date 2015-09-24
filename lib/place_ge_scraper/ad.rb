@@ -341,105 +341,55 @@ class PlaceGeAd
 
   ########################################################################
   ######################## Field Getters #################################
-  def place_ge_id
-    @place_ge_id
-  end
+  attr_reader :place_ge_id
 
-  def link
-    @link
-  end
+  attr_reader :link
 
-  def time_of_scrape
-    @time_of_scrape
-  end
+  attr_reader :time_of_scrape
 
-  def html_copy_path
-    @html_copy_path
-  end
+  attr_reader :html_copy_path
 
-  def page
-    @page
-  end
+  attr_reader :page
 
-  def publication_date
-    @publication_date
-  end
+  attr_reader :publication_date
 
-  def deal_type
-    @deal_type
-  end
+  attr_reader :deal_type
 
-  def property_type
-    @property_type
-  end
+  attr_reader :property_type
 
-  def city_id
-    @city_id
-  end
+  attr_reader :city_id
 
-  def city
-    @city
-  end
+  attr_reader :city
 
-  def region_id
-    @region_id
-  end
+  attr_reader :region_id
 
-  def region
-    @region
-  end
+  attr_reader :region
 
-  def district_id
-    @district_id
-  end
+  attr_reader :district_id
 
-  def district
-    @district
-  end
+  attr_reader :district
 
-  def street_id
-    @street_id
-  end
+  attr_reader :street_id
 
-  def street
-    @street
-  end
+  attr_reader :street
 
-  def is_urgent
-    @is_urgent
-  end
+  attr_reader :is_urgent
 
-  def price
-    @price
-  end
+  attr_reader :price
 
-  def price_per_area_unit
-    @price_per_area_unit
-  end
+  attr_reader :price_per_area_unit
 
-  def price_currency
-    @price_currency
-  end
+  attr_reader :price_currency
 
-  def price_timeframe
-    @price_timeframe
-  end
+  attr_reader :price_timeframe
 
-  def area
-    @area
-  end
+  attr_reader :area
 
-  def area_unit
-    @area_unit
-  end
+  attr_reader :area_unit
 
-  def land_area
-    @land_area
-  end
+  attr_reader :land_area
 
-  def land_area_unit
-    @land_area_unit
-  end
+  attr_reader :land_area_unit
 
   def distance_from_tbilisi
     # @distance_from_tbilisi
@@ -451,21 +401,13 @@ class PlaceGeAd
     'Not scraping'
   end
 
-  def function
-    @function
-  end
+  attr_reader :function
 
-  def condition
-    @condition
-  end
+  attr_reader :condition
 
-  def project
-    @project
-  end
+  attr_reader :project
 
-  def status
-    @status
-  end
+  attr_reader :status
 
   def array
     # @array
@@ -482,117 +424,61 @@ class PlaceGeAd
     'Not scraping'
   end
 
-  def building_number
-    @building_number
-  end
+  attr_reader :building_number
 
-  def apartment_number
-    @apartment_number
-  end
+  attr_reader :apartment_number
 
-  def address
-    @address
-  end
+  attr_reader :address
 
-  def floor_number
-    @floor_number
-  end
+  attr_reader :floor_number
 
-  def total_floor_count
-    @total_floor_count
-  end
+  attr_reader :total_floor_count
 
-  def room_count
-    @room_count
-  end
+  attr_reader :room_count
 
-  def bathroom_count
-    @bathroom_count
-  end
+  attr_reader :bathroom_count
 
-  def bedroom_count
-    @bedroom_count
-  end
+  attr_reader :bedroom_count
 
-  def balcony_count
-    @balcony_count
-  end
+  attr_reader :balcony_count
 
-  def features
-    @features
-  end
+  attr_reader :features
 
-  def is_bank_real_estate
-    @is_bank_real_estate
-  end
+  attr_reader :is_bank_real_estate
 
-  def has_garage_or_parking
-    @has_garage_or_parking
-  end
+  attr_reader :has_garage_or_parking
 
-  def has_lift
-    @has_lift
-  end
+  attr_reader :has_lift
 
-  def has_furniture
-    @has_furniture
-  end
+  attr_reader :has_furniture
 
-  def has_fireplace
-    @has_fireplace
-  end
+  attr_reader :has_fireplace
 
-  def has_storage_area
-    @has_storage_area
-  end
+  attr_reader :has_storage_area
 
-  def has_wardrobe
-    @has_wardrobe
-  end
+  attr_reader :has_wardrobe
 
-  def has_air_conditioning
-    @has_air_conditioning
-  end
+  attr_reader :has_air_conditioning
 
-  def has_heating
-    @has_heating
-  end
+  attr_reader :has_heating
 
-  def has_loggia
-    @has_loggia
-  end
+  attr_reader :has_loggia
 
-  def has_appliances
-    @has_appliances
-  end
+  attr_reader :has_appliances
 
-  def has_hot_water
-    @has_hot_water
-  end
+  attr_reader :has_hot_water
 
-  def has_tv
-    @has_tv
-  end
+  attr_reader :has_tv
 
-  def has_phone
-    @has_phone
-  end
+  attr_reader :has_phone
 
-  def has_internet
-    @has_internet
-  end
+  attr_reader :has_internet
 
-  def has_alarm
-    @has_alarm
-  end
+  attr_reader :has_alarm
 
-  def has_doorphone
-    @has_doorphone
-  end
+  attr_reader :has_doorphone
 
-  def has_security
-    @has_security
-  end
+  attr_reader :has_security
 
   def has_conference_hall
     # @has_conference_hall
@@ -604,58 +490,34 @@ class PlaceGeAd
     'Not scraping'
   end
 
-  def has_veranda
-    @has_veranda
-  end
+  attr_reader :has_veranda
 
-  def is_mansard
-    @is_mansard
-  end
+  attr_reader :is_mansard
 
-  def has_electricity
-    @has_electricity
-  end
+  attr_reader :has_electricity
 
-  def has_gas
-    @has_gas
-  end
+  attr_reader :has_gas
 
-  def has_water_supply
-    @has_water_supply
-  end
+  attr_reader :has_water_supply
 
-  def has_sewage
-    @has_sewage
-  end
+  attr_reader :has_sewage
 
   def has_inventory
     # @has_inventory
     'Not scraping'
   end
 
-  def has_network
-    @has_network
-  end
+  attr_reader :has_network
 
-  def has_generator
-    @has_generator
-  end
+  attr_reader :has_generator
 
-  def additional_information
-    @additional_information
-  end
+  attr_reader :additional_information
 
-  def telephone_number
-    @telephone_number
-  end
+  attr_reader :telephone_number
 
-  def seller_type
-    @seller_type
-  end
+  attr_reader :seller_type
 
-  def seller_name
-    @seller_name
-  end
+  attr_reader :seller_name
 
   ########################################################################
   # Save to database #

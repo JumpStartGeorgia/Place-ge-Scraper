@@ -85,14 +85,20 @@ class PlaceGeAdGroup
   end
 
   def process_ad_box(ad_box)
-    @found_simple_ad_box = true if not_found_simple_ad_box? && ad_box.simple?
-
     if ad_box.between_dates?(@start_date, @end_date)
       # Save ad id if it has not been saved to @ad_ids yet
       unless @ad_ids.include?(ad_box.id)
         @ad_ids.push(ad_box.id)
         puts "-------> Found #{ad_box.id} (posted on #{ad_box.pub_date})"
       end
+
+      # Simple ads are listed in reverse chronological order. Therefore, if
+      # the ad group has an end date before today, the scraper should continue
+      # until it finds at least one simple ad box that matches the desired time
+      # period. Then, the scraper would stop when it finds a simple ad box
+      # that does not match the time period (meaning that it is before the
+      # start date).
+      @found_simple_ad_box = true if not_found_simple_ad_box? && ad_box.simple?
     else
       # Stop scraping if the ad box is not between the dates, is simple, and
       # another simple ad box has been found

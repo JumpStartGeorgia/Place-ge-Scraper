@@ -15,7 +15,7 @@ class AddOtherDataToRealEstateAds < ActiveRecord::Migration
     add_column :real_estate_ads, :deal_type, :string
     add_column :real_estate_ads, :district, :string
     add_column :real_estate_ads, :district_id, :integer
-    add_column :real_estate_ads, :features, :string
+    add_column :real_estate_ads, :features, :text
     add_column :real_estate_ads, :floor_number, :string
     add_column :real_estate_ads, :function, :string
     add_column :real_estate_ads, :has_air_conditioning, :boolean

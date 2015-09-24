@@ -290,7 +290,13 @@ class PlaceGeAd
   end
 
   def scrape_features
-    @features = @page.xpath("//div[contains(concat(' ', @class, ' '), ' detailBox22 ' )]/following-sibling::p").text
+    pars_after_detail_box = @page.xpath("//div[contains(concat(' ', @class, ' '), ' detailBox22 ' )]/following-sibling::p")
+    if pars_after_detail_box.empty? || pars_after_detail_box[0].text == 'View on the Map'
+      @features = ''
+    else
+      @features = pars_after_detail_box[0].text
+    end
+
     get_individual_features
     @features = nil if @features.empty?
   end

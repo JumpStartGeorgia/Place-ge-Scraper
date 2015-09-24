@@ -39,7 +39,6 @@ class AddOtherDataToRealEstateAds < ActiveRecord::Migration
     add_column :real_estate_ads, :has_phone, :boolean
     add_column :real_estate_ads, :has_security, :boolean
     add_column :real_estate_ads, :has_sewage, :boolean
-    add_column :real_estate_ads, :has_showcase, :boolean
     add_column :real_estate_ads, :has_storage_area, :boolean
     add_column :real_estate_ads, :has_tv, :boolean
     add_column :real_estate_ads, :has_veranda, :boolean

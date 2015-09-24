@@ -254,11 +254,6 @@ def test_place_ge_ad(id, expected)
         expect(@ad.has_stained_glass_windows).to eq(expected[:has_stained_glass_windows])
       end
 
-      it 'has_showcase is correct' do
-        skip('Need to scrape features string for this feature before enabling this test')
-        expect(@ad.has_showcase).to eq(expected[:has_showcase])
-      end
-
       it 'has_veranda is correct' do
         expect(@ad.has_veranda).to eq(expected[:has_veranda])
       end

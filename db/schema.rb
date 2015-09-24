@@ -54,7 +54,6 @@ ActiveRecord::Schema.define(version: 20_150_923_084_446) do
     t.boolean 'has_phone'
     t.boolean 'has_security'
     t.boolean 'has_sewage'
-    t.boolean 'has_showcase'
     t.boolean 'has_storage_area'
     t.boolean 'has_tv'
     t.boolean 'has_veranda'

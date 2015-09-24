@@ -61,7 +61,6 @@ test_place_ge_ad(
   has_security: false,
   has_conference_hall: false,
   has_stained_glass_windows: false,
-  has_showcase: false,
   has_veranda: false,
   is_mansard: false,
   has_electricity: true,

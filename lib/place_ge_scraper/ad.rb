@@ -257,8 +257,7 @@ class PlaceGeAd
     @page.detail_value('Appartment No.').to_nil_if_empty
   end
 
-  def scrape_features
-    @features = @page.xpath("//div[contains(concat(' ', @class, ' '), ' detailBox22 ' )]/following-sibling::p").text
+  def get_individual_features
     @is_bank_real_estate = @features.include? 'Banking Real Estate'
     @has_garage_or_parking = @features.include? 'Garage / Parking'
     @has_lift = @features.include? 'Elevator'
@@ -288,6 +287,12 @@ class PlaceGeAd
     @has_inventory = nil
     @has_network = @features.include? 'Network'
     @has_generator = @features.include? 'Generator'
+  end
+
+  def scrape_features
+    @features = @page.xpath("//div[contains(concat(' ', @class, ' '), ' detailBox22 ' )]/following-sibling::p").text
+    get_individual_features
+    @features = nil if @features.empty?
   end
 
   def scrape_additional_information

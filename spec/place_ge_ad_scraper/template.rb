@@ -40,6 +40,7 @@ test_place_ge_ad(
   bathroom_count: nil,
   bedroom_count: nil,
   balcony_count: nil,
+  features: nil,
   is_bank_real_estate: false,
   has_garage_or_parking: false,
   has_lift: false,

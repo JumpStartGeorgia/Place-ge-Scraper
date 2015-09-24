@@ -56,6 +56,7 @@ class PlaceGeAd
 
     scrape_floor_info
 
+    @distance_from_tbilisi = scrape_distance_from_tbilisi
     @function = scrape_function
     @condition = scrape_condition
     @status = scrape_status
@@ -229,6 +230,10 @@ class PlaceGeAd
     end
   end
 
+  def scrape_distance_from_tbilisi
+    @page.detail_value('Distance from Tbilisi, km').to_nil_if_empty
+  end
+
   def scrape_function
     @page.detail_value('Function').to_nil_if_empty
   end
@@ -391,10 +396,7 @@ class PlaceGeAd
 
   attr_reader :land_area_unit
 
-  def distance_from_tbilisi
-    # @distance_from_tbilisi
-    'Not scraping'
-  end
+  attr_reader :distance_from_tbilisi
 
   def distance_from_main_road
     # @distance_from_main_road

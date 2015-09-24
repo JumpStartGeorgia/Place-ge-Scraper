@@ -96,7 +96,6 @@ def test_place_ge_ad(id, expected)
       end
 
       it 'distance_from_tbilisi is correct' do
-        skip('Have not found a place.ge ad with this field')
         expect(@ad.distance_from_tbilisi).to eq(expected[:distance_from_tbilisi])
       end
 

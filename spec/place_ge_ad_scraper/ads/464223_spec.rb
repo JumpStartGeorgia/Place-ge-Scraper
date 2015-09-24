@@ -39,6 +39,7 @@ test_place_ge_ad(464223, {
   bathroom_count: '2',
   bedroom_count: '1',
   balcony_count: nil,
+  features: 'Storeroom, Dressing room, Furniture, Appliances, Air conditioning, Heating, Hot water, Television, Internet, Elevator.',
   is_bank_real_estate: false,
   has_garage_or_parking: false,
   has_lift: true,

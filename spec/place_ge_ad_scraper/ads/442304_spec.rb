@@ -39,6 +39,7 @@ test_place_ge_ad(442304, {
   bathroom_count: '1',
   bedroom_count: '1',
   balcony_count: '1',
+  features: 'Elevator.',
   is_bank_real_estate: false,
   has_garage_or_parking: false,
   has_lift: true,

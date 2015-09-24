@@ -39,6 +39,7 @@ test_place_ge_ad(459002, {
   bathroom_count: '1',
   bedroom_count: '1',
   balcony_count: nil,
+  features: 'Loggia, Heating, Hot water, Television, Telephone, Internet.',
   is_bank_real_estate: false,
   has_garage_or_parking: false,
   has_lift: false,

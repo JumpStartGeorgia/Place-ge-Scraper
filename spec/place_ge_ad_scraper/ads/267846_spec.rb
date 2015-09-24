@@ -39,6 +39,7 @@ test_place_ge_ad(267846, {
   bathroom_count: '1',
   bedroom_count: '1',
   balcony_count: nil,
+  features: 'Garage / Parking, Appliances, Air conditioning, Heating, Hot water, Television, Telephone, Internet, Doorphone, Guard, Elevator.',
   is_bank_real_estate: false,
   has_garage_or_parking: true,
   has_lift: true,

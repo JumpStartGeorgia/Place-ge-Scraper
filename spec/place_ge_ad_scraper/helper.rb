@@ -172,6 +172,10 @@ def test_place_ge_ad(id, expected)
         expect(@ad.balcony_count).to eq(expected[:balcony_count])
       end
 
+      it 'features is correct' do
+        expect(@ad.features).to eq(expected[:features])
+      end
+
       it 'is_bank_real_estate is correct' do
         expect(@ad.is_bank_real_estate).to eq(expected[:is_bank_real_estate])
       end

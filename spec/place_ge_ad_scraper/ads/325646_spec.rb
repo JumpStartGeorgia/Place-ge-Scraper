@@ -39,6 +39,7 @@ test_place_ge_ad(325646, {
   bathroom_count: '3',
   bedroom_count: '4',
   balcony_count: '2',
+  features: nil,
   is_bank_real_estate: false,
   has_garage_or_parking: false,
   has_lift: false,

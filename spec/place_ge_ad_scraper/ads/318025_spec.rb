@@ -39,6 +39,7 @@ test_place_ge_ad(318025, {
   bathroom_count: '2',
   bedroom_count: '6',
   balcony_count: '1',
+  features: 'Garage / Parking, Furniture, Appliances, Porch, Mansard.',
   is_bank_real_estate: false,
   has_garage_or_parking: true,
   has_lift: false,

@@ -39,6 +39,7 @@ test_place_ge_ad(468513, {
   bathroom_count: '2',
   bedroom_count: '4',
   balcony_count: '1',
+  features: 'Garage / Parking, Storeroom, Dressing room, Furniture, Heating, Hot water, Television, Internet, Porch.',
   is_bank_real_estate: false,
   has_garage_or_parking: true,
   has_lift: false,

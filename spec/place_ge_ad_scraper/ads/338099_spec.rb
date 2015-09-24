@@ -39,6 +39,7 @@ test_place_ge_ad(338099, {
   bathroom_count: '1',
   bedroom_count: nil,
   balcony_count: nil,
+  features: 'Heating, Hot water.',
   is_bank_real_estate: false,
   has_garage_or_parking: false,
   has_lift: false,

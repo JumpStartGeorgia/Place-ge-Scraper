@@ -39,6 +39,7 @@ test_place_ge_ad(428272, {
   bathroom_count: '15',
   bedroom_count: nil,
   balcony_count: '1',
+  features: 'Banking Real Estate, Storeroom, Heating, Hot water.',
   is_bank_real_estate: true,
   has_garage_or_parking: false,
   has_lift: false,

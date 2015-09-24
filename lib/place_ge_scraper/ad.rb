@@ -286,7 +286,8 @@ class PlaceGeAd
     @has_alarm = @features.include? 'Alarm'
     @has_doorphone = @features.include? 'Doorphone'
     @has_security = @features.include? 'Guard'
-    @has_conference_hall = nil
+    @has_conference_hall = @features.include? 'Conference hall'
+    @has_stained_glass_windows = @features.include? 'Stained-glass windows'
     @has_showcase = nil
     @has_veranda = @features.include? 'Porch'
     @is_mansard = @features.include? 'Mansard'
@@ -484,10 +485,9 @@ class PlaceGeAd
 
   attr_reader :has_security
 
-  def has_conference_hall
-    # @has_conference_hall
-    'Not scraping'
-  end
+  attr_reader :has_conference_hall
+
+  attr_reader :has_stained_glass_windows
 
   def has_showcase
     # @has_showcase

@@ -60,6 +60,7 @@ test_place_ge_ad(
   has_doorphone: false,
   has_security: false,
   has_conference_hall: false,
+  has_stained_glass_windows: false,
   has_showcase: false,
   has_veranda: true,
   is_mansard: true,

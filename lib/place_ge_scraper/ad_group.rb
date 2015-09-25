@@ -49,7 +49,7 @@ class PlaceGeAdGroup
   # 3. Checks simple ads. When a simple ad is found that does not match
   #    the date criteria, the scraper stops scraping IDs.
   def scrape_ad_ids
-    puts "\n---> Finding ids of ads posted #{dates_to_s}"
+    ScraperLog.logger.info("\n---> Finding ids of ads posted #{dates_to_s}")
     puts "---> Number of ad limited to #{@ad_limit}" unless @ad_limit.nil?
 
     @finished_scraping_ids = false

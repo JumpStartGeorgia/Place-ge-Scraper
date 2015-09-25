@@ -3,6 +3,7 @@ require_relative '../../environment'
 namespace :scraper do
   desc 'Scrape ads posted on place.ge today'
   task :scrape_ads_posted_today, [:limit] do |_t, args|
+    ScraperLog.logger.info 'INVOKED TASK: Scraping ads posted today'
     limit = clean_limit(args[:limit])
     ad_group = PlaceGeAdGroup.new(Date.today, Date.today, limit)
     ad_group.save_ads
@@ -10,6 +11,7 @@ namespace :scraper do
 
   desc 'Scrape ads posted on place.ge yesterday'
   task :scrape_ads_posted_yesterday, [:limit] do |_t, args|
+    ScraperLog.logger.info 'INVOKED TASK: Scraping ads posted yesterday'
     limit = clean_limit(args[:limit])
     ad_group = PlaceGeAdGroup.new(Date.today - 1, Date.today - 1, limit)
     ad_group.save_ads
@@ -17,6 +19,8 @@ namespace :scraper do
 
   desc 'Scrape ads posted within provided time period; parameters should be in format yyyy-mm-dd, as in [2015-09-12,2015-09-14]'
   task :scrape_ads_posted_in_time_period, [:start_date, :end_date, :limit] do |_t, args|
+    ScraperLog.logger.info "INVOKED TASK: Scraping ads posted between #{args[:start_date]} and #{args[:end_date]}"
+
     if args[:start_date].nil?
       ScraperLog.logger.error 'Please provide a start date'
     elsif args[:end_date].nil?
@@ -45,7 +49,7 @@ namespace :scraper do
   desc 'Open place.ge real estate ad in default browser'
   task :open_ad_in_browser, [:place_ge_ad_id] do |_t, args|
     if args[:place_ge_ad_id].nil?
-      ScraperLog.logger.error 'Please provide a place.ge ad ID as an argument.'
+      puts 'Please provide a place.ge ad ID as an argument.'
       return
     end
 

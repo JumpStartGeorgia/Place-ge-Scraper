@@ -119,20 +119,17 @@ def test_place_ge_ad(id, expected)
         expect(@ad.status).to eq(expected[:status])
       end
 
-      it 'array is correct' do
-        skip('Have not found a place.ge ad with this field')
-        expect(@ad.array).to eq(expected[:array])
-      end
-
-      it 'quarter is correct' do
-        skip('Have not found a place.ge ad with this field')
-        expect(@ad.quarter).to eq(expected[:quarter])
-      end
-
-      it 'neighborhood is correct' do
-        skip('Have not found a place.ge ad with this field')
-        expect(@ad.neighborhood).to eq(expected[:neighborhood])
-      end
+      # it 'array is correct' do
+      #   expect(@ad.array).to eq(expected[:array])
+      # end
+      #
+      # it 'quarter is correct' do
+      #   expect(@ad.quarter).to eq(expected[:quarter])
+      # end
+      #
+      # it 'neighborhood is correct' do
+      #   expect(@ad.neighborhood).to eq(expected[:neighborhood])
+      # end
 
       it 'building_number is correct' do
         expect(@ad.building_number).to eq(expected[:building_number])

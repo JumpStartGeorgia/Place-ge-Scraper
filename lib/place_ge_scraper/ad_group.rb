@@ -75,8 +75,12 @@ class PlaceGeAdGroup
   end
 
   def scrape_ad_ids_from_page(link)
-    ScraperLog.logger.info "Scraping #{link}"
+    ScraperLog.logger.info "Retrieving #{link}"
     page = Nokogiri.HTML(open(link))
+    ScraperLog.logger.info "Data retrieved from #{link}"
+
+    ScraperLog.logger.info "Scraping #{link}"
+
     ad_boxes = page.css('.tr-line')
 
     ad_boxes.each do |ad_box_html|

@@ -4,10 +4,9 @@ This project grabs information about real estate ads posted on place.ge and stor
 
 ## Setup
 
-1. Install mysql and choose a mysql user to access the database.
-2. Make a copy of the file .env.example in the root directory called .env. Add your database name, the database user and the password for that user.
-3. Run 'rake db:create db:migrate' to setup the database.
-4. Scrape!
+1. Make a copy of the file .env.example in the root directory called .env. Add your mysql database name, the database user and the password for that user.
+2. Run 'rake db:create db:migrate' to setup the database.
+3. Scrape!
 
 ## Scraper tasks
 

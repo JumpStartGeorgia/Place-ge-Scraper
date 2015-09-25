@@ -56,7 +56,14 @@ class PlaceGeAdGroup
     @found_simple_ad_box = false
     @ad_ids = []
     page_num = 1
-    limit = 1000
+
+    if @ad_limit.nil? || @ad_limit > 1000
+      limit = 1000
+    elsif @ad_limit < 100
+      limit = 100
+    else
+      limit = @ad_limit
+    end
 
     while not_finished_scraping_ids?
       link = "http://place.ge/ge/ads/page:#{page_num}?object_type=all&currency_id=2&mode=list&order_by=date&limit=#{limit}"

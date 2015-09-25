@@ -141,12 +141,10 @@ class PlaceGeAdGroup
     ScraperLog.logger.info "Scraping info of ads posted #{dates_to_s}"
 
     @ads = []
-    @ad_errors = []
+    @ad_scrape_errors = []
 
     @ad_ids.each { |ad_id| scrape_ad(ad_id) }
     ScraperLog.logger.info "Finished scraping ads posted #{dates_to_s}!"
-
-    display_ad_errors unless @ad_errors.empty?
   end
 
   def scrape_ad(ad_id)
@@ -155,14 +153,7 @@ class PlaceGeAdGroup
       @ads.push(PlaceGeAd.new(ad_id))
     rescue StandardError => error
       ScraperLog.logger.error "Ad ID #{ad_id} had following error while being scraped: #{error.inspect}"
-      @ad_errors.push([ad_id, error])
-    end
-  end
-
-  def display_ad_errors
-    ScraperLog.logger.info "#{@ad_errors.size} ads had errors and could not be scraped:"
-    @ad_errors.each_with_index do |ad_error, index|
-      ScraperLog.logger.info "#{index + 1}: AD ID #{ad_error[0]} Error - #{ad_error[1]}"
+      @ad_scrape_errors.push([ad_id, error])
     end
   end
 
@@ -170,6 +161,8 @@ class PlaceGeAdGroup
   # Save ads to database #
 
   def save_ads
+    @ad_save_errors = []
+
     ScraperLog.logger.info 'Saving ads to database'
     @ads.each { |ad| save_ad(ad) }
     ScraperLog.logger.info 'Finished saving ads to database'
@@ -177,6 +170,33 @@ class PlaceGeAdGroup
 
   def save_ad(ad)
     ScraperLog.logger.info "Saving ad ID #{ad.place_ge_id} to database"
-    ad.save
+    begin
+      ad.save
+    rescue StandardError => error
+      ScraperLog.logger.error "Ad ID #{ad.place_ge_id} had following error while being saved: #{error.inspect}"
+      @ad_save_errors.push([ad.place_ge_id, error])
+    end
+  end
+
+  ########################################################################
+  # Display errors #
+
+  def display_errors
+    display_ad_scrape_errors unless @ad_scrape_errors.empty?
+    display_ad_save_errors unless @ad_save_errors.empty?
+  end
+
+  def display_ad_scrape_errors
+    ScraperLog.logger.info "#{@ad_scrape_errors.size} ads could not be scraped due to errors:"
+    @ad_scrape_errors.each_with_index do |ad_error, index|
+      ScraperLog.logger.info "#{index + 1}: AD ID #{ad_error[0]} Error - #{ad_error[1].inspect}"
+    end
+  end
+
+  def display_ad_save_errors
+    ScraperLog.logger.info "#{@ad_save_errors.size} ads could not be saved to database due to errors:"
+    @ad_save_errors.each_with_index do |ad_error, index|
+      ScraperLog.logger.info "#{index + 1}: AD ID #{ad_error[0]} Error - #{ad_error[1].inspect}"
+    end
   end
 end

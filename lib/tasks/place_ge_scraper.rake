@@ -18,9 +18,9 @@ namespace :scraper do
   desc 'Scrape ads posted within provided time period; parameters should be in format yyyy-mm-dd, as in [2015-09-12,2015-09-14]'
   task :scrape_ads_posted_in_time_period, [:start_date, :end_date, :limit] do |_t, args|
     if args[:start_date].nil?
-      puts 'ERROR: Please provide a start date'
+      ScraperLog.logger.error 'Please provide a start date'
     elsif args[:end_date].nil?
-      puts 'ERROR: Please provide an end date'
+      ScraperLog.logger.error 'Please provide an end date'
     end
 
     start_date = Date.strptime(args[:start_date], '%Y-%m-%d')
@@ -45,7 +45,7 @@ namespace :scraper do
   desc 'Open place.ge real estate ad in default browser'
   task :open_ad_in_browser, [:place_ge_ad_id] do |_t, args|
     if args[:place_ge_ad_id].nil?
-      puts 'Error: Please provide a place.ge ad ID as an argument.'
+      ScraperLog.logger.error 'Please provide a place.ge ad ID as an argument.'
       return
     end
 

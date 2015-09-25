@@ -40,7 +40,7 @@ Add your stage-specific deploy variables to the files in config/deploy.
 #### Options (mina deploy <options>)
 
 [precompile=true]  forces precompile assets
-[verbose=true]            outputs more information (default is quieter and prettier)
+[verbose=true]            outScraperLog.logger.info more information (default is quieter and prettier)
 
 ### Commands
 

@@ -19,13 +19,13 @@ class PlaceGeAdGroup
 
   def check_dates_are_valid
     if @start_date > @end_date
-      puts "\nERROR: The start date cannot be after the end date\n\n"
+      ScraperLog.logger.error 'The start date cannot be after the end date'
       fail
     elsif @start_date > Date.today
-      puts "\nERROR: The start date cannot be after today\n\n"
+      ScraperLog.logger.error 'The start date cannot be after today'
       fail
     elsif @end_date > Date.today
-      puts "\nERROR: The end date cannot be after today\n\n"
+      ScraperLog.logger.error 'The end date cannot be after today'
       fail
     end
   end
@@ -49,8 +49,8 @@ class PlaceGeAdGroup
   # 3. Checks simple ads. When a simple ad is found that does not match
   #    the date criteria, the scraper stops scraping IDs.
   def scrape_ad_ids
-    ScraperLog.logger.info("\n---> Finding ids of ads posted #{dates_to_s}")
-    puts "---> Number of ad limited to #{@ad_limit}" unless @ad_limit.nil?
+    ScraperLog.logger.info "Finding ids of ads posted #{dates_to_s}"
+    ScraperLog.logger.info "Number of ad limited to #{@ad_limit}" unless @ad_limit.nil?
 
     @finished_scraping_ids = false
     @found_simple_ad_box = false
@@ -71,13 +71,11 @@ class PlaceGeAdGroup
       page_num += 1
     end
 
-    puts "\n--->Finished scraping ad ids; found #{@ad_ids.size} total ads\n"
-    puts '--------------------------------------------------'
+    ScraperLog.logger.info "Finished scraping ad ids; found #{@ad_ids.size} total ads"
   end
 
   def scrape_ad_ids_from_page(link)
-    puts '--------------------------------------------------'
-    puts "-----> Scraping #{link}"
+    ScraperLog.logger.info "Scraping #{link}"
     page = Nokogiri.HTML(open(link))
     ad_boxes = page.css('.tr-line')
 
@@ -88,7 +86,7 @@ class PlaceGeAdGroup
       break if finished_scraping_ids?
     end
 
-    puts "\n-----> Found #{@ad_ids.size} ads posted #{dates_to_s} so far"
+    ScraperLog.logger.info "Found #{@ad_ids.size} ads posted #{dates_to_s} so far"
   end
 
   def process_ad_box(ad_box)
@@ -96,7 +94,6 @@ class PlaceGeAdGroup
       # Save ad id if it has not been saved to @ad_ids yet
       unless @ad_ids.include?(ad_box.id)
         @ad_ids.push(ad_box.id)
-        puts "-------> Found #{ad_box.id} (posted on #{ad_box.pub_date})"
       end
 
       # Simple ads are listed in reverse chronological order. Therefore, if
@@ -137,32 +134,31 @@ class PlaceGeAdGroup
   # Scraping full ad info #
 
   def scrape_ads
-    puts "\n---> Scraping info of ads posted #{dates_to_s}"
+    ScraperLog.logger.info "Scraping info of ads posted #{dates_to_s}"
 
     @ads = []
     @ad_errors = []
 
     @ad_ids.each { |ad_id| scrape_ad(ad_id) }
-    puts "\n\n---> Finished scraping ads posted #{dates_to_s}!\n\n"
+    ScraperLog.logger.info "Finished scraping ads posted #{dates_to_s}!"
 
     display_ad_errors unless @ad_errors.empty?
   end
 
   def scrape_ad(ad_id)
-    puts "\n-----> Scraping info for ad with id #{ad_id}"
+    ScraperLog.logger.info "Scraping info for ad with id #{ad_id}"
     begin
       @ads.push(PlaceGeAd.new(ad_id))
     rescue StandardError => error
-      puts "-------> ERROR! Ad ID #{ad_id} had following error while being scraped: #{error.inspect}"
+      ScraperLog.logger.error "Ad ID #{ad_id} had following error while being scraped: #{error.inspect}"
       @ad_errors.push([ad_id, error])
     end
   end
 
   def display_ad_errors
-    puts '--------------------------------------------------'
-    puts "#{@ad_errors.size} ads had errors and could not be scraped:\n\n"
+    ScraperLog.logger.info "#{@ad_errors.size} ads had errors and could not be scraped:"
     @ad_errors.each_with_index do |ad_error, index|
-      puts "#{index + 1}: AD ID #{ad_error[0]} Error - #{ad_error[1]}"
+      ScraperLog.logger.info "#{index + 1}: AD ID #{ad_error[0]} Error - #{ad_error[1]}"
     end
   end
 
@@ -170,14 +166,13 @@ class PlaceGeAdGroup
   # Save ads to database #
 
   def save_ads
-    puts '--------------------------------------------------'
-    puts '---> Saving ads to database'
+    ScraperLog.logger.info 'Saving ads to database'
     @ads.each { |ad| save_ad(ad) }
-    puts "\n---> Finished saving ads to database"
+    ScraperLog.logger.info 'Finished saving ads to database'
   end
 
   def save_ad(ad)
-    puts "\n-----> Saving ad ID #{ad.place_ge_id} to database\n\n"
+    ScraperLog.logger.info "Saving ad ID #{ad.place_ge_id} to database"
     ad.save
   end
 end

@@ -584,6 +584,8 @@ class PlaceGeAd
       seller_name: seller_name,
       seller_type: seller_type,
       status: status,
+      street: street,
+      street_id: street_id,
       telephone_number: telephone_number,
       time_of_scrape: time_of_scrape,
       total_floor_count: total_floor_count

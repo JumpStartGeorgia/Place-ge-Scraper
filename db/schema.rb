@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_150_925_062_425) do
+ActiveRecord::Schema.define(version: 20_150_925_081_653) do
   create_table 'ad_entries', force: :cascade do |t|
     t.integer 'place_ge_id',            limit: 4
     t.string 'link',                   limit: 255
@@ -81,5 +81,17 @@ ActiveRecord::Schema.define(version: 20_150_925_062_425) do
     t.string 'telephone_number',       limit: 255
     t.time 'time_of_scrape'
     t.string 'total_floor_count',      limit: 255
+    t.string 'street',                 limit: 255
+    t.integer 'street_id',              limit: 4
   end
+
+  add_index 'ad_entries', ['area'], name: 'index_ad_entries_on_area', using: :btree
+  add_index 'ad_entries', ['city_id'], name: 'index_ad_entries_on_city_id', using: :btree
+  add_index 'ad_entries', ['district_id'], name: 'index_ad_entries_on_district_id', using: :btree
+  add_index 'ad_entries', ['land_area'], name: 'index_ad_entries_on_land_area', using: :btree
+  add_index 'ad_entries', ['place_ge_id'], name: 'index_ad_entries_on_place_ge_id', using: :btree
+  add_index 'ad_entries', ['price'], name: 'index_ad_entries_on_price', using: :btree
+  add_index 'ad_entries', ['price_timeframe'], name: 'index_ad_entries_on_price_timeframe', using: :btree
+  add_index 'ad_entries', ['region_id'], name: 'index_ad_entries_on_region_id', using: :btree
+  add_index 'ad_entries', ['street_id'], name: 'index_ad_entries_on_street_id', using: :btree
 end

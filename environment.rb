@@ -20,7 +20,7 @@ end
 # tells AR what db file to use
 db_config = YAML.load(ERB.new(File.read('db/config.yml')).result)['default']
 ActiveRecord::Base.establish_connection(db_config)
-ActiveRecord::Base.logger = Logger.new(STDOUT)
+ActiveRecord::Base.logger = Logger.new('log/db.log')
 
 ActiveSupport::Inflector.inflections do |inflect|
   # Tell ad_entry to use 'ad_entries' as plural, not 'ad_entrys'

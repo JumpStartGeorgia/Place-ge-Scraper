@@ -143,7 +143,13 @@ class PlaceGeAdGroup
     @ads = []
     @ad_scrape_errors = []
 
-    @ad_ids.each { |ad_id| scrape_ad(ad_id) }
+    @ad_ids.each_with_index do |ad_id, index|
+      scrape_ad(ad_id)
+      remaining_ads_to_scrape = @ad_ids.size - (index + 1)
+      if remaining_ads_to_scrape % 20 == 0
+        ScraperLog.logger.info "#{remaining_ads_to_scrape} ads remaining to be scraped"
+      end
+    end
     ScraperLog.logger.info "Finished scraping ads posted #{dates_to_s}!"
   end
 

@@ -599,6 +599,5 @@ class PlaceGeAd
       time_of_scrape: time_of_scrape,
       total_floor_count: total_floor_count
     )
-    binding.pry
   end
 end

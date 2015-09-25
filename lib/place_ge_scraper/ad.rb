@@ -75,6 +75,19 @@ class PlaceGeAd
     scrape_seller_info
   end
 
+  def set_breadcrum_field_defaults
+    @deal_type = nil
+    @property_type = nil
+    @city_id = nil
+    @city = nil
+    @region_id = nil
+    @region = nil
+    @district_id = nil
+    @district = nil
+    @street_id = nil
+    @street = nil
+  end
+
   def set_field_from_param(param, link_text)
     param_name = param.slice(0, param.index('='))
     param_value = param.slice(param.index('=') + 1, param.size)
@@ -100,6 +113,8 @@ class PlaceGeAd
   end
 
   def scrape_breadcrums_info
+    set_breadcrum_field_defaults
+
     breadcrums = @page.css('div.breadcrums a')
     breadcrums.delete(breadcrums[0]) # Remove Home link
 
@@ -523,6 +538,8 @@ class PlaceGeAd
       city_id: city_id,
       condition: condition,
       deal_type: deal_type,
+      distance_from_main_road: distance_from_main_road,
+      distance_from_tbilisi: distance_from_tbilisi,
       district: district,
       district_id: district_id,
       features: features,
@@ -549,6 +566,7 @@ class PlaceGeAd
       has_phone: has_phone,
       has_security: has_security,
       has_sewage: has_sewage,
+      has_stained_glass_windows: has_stained_glass_windows,
       has_storage_area: has_storage_area,
       has_tv: has_tv,
       has_veranda: has_veranda,

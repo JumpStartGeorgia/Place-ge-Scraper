@@ -11,8 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_150_923_084_446) do
-  create_table 'real_estate_ads', force: :cascade do |t|
+ActiveRecord::Schema.define(version: 20_150_925_062_425) do
+  create_table 'ad_entries', force: :cascade do |t|
     t.integer 'place_ge_id',            limit: 4
     t.string 'link',                   limit: 255
     t.text 'additional_information', limit: 65_535

@@ -518,7 +518,7 @@ class PlaceGeAd
   # Save to database #
 
   def save
-    RealEstateAd.create(
+    AdEntry.create(
       additional_information: additional_information,
       address: address,
       apartment_number: apartment_number,

@@ -8,6 +8,7 @@ namespace :scraper do
     ad_group = PlaceGeAdGroup.new(Date.today, Date.today, limit)
     ad_group.save_ads
     ad_group.display_errors
+    ad_group.email_errors
   end
 
   desc 'Scrape ads posted on place.ge yesterday'

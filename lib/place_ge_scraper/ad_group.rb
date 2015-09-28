@@ -187,6 +187,21 @@ class PlaceGeAdGroup
   ########################################################################
   # Display errors #
 
+  def email_errors
+    return if @ad_save_errors.empty? && @ad_scrape_errors.empty?
+
+    # Send email with attachment.
+    error_mail = Mail.new do
+      from     ENV['GMAIL_USER']
+      to       'nathan.shane@jumpstart.ge'
+      subject  'Place.Ge Scraper Errors'
+      body     'LOTS OF ERRORS!!!!'
+    end
+
+    # Don't forget delivery
+    error_mail.deliver!
+  end
+
   def display_errors
     display_ad_scrape_errors unless @ad_scrape_errors.empty?
     display_ad_save_errors unless @ad_save_errors.empty?

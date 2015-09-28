@@ -11,6 +11,7 @@ require 'active_record'
 require 'mysql2'
 require 'yaml'
 require 'erb'
+require 'mail'
 
 # recursively requires all files in ./lib and down that end in .rb
 Dir.glob('./lib/**/*.rb').each do |file|
@@ -25,4 +26,16 @@ ActiveRecord::Base.logger = Logger.new('log/db.log')
 ActiveSupport::Inflector.inflections do |inflect|
   # Tell ad_entry to use 'ad_entries' as plural, not 'ad_entrys'
   inflect.irregular 'ad_entry', 'ad_entries'
+end
+
+# Set up delivery defaults to use Gmail
+Mail.defaults do
+  delivery_method :smtp, {
+    address: 'smtp.gmail.com',
+    port: '587',
+    user_name: ENV['GMAIL_USER'],
+    password: ENV['GMAIL_PASSWORD'],
+    authentication: :plain,
+    enable_starttls_auto: true
+  }
 end

@@ -185,39 +185,52 @@ class PlaceGeAdGroup
   end
 
   ########################################################################
-  # Display errors #
+  # Creating error report #
+
+  def create_error_report
+    @error_report = []
+
+    add_scrape_errors_to_report unless @ad_scrape_errors.nil? || @ad_scrape_errors.empty?
+    add_save_errors_to_report unless @ad_save_errors.nil? || @ad_save_errors.empty?
+  end
+
+  def add_scrape_errors_to_report
+    @error_report.push "#{@ad_scrape_errors.size} out of #{@ad_ids.size} ads could not be scraped due to errors:"
+    @ad_scrape_errors.each_with_index do |ad_error, index|
+      @error_report.push "#{index + 1}: AD ID #{ad_error[0]} Error - #{ad_error[1].inspect}"
+    end
+  end
+
+  def add_save_errors_to_report
+    @error_report.push "#{@ad_save_errors.size} out of #{@ads.size} ads could not be saved to database due to errors:"
+    @ad_save_errors.each_with_index do |ad_error, index|
+      @error_report.push "#{index + 1}: AD ID #{ad_error[0]} Error - #{ad_error[1].inspect}"
+    end
+  end
+
+  ########################################################################
+  # Error-handling (email, log) #
 
   def email_errors
-    return if @ad_save_errors.empty? && @ad_scrape_errors.empty?
+    create_error_report if @error_report.nil?
+    return if @error_report.empty? # Don't send email if no errors
 
-    # Send email with attachment.
+    error_body = @error_report.join("\n")
+
     error_mail = Mail.new do
-      from     ENV['GMAIL_USER']
-      to       'nathan.shane@jumpstart.ge'
-      subject  'Place.Ge Scraper Errors'
-      body     'LOTS OF ERRORS!!!!'
+      from ENV['GMAIL_USER']
+      to 'nathan.shane@jumpstart.ge'
+      subject 'Place.Ge Scraper Errors'
+      body error_body
     end
 
-    # Don't forget delivery
     error_mail.deliver!
   end
 
   def display_errors
-    display_ad_scrape_errors unless @ad_scrape_errors.empty?
-    display_ad_save_errors unless @ad_save_errors.empty?
-  end
+    create_error_report if @error_report.nil?
+    return if @error_report.empty? # Don't log anything if no errors
 
-  def display_ad_scrape_errors
-    ScraperLog.logger.info "#{@ad_scrape_errors.size} ads could not be scraped due to errors:"
-    @ad_scrape_errors.each_with_index do |ad_error, index|
-      ScraperLog.logger.info "#{index + 1}: AD ID #{ad_error[0]} Error - #{ad_error[1].inspect}"
-    end
-  end
-
-  def display_ad_save_errors
-    ScraperLog.logger.info "#{@ad_save_errors.size} ads could not be saved to database due to errors:"
-    @ad_save_errors.each_with_index do |ad_error, index|
-      ScraperLog.logger.info "#{index + 1}: AD ID #{ad_error[0]} Error - #{ad_error[1].inspect}"
-    end
+    @error_report.each { |line| ScraperLog.logger.info line }
   end
 end

@@ -11,10 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_151_002_070_912) do
+ActiveRecord::Schema.define(version: 20_151_002_072_618) do
   create_table 'ad_entries', force: :cascade do |t|
-    t.integer 'place_ge_id',               limit: 4
-    t.string 'link',                      limit: 255
     t.text 'additional_information',    limit: 65_535
     t.string 'address',                   limit: 255
     t.string 'apartment_number',          limit: 255
@@ -86,13 +84,14 @@ ActiveRecord::Schema.define(version: 20_151_002_070_912) do
     t.boolean 'has_stained_glass_windows'
     t.text 'distance_from_main_road',   limit: 65_535
     t.text 'distance_from_tbilisi',     limit: 65_535
+    t.integer 'ad_id',                     limit: 4
   end
 
+  add_index 'ad_entries', ['ad_id'], name: 'index_ad_entries_on_ad_id', using: :btree
   add_index 'ad_entries', ['area'], name: 'index_ad_entries_on_area', using: :btree
   add_index 'ad_entries', ['city_id'], name: 'index_ad_entries_on_city_id', using: :btree
   add_index 'ad_entries', ['district_id'], name: 'index_ad_entries_on_district_id', using: :btree
   add_index 'ad_entries', ['land_area'], name: 'index_ad_entries_on_land_area', using: :btree
-  add_index 'ad_entries', ['place_ge_id'], name: 'index_ad_entries_on_place_ge_id', using: :btree
   add_index 'ad_entries', ['price'], name: 'index_ad_entries_on_price', using: :btree
   add_index 'ad_entries', ['price_timeframe'], name: 'index_ad_entries_on_price_timeframe', using: :btree
   add_index 'ad_entries', ['region_id'], name: 'index_ad_entries_on_region_id', using: :btree
@@ -100,5 +99,9 @@ ActiveRecord::Schema.define(version: 20_151_002_070_912) do
 
   create_table 'ads', force: :cascade do |t|
     t.integer 'place_ge_id', limit: 4
+    t.string 'link',        limit: 255
   end
+
+  add_index 'ads', ['link'], name: 'index_ads_on_link', using: :btree
+  add_index 'ads', ['place_ge_id'], name: 'index_ads_on_place_ge_id', using: :btree
 end

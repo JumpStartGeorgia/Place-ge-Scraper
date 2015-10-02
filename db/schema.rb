@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_151_002_072_618) do
+ActiveRecord::Schema.define(version: 20_151_002_104_009) do
   create_table 'ad_entries', force: :cascade do |t|
     t.text 'additional_information',    limit: 65_535
     t.string 'address',                   limit: 255
@@ -77,7 +77,7 @@ ActiveRecord::Schema.define(version: 20_151_002_072_618) do
     t.string 'seller_type',               limit: 255
     t.string 'status',                    limit: 255
     t.string 'telephone_number',          limit: 255
-    t.time 'time_of_scrape'
+    t.datetime 'time_of_scrape'
     t.string 'total_floor_count',         limit: 255
     t.string 'street',                    limit: 255
     t.integer 'street_id',                 limit: 4

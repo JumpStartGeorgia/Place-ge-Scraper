@@ -5,6 +5,8 @@ def test_place_ge_ad(id, expected)
     describe "ID #{id}" do
       before :context do
         @ad = PlaceGeAd.new(id)
+        @ad.retrieve_page_and_save_html_copy
+        @ad.scrape_all
       end
 
       it 'place_ge_id is correct' do

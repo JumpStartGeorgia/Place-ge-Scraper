@@ -47,6 +47,8 @@ namespace :scraper do
     end
 
     ad = PlaceGeAd.new(args[:place_ge_ad_id])
+    ad.retrieve_page_and_save_html_copy
+    ad.scrape_all
     puts ad.to_s
   end
 

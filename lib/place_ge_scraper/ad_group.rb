@@ -156,7 +156,10 @@ class PlaceGeAdGroup
   def scrape_ad(ad_id)
     ScraperLog.logger.info "Scraping info for ad with id #{ad_id}"
     begin
-      @ads.push(PlaceGeAd.new(ad_id))
+      ad = PlaceGeAd.new(ad_id)
+      ad.retrieve_page_and_save_html_copy
+      ad.scrape_all
+      @ads.push(ad)
     rescue StandardError => error
       ScraperLog.logger.error "Ad ID #{ad_id} had following error while being scraped: #{error.inspect}"
       @ad_scrape_errors.push([ad_id, error])

@@ -6,8 +6,10 @@ class PlaceGeAd
     @place_ge_id = place_ge_ad_id
     @link = "http://place.ge/en/ads/view/#{place_ge_id}"
     @time_of_scrape = Time.now
+  end
 
-    # Saves copies of scraped ad html in <project_dir>/place_ge_ads_html/
+  # Saves copies of scraped ad html in <project_dir>/place_ge_ads_html/
+  def retrieve_page_and_save_html_copy
     FileUtils.mkdir_p 'system/place_ge_ads_html'
     open(ad_source_file_path, 'wb') do |file|
       open(@link) do |uri|
@@ -18,8 +20,6 @@ class PlaceGeAd
         @page = Nokogiri::HTML(ad_source)
       end
     end
-
-    scrape_all
   end
 
   def ad_source_file_path

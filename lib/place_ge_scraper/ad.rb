@@ -366,159 +366,159 @@ class PlaceGeAd
 
   ########################################################################
   ######################## Field Getters #################################
-  attr_reader :place_ge_id
+  attr_accessor :place_ge_id
 
-  attr_reader :link
+  attr_accessor :link
 
-  attr_reader :time_of_scrape
+  attr_accessor :time_of_scrape
 
-  attr_reader :html_copy_path
+  attr_accessor :html_copy_path
 
-  attr_reader :page
+  attr_accessor :page
 
-  attr_reader :publication_date
+  attr_accessor :publication_date
 
-  attr_reader :deal_type
+  attr_accessor :deal_type
 
-  attr_reader :property_type
+  attr_accessor :property_type
 
-  attr_reader :city_id
+  attr_accessor :city_id
 
-  attr_reader :city
+  attr_accessor :city
 
-  attr_reader :region_id
+  attr_accessor :region_id
 
-  attr_reader :region
+  attr_accessor :region
 
-  attr_reader :district_id
+  attr_accessor :district_id
 
-  attr_reader :district
+  attr_accessor :district
 
-  attr_reader :street_id
+  attr_accessor :street_id
 
-  attr_reader :street
+  attr_accessor :street
 
-  attr_reader :is_urgent
+  attr_accessor :is_urgent
 
-  attr_reader :price
+  attr_accessor :price
 
-  attr_reader :price_per_area_unit
+  attr_accessor :price_per_area_unit
 
-  attr_reader :price_currency
+  attr_accessor :price_currency
 
-  attr_reader :price_timeframe
+  attr_accessor :price_timeframe
 
-  attr_reader :area
+  attr_accessor :area
 
-  attr_reader :area_unit
+  attr_accessor :area_unit
 
-  attr_reader :land_area
+  attr_accessor :land_area
 
-  attr_reader :land_area_unit
+  attr_accessor :land_area_unit
 
-  attr_reader :distance_from_tbilisi
+  attr_accessor :distance_from_tbilisi
 
-  attr_reader :distance_from_main_road
+  attr_accessor :distance_from_main_road
 
-  attr_reader :function
+  attr_accessor :function
 
-  attr_reader :condition
+  attr_accessor :condition
 
-  attr_reader :project
+  attr_accessor :project
 
-  attr_reader :status
+  attr_accessor :status
 
-  # attr_reader :array
+  # attr_accessor :array
 
-  # attr_reader :quarter
+  # attr_accessor :quarter
 
-  # attr_reader :neighborhood
+  # attr_accessor :neighborhood
 
-  attr_reader :building_number
+  attr_accessor :building_number
 
-  attr_reader :apartment_number
+  attr_accessor :apartment_number
 
-  attr_reader :address
+  attr_accessor :address
 
-  attr_reader :floor_number
+  attr_accessor :floor_number
 
-  attr_reader :total_floor_count
+  attr_accessor :total_floor_count
 
-  attr_reader :room_count
+  attr_accessor :room_count
 
-  attr_reader :bathroom_count
+  attr_accessor :bathroom_count
 
-  attr_reader :bedroom_count
+  attr_accessor :bedroom_count
 
-  attr_reader :balcony_count
+  attr_accessor :balcony_count
 
-  attr_reader :features
+  attr_accessor :features
 
-  attr_reader :is_bank_real_estate
+  attr_accessor :is_bank_real_estate
 
-  attr_reader :has_garage_or_parking
+  attr_accessor :has_garage_or_parking
 
-  attr_reader :has_lift
+  attr_accessor :has_lift
 
-  attr_reader :has_furniture
+  attr_accessor :has_furniture
 
-  attr_reader :has_fireplace
+  attr_accessor :has_fireplace
 
-  attr_reader :has_storage_area
+  attr_accessor :has_storage_area
 
-  attr_reader :has_wardrobe
+  attr_accessor :has_wardrobe
 
-  attr_reader :has_air_conditioning
+  attr_accessor :has_air_conditioning
 
-  attr_reader :has_heating
+  attr_accessor :has_heating
 
-  attr_reader :has_loggia
+  attr_accessor :has_loggia
 
-  attr_reader :has_appliances
+  attr_accessor :has_appliances
 
-  attr_reader :has_hot_water
+  attr_accessor :has_hot_water
 
-  attr_reader :has_tv
+  attr_accessor :has_tv
 
-  attr_reader :has_phone
+  attr_accessor :has_phone
 
-  attr_reader :has_internet
+  attr_accessor :has_internet
 
-  attr_reader :has_alarm
+  attr_accessor :has_alarm
 
-  attr_reader :has_doorphone
+  attr_accessor :has_doorphone
 
-  attr_reader :has_security
+  attr_accessor :has_security
 
-  attr_reader :has_conference_hall
+  attr_accessor :has_conference_hall
 
-  attr_reader :has_stained_glass_windows
+  attr_accessor :has_stained_glass_windows
 
-  attr_reader :has_veranda
+  attr_accessor :has_veranda
 
-  attr_reader :is_mansard
+  attr_accessor :is_mansard
 
-  attr_reader :has_electricity
+  attr_accessor :has_electricity
 
-  attr_reader :has_gas
+  attr_accessor :has_gas
 
-  attr_reader :has_water_supply
+  attr_accessor :has_water_supply
 
-  attr_reader :has_sewage
+  attr_accessor :has_sewage
 
-  attr_reader :has_inventory
+  attr_accessor :has_inventory
 
-  attr_reader :has_network
+  attr_accessor :has_network
 
-  attr_reader :has_generator
+  attr_accessor :has_generator
 
-  attr_reader :additional_information
+  attr_accessor :additional_information
 
-  attr_reader :telephone_number
+  attr_accessor :telephone_number
 
-  attr_reader :seller_type
+  attr_accessor :seller_type
 
-  attr_reader :seller_name
+  attr_accessor :seller_name
 
   ########################################################################
   # Save to database #

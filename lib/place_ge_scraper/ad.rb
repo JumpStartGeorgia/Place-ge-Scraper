@@ -524,7 +524,25 @@ class PlaceGeAd
   # Save to database #
 
   def save
+    # Look for place_ge_id in ads
+    # If ad already exists with the same place_ge_id, save this info as a new ad_entry on that ad
+    # If ad does not exist with the same place_ge_id, create a new ad with this place_ge_id and link, then a new ad_entry attached to that ad with the remaining info
+
+    ad = Ad.find_by_place_ge_id(place_ge_id)
+
+    if ad.nil?
+      ad = Ad.create(
+        place_ge_id: place_ge_id,
+        link: link
+      )
+    end
+
+    create_ad_entry(ad)
+  end
+
+  def create_ad_entry(ad)
     AdEntry.create(
+      ad: ad,
       additional_information: additional_information,
       address: address,
       apartment_number: apartment_number,
@@ -578,8 +596,6 @@ class PlaceGeAd
       is_urgent: is_urgent,
       land_area: land_area,
       land_area_unit: land_area_unit,
-      link: link,
-      place_ge_id: place_ge_id,
       price: price,
       price_currency: price_currency,
       price_per_area_unit: price_per_area_unit,

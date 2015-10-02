@@ -538,7 +538,16 @@ class PlaceGeAd
     end
 
     new_ad_entry = build_ad_entry(ad.id)
-    new_ad_entry.save
+    should_save = true
+
+    AdEntry.where(ad_id: ad.id).each do |entry_of_same_ad|
+      if entry_of_same_ad.attributes.except('id').except('time_of_scrape') == new_ad_entry.attributes.except('id').except('time_of_scrape')
+        should_save = false
+        break
+      end
+    end
+
+    new_ad_entry.save if should_save
   end
 
   def build_ad_entry(ad_id)

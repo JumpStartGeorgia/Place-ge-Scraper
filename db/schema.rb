@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_150_925_090_317) do
+ActiveRecord::Schema.define(version: 20_151_002_070_912) do
   create_table 'ad_entries', force: :cascade do |t|
     t.integer 'place_ge_id',               limit: 4
     t.string 'link',                      limit: 255
@@ -97,4 +97,8 @@ ActiveRecord::Schema.define(version: 20_150_925_090_317) do
   add_index 'ad_entries', ['price_timeframe'], name: 'index_ad_entries_on_price_timeframe', using: :btree
   add_index 'ad_entries', ['region_id'], name: 'index_ad_entries_on_region_id', using: :btree
   add_index 'ad_entries', ['street_id'], name: 'index_ad_entries_on_street_id', using: :btree
+
+  create_table 'ads', force: :cascade do |t|
+    t.integer 'place_ge_id', limit: 4
+  end
 end

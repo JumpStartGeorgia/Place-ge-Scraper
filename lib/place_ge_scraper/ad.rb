@@ -5,7 +5,7 @@ class PlaceGeAd
   def initialize(place_ge_ad_id)
     @place_ge_id = place_ge_ad_id
     @link = "http://place.ge/en/ads/view/#{place_ge_id}"
-    @time_of_scrape = Time.now
+    @time_of_scrape = Time.now.change(usec: 0).utc
   end
 
   # Saves copies of scraped ad html in <project_dir>/place_ge_ads_html/
@@ -542,12 +542,18 @@ class PlaceGeAd
 
     AdEntry.where(ad_id: ad.id).each do |entry_of_same_ad|
       if entry_of_same_ad.attributes.except('id').except('time_of_scrape') == new_ad_entry.attributes.except('id').except('time_of_scrape')
+        entry_of_same_ad.update_column(:time_of_scrape, time_of_scrape)
         should_save = false
         break
       end
     end
 
-    new_ad_entry.save if should_save
+    if should_save
+      new_ad_entry.save
+      new_ad_entry
+    else
+      false
+    end
   end
 
   def build_ad_entry(ad_id)

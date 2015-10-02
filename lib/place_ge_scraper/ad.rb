@@ -537,11 +537,12 @@ class PlaceGeAd
       )
     end
 
-    create_ad_entry(ad.id)
+    new_ad_entry = build_ad_entry(ad.id)
+    new_ad_entry.save
   end
 
-  def create_ad_entry(ad_id)
-    AdEntry.create(
+  def build_ad_entry(ad_id)
+    AdEntry.new(
       ad_id: ad_id,
       additional_information: additional_information,
       address: address,

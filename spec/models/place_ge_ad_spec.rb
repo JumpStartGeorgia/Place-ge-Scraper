@@ -71,6 +71,7 @@ describe 'PlaceGeAd' do
     new_place_ge_ad.telephone_number = '599076763, 599070026'
     new_place_ge_ad.seller_type = 'Company'
     new_place_ge_ad.seller_name = 'THECO limited'
+    new_place_ge_ad
   end
 
   describe 'save' do

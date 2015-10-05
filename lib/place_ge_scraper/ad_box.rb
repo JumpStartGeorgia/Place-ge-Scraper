@@ -40,4 +40,15 @@ class PlaceGeAdBox
   def between_dates?(start_date, end_date)
     (pub_date >= start_date) && (pub_date <= end_date)
   end
+
+  def link
+    PlaceGeAd.link_for_id(id)
+  end
+
+  def save
+    ad = find_or_create_by_place_ge_id(id, link)
+
+    # Marks the ad as having an entry that needs to be scraped
+    ad.update_column(:has_unscraped_ad_entry, true)
+  end
 end

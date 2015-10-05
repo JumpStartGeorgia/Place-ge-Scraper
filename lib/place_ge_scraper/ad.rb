@@ -4,7 +4,7 @@ require_relative '../../environment'
 class PlaceGeAd
   def initialize(place_ge_ad_id)
     @place_ge_id = place_ge_ad_id
-    @link = "http://place.ge/en/ads/view/#{place_ge_id}"
+    @link = PlaceGeAd.link_for_id(place_ge_id)
     @time_of_scrape = Time.now.change(usec: 0).utc
   end
 
@@ -519,6 +519,13 @@ class PlaceGeAd
   attr_accessor :seller_type
 
   attr_accessor :seller_name
+
+  ########################################################################
+  # Class-level Helper Functions #
+
+  def self.link_for_id(place_ge_id)
+    "http://place.ge/en/ads/view/#{place_ge_id}"
+  end
 
   ########################################################################
   # Save to database #

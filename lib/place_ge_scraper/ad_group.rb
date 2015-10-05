@@ -98,6 +98,7 @@ class PlaceGeAdGroup
       # Save ad id if it has not been saved to @ad_ids yet
       unless @ad_ids.include?(ad_box.id)
         @ad_ids.push(ad_box.id)
+        ad_box.save
       end
 
       # Simple ads are listed in reverse chronological order. Therefore, if

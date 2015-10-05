@@ -11,7 +11,8 @@ class Ad < ActiveRecord::Base
     if ad.nil?
       ad = Ad.create(
         place_ge_id: place_ge_id,
-        link: link
+        link: link,
+        has_unscraped_ad_entry: false
       )
     end
 

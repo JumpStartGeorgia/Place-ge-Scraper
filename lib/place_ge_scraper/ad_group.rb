@@ -6,9 +6,6 @@ class PlaceGeAdGroup
     set_dates(start_date, end_date)
     @ad_limit = ad_limit
     @errors = []
-
-    scrape_ad_ids
-    scrape_ads
   end
 
   def set_dates(start_date, end_date)

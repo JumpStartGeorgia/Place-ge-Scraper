@@ -30,12 +30,11 @@ end
 
 # Set up delivery defaults to use Gmail
 Mail.defaults do
-  delivery_method :smtp, {
-    address: 'smtp.gmail.com',
-    port: '587',
-    user_name: ENV['GMAIL_USER'],
-    password: ENV['GMAIL_PASSWORD'],
-    authentication: :plain,
-    enable_starttls_auto: true
-  }
+  delivery_method :smtp,
+                  address: 'smtp.gmail.com',
+                  port: '587',
+                  user_name: ENV['GMAIL_USER'],
+                  password: ENV['GMAIL_PASSWORD'],
+                  authentication: :plain,
+                  enable_starttls_auto: true
 end

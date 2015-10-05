@@ -52,5 +52,7 @@ class PlaceGeAdBox
 
     # Marks the ad as having an entry that needs to be scraped
     ad.update_column(:has_unscraped_ad_entry, true)
+
+    ad
   end
 end

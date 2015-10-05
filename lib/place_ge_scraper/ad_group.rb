@@ -5,6 +5,7 @@ class PlaceGeAdGroup
   def initialize(start_date, end_date, ad_limit)
     set_dates(start_date, end_date)
     @ad_limit = ad_limit
+    @errors = []
 
     scrape_ad_ids
     scrape_ads
@@ -142,7 +143,6 @@ class PlaceGeAdGroup
     ScraperLog.logger.info "Scraping info of ads posted #{dates_to_s}"
 
     @ads = []
-    @ad_scrape_errors = []
 
     @ad_ids.each_with_index do |ad_id, index|
       scrape_ad(ad_id)
@@ -162,8 +162,9 @@ class PlaceGeAdGroup
       ad.scrape_all
       @ads.push(ad)
     rescue StandardError => error
-      ScraperLog.logger.error "Ad ID #{ad_id} had following error while being scraped: #{error.inspect}"
-      @ad_scrape_errors.push([ad_id, error])
+      error_msg = "Ad ID #{ad_id} had following error while being scraped: #{error.inspect}"
+      ScraperLog.logger.error error_msg
+      @errors.push error_msg
     end
   end
 
@@ -171,8 +172,6 @@ class PlaceGeAdGroup
   # Save ads to database #
 
   def save_ads
-    @ad_save_errors = []
-
     ScraperLog.logger.info 'Saving ads to database'
     @ads.each { |ad| save_ad(ad) }
     ScraperLog.logger.info 'Finished saving ads to database'
@@ -183,41 +182,26 @@ class PlaceGeAdGroup
     begin
       ad.save
     rescue StandardError => error
-      ScraperLog.logger.error "Ad ID #{ad.place_ge_id} had following error while being saved: #{error.inspect}"
-      @ad_save_errors.push([ad.place_ge_id, error])
-    end
-  end
-
-  ########################################################################
-  # Creating error report #
-
-  def create_error_report
-    @error_report = []
-
-    add_scrape_errors_to_report unless @ad_scrape_errors.nil? || @ad_scrape_errors.empty?
-    add_save_errors_to_report unless @ad_save_errors.nil? || @ad_save_errors.empty?
-  end
-
-  def add_scrape_errors_to_report
-    @error_report.push "#{@ad_scrape_errors.size} out of #{@ad_ids.size} ads could not be scraped due to errors:"
-    @ad_scrape_errors.each_with_index do |ad_error, index|
-      @error_report.push "#{index + 1}: AD ID #{ad_error[0]} Error - #{ad_error[1].inspect}"
-    end
-  end
-
-  def add_save_errors_to_report
-    @error_report.push "#{@ad_save_errors.size} out of #{@ads.size} ads could not be saved to database due to errors:"
-    @ad_save_errors.each_with_index do |ad_error, index|
-      @error_report.push "#{index + 1}: AD ID #{ad_error[0]} Error - #{ad_error[1].inspect}"
+      error_msg = "Ad ID #{ad.place_ge_id} had following error while being saved to database: #{error.inspect}"
+      ScraperLog.logger.error error_msg
+      @errors.push error_msg
     end
   end
 
   ########################################################################
   # Error-handling (email, log) #
 
+  def create_error_report
+    @error_report = ['Errors during scrape:']
+
+    @errors.each_with_index do |error_msg, index|
+      @error_report.push("#{index + 1}: #{error_msg}")
+    end
+  end
+
   def email_errors
+    return if @errors.empty? # Don't send email if no errors
     create_error_report if @error_report.nil?
-    return if @error_report.empty? # Don't send email if no errors
 
     error_body = @error_report.join("\n")
 
@@ -232,8 +216,8 @@ class PlaceGeAdGroup
   end
 
   def display_errors
+    return if @errors.empty? # Don't log anything if no errors
     create_error_report if @error_report.nil?
-    return if @error_report.empty? # Don't log anything if no errors
 
     @error_report.each { |line| ScraperLog.logger.info line }
   end

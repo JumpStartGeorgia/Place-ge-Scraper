@@ -536,9 +536,10 @@ class PlaceGeAd
     # If ad does not exist with the same place_ge_id, create a new ad with this place_ge_id and link, then a new ad_entry attached to that ad with the remaining info
 
     ad = Ad.find_or_create_by_place_ge_id(place_ge_id, link)
-
     new_ad_entry = AdEntry.build(self, ad.id)
 
+    # Mark ad as no longer needing to be scraped
+    ad.update_column(:has_unscraped_ad_entry, false)
     if new_ad_entry.should_save?
       new_ad_entry.save
       new_ad_entry

@@ -528,14 +528,7 @@ class PlaceGeAd
     # If ad already exists with the same place_ge_id, save this info as a new ad_entry on that ad
     # If ad does not exist with the same place_ge_id, create a new ad with this place_ge_id and link, then a new ad_entry attached to that ad with the remaining info
 
-    ad = Ad.find_by_place_ge_id(place_ge_id)
-
-    if ad.nil?
-      ad = Ad.create(
-        place_ge_id: place_ge_id,
-        link: link
-      )
-    end
+    ad = Ad.find_or_create_by_place_ge_id(place_ge_id, link)
 
     new_ad_entry = build_ad_entry(ad.id)
     should_save = true

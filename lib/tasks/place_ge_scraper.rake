@@ -6,7 +6,7 @@ namespace :scraper do
     ScraperLog.logger.info 'INVOKED TASK: Scraping ads posted today'
     limit = clean_limit(args[:limit])
     ad_group = PlaceGeAdGroup.new(Date.today, Date.today, limit)
-    ad_group.scrape_ad_ids
+    ad_group.scrape_and_save_ad_ids
     ad_group.scrape_ads
     ad_group.save_ads
     ad_group.log_errors
@@ -18,7 +18,7 @@ namespace :scraper do
     ScraperLog.logger.info 'INVOKED TASK: Scraping ads posted yesterday'
     limit = clean_limit(args[:limit])
     ad_group = PlaceGeAdGroup.new(Date.today - 1, Date.today - 1, limit)
-    ad_group.scrape_ad_ids
+    ad_group.scrape_and_save_ad_ids
     ad_group.scrape_ads
     ad_group.save_ads
     ad_group.log_errors
@@ -40,7 +40,7 @@ namespace :scraper do
     limit = clean_limit(args[:limit])
 
     ad_group = PlaceGeAdGroup.new(start_date, end_date, limit)
-    ad_group.scrape_ad_ids
+    ad_group.scrape_and_save_ad_ids
     ad_group.scrape_ads
     ad_group.save_ads
     ad_group.log_errors

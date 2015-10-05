@@ -46,7 +46,7 @@ class PlaceGeAdGroup
   # 2. Checks all paid ads
   # 3. Checks simple ads. When a simple ad is found that does not match
   #    the date criteria, the scraper stops scraping IDs.
-  def scrape_ad_ids
+  def scrape_and_save_ad_ids
     ScraperLog.logger.info "Finding ids of ads posted #{dates_to_s}"
     ScraperLog.logger.info "Number of ad limited to #{@ad_limit}" unless @ad_limit.nil?
 
@@ -65,14 +65,14 @@ class PlaceGeAdGroup
 
     while not_finished_scraping_ids?
       link = "http://place.ge/ge/ads/page:#{page_num}?object_type=all&currency_id=2&mode=list&order_by=date&limit=#{limit}"
-      scrape_ad_ids_from_page(link)
+      scrape_and_save_ad_ids_from_page(link)
       page_num += 1
     end
 
     ScraperLog.logger.info "Finished scraping ad ids; found #{@ad_ids.size} total ads"
   end
 
-  def scrape_ad_ids_from_page(link)
+  def scrape_and_save_ad_ids_from_page(link)
     ScraperLog.logger.info "Retrieving #{link}"
     page = Nokogiri.HTML(open(link))
     ScraperLog.logger.info "Data retrieved from #{link}"

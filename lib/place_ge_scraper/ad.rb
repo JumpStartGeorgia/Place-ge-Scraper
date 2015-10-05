@@ -530,11 +530,11 @@ class PlaceGeAd
 
     ad = Ad.find_or_create_by_place_ge_id(place_ge_id, link)
 
-    new_ad_entry = build_ad_entry(ad.id)
+    new_ad_entry = AdEntry.build(self, ad.id)
     should_save = true
 
     AdEntry.where(ad_id: ad.id).each do |entry_of_same_ad|
-      if entry_of_same_ad.place_ge_entry_attributes == new_ad_entry.place_ge_entry_attributes
+      if entry_of_same_ad.same_entry?(new_ad_entry)
         entry_of_same_ad.update_column(:time_of_scrape, time_of_scrape)
         should_save = false
         break
@@ -547,82 +547,5 @@ class PlaceGeAd
     else
       false
     end
-  end
-
-  def build_ad_entry(ad_id)
-    AdEntry.new(
-      ad_id: ad_id,
-      additional_information: additional_information,
-      address: address,
-      apartment_number: apartment_number,
-      area: area,
-      area_unit: area_unit,
-      balcony_count: balcony_count,
-      bathroom_count: bathroom_count,
-      bedroom_count: bedroom_count,
-      building_number: building_number,
-      city: city,
-      city_id: city_id,
-      condition: condition,
-      deal_type: deal_type,
-      distance_from_main_road: distance_from_main_road,
-      distance_from_tbilisi: distance_from_tbilisi,
-      district: district,
-      district_id: district_id,
-      features: features,
-      floor_number: floor_number,
-      function: function,
-      has_air_conditioning: has_air_conditioning,
-      has_alarm: has_alarm,
-      has_appliances: has_appliances,
-      has_conference_hall: has_conference_hall,
-      has_doorphone: has_doorphone,
-      has_electricity: has_electricity,
-      has_fireplace: has_fireplace,
-      has_furniture: has_furniture,
-      has_garage_or_parking: has_garage_or_parking,
-      has_gas: has_gas,
-      has_generator: has_generator,
-      has_heating: has_heating,
-      has_hot_water: has_hot_water,
-      has_internet: has_internet,
-      has_inventory: has_inventory,
-      has_lift: has_lift,
-      has_loggia: has_loggia,
-      has_network: has_network,
-      has_phone: has_phone,
-      has_security: has_security,
-      has_sewage: has_sewage,
-      has_stained_glass_windows: has_stained_glass_windows,
-      has_storage_area: has_storage_area,
-      has_tv: has_tv,
-      has_veranda: has_veranda,
-      has_wardrobe: has_wardrobe,
-      has_water_supply: has_water_supply,
-      html_copy_path: html_copy_path,
-      is_bank_real_estate: is_bank_real_estate,
-      is_mansard: is_mansard,
-      is_urgent: is_urgent,
-      land_area: land_area,
-      land_area_unit: land_area_unit,
-      price: price,
-      price_currency: price_currency,
-      price_per_area_unit: price_per_area_unit,
-      price_timeframe: price_timeframe,
-      project: project,
-      property_type: property_type,
-      publication_date: publication_date,
-      region: region,
-      region_id: region_id,
-      room_count: room_count,
-      seller_name: seller_name,
-      seller_type: seller_type,
-      status: status,
-      street: street,
-      street_id: street_id,
-      telephone_number: telephone_number,
-      time_of_scrape: time_of_scrape,
-      total_floor_count: total_floor_count
-    )
   end
 end

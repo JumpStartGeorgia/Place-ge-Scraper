@@ -9,6 +9,8 @@ class PlaceGeAdBox
     @html = html
   end
 
+  attr_writer :id
+
   def scrape_id
     @html.css('.editFilter').children.find { |x| x.text.include? 'ID: ' }.text.remove_non_numbers.to_nil_or_i
   end
@@ -46,7 +48,7 @@ class PlaceGeAdBox
   end
 
   def save
-    ad = find_or_create_by_place_ge_id(id, link)
+    ad = Ad.find_or_create_by_place_ge_id(id, link)
 
     # Marks the ad as having an entry that needs to be scraped
     ad.update_column(:has_unscraped_ad_entry, true)

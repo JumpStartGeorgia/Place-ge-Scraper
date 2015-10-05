@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_151_002_104_009) do
+ActiveRecord::Schema.define(version: 20_151_005_090_217) do
   create_table 'ad_entries', force: :cascade do |t|
     t.text 'additional_information',    limit: 65_535
     t.string 'address',                   limit: 255
@@ -98,8 +98,9 @@ ActiveRecord::Schema.define(version: 20_151_002_104_009) do
   add_index 'ad_entries', ['street_id'], name: 'index_ad_entries_on_street_id', using: :btree
 
   create_table 'ads', force: :cascade do |t|
-    t.integer 'place_ge_id', limit: 4
-    t.string 'link',        limit: 255
+    t.integer 'place_ge_id',            limit: 4
+    t.string 'link',                   limit: 255
+    t.boolean 'has_unscraped_ad_entry'
   end
 
   add_index 'ads', ['link'], name: 'index_ads_on_link', using: :btree

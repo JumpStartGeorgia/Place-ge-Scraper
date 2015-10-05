@@ -215,7 +215,7 @@ class PlaceGeAdGroup
     error_mail.deliver!
   end
 
-  def display_errors
+  def log_errors
     return if @errors.empty? # Don't log anything if no errors
     create_error_report if @error_report.nil?
 

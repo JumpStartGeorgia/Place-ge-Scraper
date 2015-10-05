@@ -7,7 +7,7 @@ namespace :scraper do
     limit = clean_limit(args[:limit])
     ad_group = PlaceGeAdGroup.new(Date.today, Date.today, limit)
     ad_group.save_ads
-    ad_group.display_errors
+    ad_group.log_errors
     ad_group.email_errors
   end
 
@@ -17,7 +17,7 @@ namespace :scraper do
     limit = clean_limit(args[:limit])
     ad_group = PlaceGeAdGroup.new(Date.today - 1, Date.today - 1, limit)
     ad_group.save_ads
-    ad_group.display_errors
+    ad_group.log_errors
   end
 
   desc 'Scrape ads posted within provided time period; parameters should be in format yyyy-mm-dd, as in [2015-09-12,2015-09-14]'
@@ -36,7 +36,7 @@ namespace :scraper do
 
     ad_group = PlaceGeAdGroup.new(start_date, end_date, limit)
     ad_group.save_ads
-    ad_group.display_errors
+    ad_group.log_errors
   end
 
   desc 'Scrape place.ge real estate ad by id'

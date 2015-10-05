@@ -531,17 +531,8 @@ class PlaceGeAd
     ad = Ad.find_or_create_by_place_ge_id(place_ge_id, link)
 
     new_ad_entry = AdEntry.build(self, ad.id)
-    should_save = true
 
-    AdEntry.where(ad_id: ad.id).each do |entry_of_same_ad|
-      if entry_of_same_ad.same_entry?(new_ad_entry)
-        entry_of_same_ad.update_column(:time_of_scrape, time_of_scrape)
-        should_save = false
-        break
-      end
-    end
-
-    if should_save
+    if new_ad_entry.should_save?
       new_ad_entry.save
       new_ad_entry
     else

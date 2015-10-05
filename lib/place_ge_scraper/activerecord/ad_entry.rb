@@ -13,6 +13,21 @@ class AdEntry < ActiveRecord::Base
     place_ge_entry_attributes == second_entry.place_ge_entry_attributes
   end
 
+  def entries_of_same_ad
+    AdEntry.where(ad_id: ad_id)
+  end
+
+  def should_save?
+    entries_of_same_ad.each do |entry_of_same_ad|
+      if same_entry?(entry_of_same_ad)
+        entry_of_same_ad.update_column(:time_of_scrape, time_of_scrape)
+        return false
+      end
+    end
+
+    true
+  end
+
   def self.build(place_ge_ad_info, ad_id)
     new(
       ad_id: ad_id,

@@ -534,7 +534,7 @@ class PlaceGeAd
     should_save = true
 
     AdEntry.where(ad_id: ad.id).each do |entry_of_same_ad|
-      if entry_of_same_ad.attributes.except('id').except('time_of_scrape') == new_ad_entry.attributes.except('id').except('time_of_scrape')
+      if entry_of_same_ad.place_ge_entry_attributes == new_ad_entry.place_ge_entry_attributes
         entry_of_same_ad.update_column(:time_of_scrape, time_of_scrape)
         should_save = false
         break

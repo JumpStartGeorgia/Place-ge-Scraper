@@ -140,15 +140,13 @@ class PlaceGeAdGroup
   end
 
   ########################################################################
-  # Scraping full ad info #
+  # Scraping and saving full ad info #
 
-  def scrape_ads
+  def scrape_and_save_ads
     ScraperLog.logger.info "Scraping info of ads posted #{dates_to_s}"
 
-    @ads = []
-
     @ad_ids.each_with_index do |ad_id, index|
-      scrape_ad(ad_id)
+      scrape_and_save_ad(ad_id)
       remaining_ads_to_scrape = @ad_ids.size - (index + 1)
       if remaining_ads_to_scrape % 20 == 0
         ScraperLog.logger.info "#{remaining_ads_to_scrape} ads remaining to be scraped"
@@ -157,27 +155,18 @@ class PlaceGeAdGroup
     ScraperLog.logger.info "Finished scraping ads posted #{dates_to_s}!"
   end
 
-  def scrape_ad(ad_id)
+  def scrape_and_save_ad(ad_id)
     ScraperLog.logger.info "Scraping info for ad with id #{ad_id}"
     begin
       ad = PlaceGeAd.new(ad_id)
       ad.retrieve_page_and_save_html_copy
       ad.scrape_all
-      @ads.push(ad)
+      save_ad(ad)
     rescue StandardError => error
       error_msg = "Ad ID #{ad_id} had following error while being scraped: #{error.inspect}"
       ScraperLog.logger.error error_msg
       @errors.push error_msg
     end
-  end
-
-  ########################################################################
-  # Save ads to database #
-
-  def save_ads
-    ScraperLog.logger.info 'Saving ads to database'
-    @ads.each { |ad| save_ad(ad) }
-    ScraperLog.logger.info 'Finished saving ads to database'
   end
 
   def save_ad(ad)

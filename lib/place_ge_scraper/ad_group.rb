@@ -36,7 +36,7 @@ class PlaceGeAdGroup
     end
   end
 
-  def run_scraper
+  def run
     yield self
     log_errors
     email_errors

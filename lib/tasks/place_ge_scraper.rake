@@ -6,7 +6,7 @@ namespace :scraper do
     ScraperLog.logger.info 'INVOKED TASK: Scraping ads posted today'
     limit = clean_limit(args[:limit])
 
-    PlaceGeAdGroup.new(Date.today, Date.today, limit).run_scraper do |ad_group|
+    PlaceGeAdGroup.new(Date.today, Date.today, limit).run do |ad_group|
       ad_group.scrape_and_save_ad_ids
       ad_group.scrape_ads
       ad_group.save_ads
@@ -17,12 +17,12 @@ namespace :scraper do
   task :scrape_ads_posted_yesterday, [:limit] do |_t, args|
     ScraperLog.logger.info 'INVOKED TASK: Scraping ads posted yesterday'
     limit = clean_limit(args[:limit])
-    ad_group = PlaceGeAdGroup.new(Date.today - 1, Date.today - 1, limit)
-    ad_group.scrape_and_save_ad_ids
-    ad_group.scrape_ads
-    ad_group.save_ads
-    ad_group.log_errors
-    ad_group.email_errors
+
+    PlaceGeAdGroup.new(Date.today - 1, Date.today - 1, limit).run do |ad_group|
+      ad_group.scrape_and_save_ad_ids
+      ad_group.scrape_ads
+      ad_group.save_ads
+    end
   end
 
   desc 'Scrape ads posted within provided time period; parameters should be in format yyyy-mm-dd, as in [2015-09-12,2015-09-14]'
@@ -39,12 +39,11 @@ namespace :scraper do
     end_date = Date.strptime(args[:end_date], '%Y-%m-%d')
     limit = clean_limit(args[:limit])
 
-    ad_group = PlaceGeAdGroup.new(start_date, end_date, limit)
-    ad_group.scrape_and_save_ad_ids
-    ad_group.scrape_ads
-    ad_group.save_ads
-    ad_group.log_errors
-    ad_group.email_errors
+    PlaceGeAdGroup.new(start_date, end_date, limit).run do |ad_group|
+      ad_group.scrape_and_save_ad_ids
+      ad_group.scrape_ads
+      ad_group.save_ads
+    end
   end
 
   desc 'Scrape place.ge real estate ad by id'

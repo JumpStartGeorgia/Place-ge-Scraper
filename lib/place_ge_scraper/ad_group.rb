@@ -36,6 +36,12 @@ class PlaceGeAdGroup
     end
   end
 
+  def run_scraper
+    yield self
+    log_errors
+    email_errors
+  end
+
   ########################################################################
   # Scrape ad ids #
 

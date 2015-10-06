@@ -5,12 +5,12 @@ namespace :scraper do
   task :scrape_ads_posted_today, [:limit] do |_t, args|
     ScraperLog.logger.info 'INVOKED TASK: Scraping ads posted today'
     limit = clean_limit(args[:limit])
-    ad_group = PlaceGeAdGroup.new(Date.today, Date.today, limit)
-    ad_group.scrape_and_save_ad_ids
-    ad_group.scrape_ads
-    ad_group.save_ads
-    ad_group.log_errors
-    ad_group.email_errors
+
+    PlaceGeAdGroup.new(Date.today, Date.today, limit).run_scraper do |ad_group|
+      ad_group.scrape_and_save_ad_ids
+      ad_group.scrape_ads
+      ad_group.save_ads
+    end
   end
 
   desc 'Scrape ads posted on place.ge yesterday'

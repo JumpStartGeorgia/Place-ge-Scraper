@@ -5,6 +5,10 @@ require_relative '../../../environment'
 class Ad < ActiveRecord::Base
   has_many :ad_entries
 
+  def self.with_unscraped_entry
+    where(has_unscraped_ad_entry: true)
+  end
+
   def self.find_or_create_by_place_ge_id(place_ge_id, link)
     ad = find_by_place_ge_id(place_ge_id)
 

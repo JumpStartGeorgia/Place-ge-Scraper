@@ -80,7 +80,14 @@ class PlaceGeAdGroup
 
   def scrape_and_save_ad_ids_from_page(link)
     ScraperLog.logger.info "Retrieving #{link}"
-    page = Nokogiri.HTML(open(link))
+    begin
+      page = Nokogiri.HTML(open(link))
+    rescue StandardError => error
+      error_msg = "Error while scraping ad ids from #{link}: #{error.inspect}"
+      ScraperLog.logger.error error_msg
+      @errors.push error_msg
+      return false
+    end
 
     ScraperLog.logger.info "Data successfully retrieved from #{link}"
     ScraperLog.logger.info "Scraping #{link}"
@@ -186,7 +193,7 @@ class PlaceGeAdGroup
   # Error-handling (email, log) #
 
   def create_error_report
-    @error_report = ['Errors during scrape:']
+    @error_report = ['Errors thrown by scraper:']
 
     @errors.each_with_index do |error_msg, index|
       @error_report.push("#{index + 1}: #{error_msg}")

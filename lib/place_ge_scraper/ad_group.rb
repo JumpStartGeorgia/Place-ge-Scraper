@@ -2,7 +2,7 @@ require_relative '../../environment'
 
 # Group of place.ge real estate ads
 class PlaceGeAdGroup
-  def initialize(start_date, end_date, ad_limit)
+  def initialize(start_date = Date.today, end_date = Date.today, ad_limit = 0)
     set_dates(start_date, end_date)
     @ad_limit = ad_limit
     @errors = []
@@ -81,8 +81,8 @@ class PlaceGeAdGroup
   def scrape_and_save_ad_ids_from_page(link)
     ScraperLog.logger.info "Retrieving #{link}"
     page = Nokogiri.HTML(open(link))
-    ScraperLog.logger.info "Data retrieved from #{link}"
 
+    ScraperLog.logger.info "Data successfully retrieved from #{link}"
     ScraperLog.logger.info "Scraping #{link}"
 
     ad_boxes = page.css('.tr-line')
@@ -142,8 +142,10 @@ class PlaceGeAdGroup
   ########################################################################
   # Scraping and saving full ad info #
 
-  def scrape_and_save_ads
-    ScraperLog.logger.info "Scraping info of ads posted #{dates_to_s}"
+  def scrape_and_save_unscraped_ad_entries
+    ScraperLog.logger.info 'Scraping info of ads flagged as unscraped'
+
+    @ad_ids = Ad.with_unscraped_entry.map(&:place_ge_id)
 
     @ad_ids.each_with_index do |ad_id, index|
       scrape_and_save_ad(ad_id)
@@ -152,7 +154,7 @@ class PlaceGeAdGroup
         ScraperLog.logger.info "#{remaining_ads_to_scrape} ads remaining to be scraped"
       end
     end
-    ScraperLog.logger.info "Finished scraping ads posted #{dates_to_s}!"
+    ScraperLog.logger.info 'Finished scraping ads flagged as unscraped'
   end
 
   def scrape_and_save_ad(ad_id)

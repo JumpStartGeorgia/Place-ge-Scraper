@@ -16,7 +16,7 @@ Ads on place.ge are often updated with new publication dates or other informatio
 ## How the scraper works
 
 There are two main steps involved in scraping ad info and storing it in the database:
-  1. Scrape the ad ids -> The scraper goes and finds the ids for ads that have been posted in a certain time period. In the process, it saves these ids in the `ads` table, flagging each of them with `has_unscraped_ad_entry`. This includes rake tasks such as `rake scraper:scrape_ad_ids_posted_today`.
+  1. Scrape the ad ids -> The scraper goes and finds the ids for ads that have been posted in a certain time period. In the process, it saves these ids in the `ads` table, flagging each of them with `has_unscraped_ad_entry`. This can be done with commands such as `rake scraper:scrape_ad_ids_posted_today`.
   2. Scrape the ad info -> The scraper gets all the ads from the database that are flagged with `has_unscraped_ad_entry`, and then goes and scrapes the data for those ads. To do this, run `rake scraper:scrape_ads_flagged_unscraped`.
 
 ## Scraper task examples

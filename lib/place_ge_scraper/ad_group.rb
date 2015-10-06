@@ -210,7 +210,7 @@ class PlaceGeAdGroup
 
     error_mail = Mail.new do
       from ENV['GMAIL_USER']
-      to 'nathan.shane@jumpstart.ge'
+      to ENV['ERROR_RECEIVER_EMAIL']
       subject 'Place.Ge Scraper Errors'
       body error_body
     end

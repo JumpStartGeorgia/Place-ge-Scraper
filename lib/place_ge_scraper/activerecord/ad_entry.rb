@@ -2,6 +2,8 @@ require_relative '../../../environment'
 
 # An ActiveRecord class for saving data in a place.ge ad entry in a database
 class AdEntry < ActiveRecord::Base
+  belongs_to :ad
+
   # Gets all attributes except for id and time of scrape, which are unrelated
   # to the actual info on place.ge
   def place_ge_entry_attributes

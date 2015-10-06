@@ -6,4 +6,4 @@
 
 system/*
 .env
-*.log
+log/*

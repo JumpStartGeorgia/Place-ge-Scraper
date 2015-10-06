@@ -37,7 +37,7 @@ namespace :scraper do
     limit = clean_limit(args[:limit])
 
     PlaceGeAdGroup.new(start_date, end_date, limit)
-      .run(&:scrape_and_save_unscraped_ad_entries)
+      .run(&:scrape_and_save_ad_ids)
   end
 
   ########################################################################

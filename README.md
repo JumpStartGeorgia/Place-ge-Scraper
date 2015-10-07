@@ -37,6 +37,8 @@ There are two main steps involved in scraping ad info and storing it in the data
 
 `rake scraper:scrape_ads_flagged_unscraped` - Scrapes ad entries for ads flagged as in need of scraping.
 
+`rake scraper:export_ads_to_iset_csv[2015-09-01,2015-10-10]` - Export subset of data for ads posted between September 1, 2015 and October 10, 2015 to CSV for analysis by ISET.
+
 ## Logs
 
 - Scraper: `log/scraper.log`

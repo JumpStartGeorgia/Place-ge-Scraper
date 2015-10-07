@@ -4,6 +4,17 @@ require_relative '../../../environment'
 class AdEntry < ActiveRecord::Base
   belongs_to :ad
 
+  # Combines price, price_currency and price_timeframe
+  def full_price
+    currency = price_currency == 'dollar' ? 'dollars' : price_currency
+
+    if price_timeframe.nil?
+      "#{price} #{currency}"
+    else
+      "#{price} #{currency}/#{price_timeframe}"
+    end
+  end
+
   # Gets all attributes except for id and time of scrape, which are unrelated
   # to the actual info on place.ge
   def place_ge_entry_attributes

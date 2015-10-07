@@ -22,4 +22,16 @@ class Ad < ActiveRecord::Base
 
     ad
   end
+
+  def self.to_iset_csv
+    require 'csv'
+    CSV.open('Place.Ge Real Estate Data.csv', 'wb') do |csv|
+      csv << ['pid', 'price', 'month', 'year', 'area', 'larea', 'type', 'otype', 'cid', 'rid', 'did', 'tagged_sid', 'renovation', 'nrooms', 'nbeds', 'nbaths', 'nbalcs', 'wfloor', 'status']
+      Ad.all.each do |ad|
+        ad.ad_entries.each do |ad_entry|
+          csv << [ad.place_ge_id, ad_entry.full_price, ad_entry.publication_date.month, ad_entry.publication_date.year, ad_entry.area, ad_entry.land_area, ad_entry.deal_type, ad_entry.property_type, ad_entry.city, ad_entry.region, ad_entry.district, ad_entry.street, ad_entry.condition, ad_entry.room_count, ad_entry.bedroom_count, ad_entry.bathroom_count, ad_entry.balcony_count, ad_entry.floor_number, ad_entry.status]
+        end
+      end
+    end
+  end
 end

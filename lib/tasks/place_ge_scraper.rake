@@ -50,7 +50,7 @@ namespace :scraper do
   end
 
   ########################################################################
-  # Single tasks #
+  # Single ad tasks #
 
   desc 'Scrape place.ge real estate ad by id'
   task :scrape_and_output_ad, [:place_ge_ad_id] do |_t, args|
@@ -74,6 +74,14 @@ namespace :scraper do
 
     ad = PlaceGeAd.new(args[:place_ge_ad_id])
     ad.open_in_browser
+  end
+
+  ########################################################################
+  # CSV Export #
+
+  desc 'Output subset of ad data to CSV for analysis by ISET'
+  task :export_ads_to_iset_csv do
+    Ad.to_iset_csv
   end
 
   ########################################################################

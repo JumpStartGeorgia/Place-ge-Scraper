@@ -27,6 +27,7 @@ class Ad < ActiveRecord::Base
     ad_entries = AdEntry
                  .published_on_or_after(start_date)
                  .published_on_or_before(end_date)
+                 .most_recent_entry_for_each_ad
 
     require 'csv'
     CSV.open('Place.Ge Real Estate Data.csv', 'wb') do |csv|

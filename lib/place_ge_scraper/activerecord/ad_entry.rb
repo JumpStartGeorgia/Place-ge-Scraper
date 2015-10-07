@@ -34,6 +34,9 @@ class AdEntry < ActiveRecord::Base
     where('publication_date <= ?', end_date)
   end
 
+  def self.most_recent_entry_for_each_ad
+  end
+
   def entries_of_same_ad
     AdEntry.where(ad_id: ad_id)
   end

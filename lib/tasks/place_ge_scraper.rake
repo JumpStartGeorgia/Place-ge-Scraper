@@ -5,30 +5,30 @@ namespace :scraper do
   # Scrape ad ids, save as ads and mark them with has_unscraped_ad_entry #
 
   desc 'Scrape ad ids posted on place.ge today and flag for scraping'
-  task :scrape_ad_ids_posted_today, [:limit] do |_t, args|
+  task :scrape_ad_ids_posted_today, [:optional_limit] do |_t, args|
     ScraperLog.logger.info 'INVOKED TASK: scrape_ad_ids_posted_today'
-    limit = clean_limit(args[:limit])
+    limit = clean_limit(args[:optional_limit])
 
     PlaceGeAdGroup.new(Date.today, Date.today, limit)
       .run(&:scrape_and_save_ad_ids)
   end
 
   desc 'Scrape ad ids posted on place.ge yesterday and flag for scraping'
-  task :scrape_ad_ids_posted_yesterday, [:limit] do |_t, args|
+  task :scrape_ad_ids_posted_yesterday, [:optional_limit] do |_t, args|
     ScraperLog.logger.info 'INVOKED TASK: scrape_ad_ids_posted_yesterday'
-    limit = clean_limit(args[:limit])
+    limit = clean_limit(args[:optional_limit])
 
     PlaceGeAdGroup.new(Date.today - 1, Date.today - 1, limit)
       .run(&:scrape_and_save_ad_ids)
   end
 
   desc 'Scrape ad ids posted within provided time period and flag for scraping; parameters should be in format [yyyy-mm-dd,yyyy-mm-dd]'
-  task :scrape_ad_ids_posted_in_time_period, [:start_date, :end_date, :limit] do |_t, args|
+  task :scrape_ad_ids_posted_in_time_period, [:start_date, :end_date, :optional_limit] do |_t, args|
     ScraperLog.logger.info "INVOKED TASK: scrape_ad_ids_posted_in_time_period(#{args[:start_date]},#{args[:end_date]})"
 
     start_date = process_start_date(args[:start_date])
     end_date = process_end_date(args[:end_date])
-    limit = clean_limit(args[:limit])
+    limit = clean_limit(args[:optional_limit])
 
     PlaceGeAdGroup.new(start_date, end_date, limit)
       .run(&:scrape_and_save_ad_ids)

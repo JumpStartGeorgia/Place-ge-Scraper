@@ -94,11 +94,21 @@ namespace :scraper do
 
   def process_start_date(start_date)
     ScraperLog.logger.error 'Please provide a start date' if start_date.nil?
-    Date.strptime(start_date, '%Y-%m-%d')
+    begin
+      Date.strptime(start_date, '%Y-%m-%d')
+    rescue StandardError
+      ScraperLog.logger.error 'Start date cannot be parsed'
+      fail
+    end
   end
 
   def process_end_date(end_date)
     ScraperLog.logger.error 'Please provide an end date' if end_date.nil?
-    Date.strptime(end_date, '%Y-%m-%d')
+    begin
+      Date.strptime(end_date, '%Y-%m-%d')
+    rescue StandardError
+      ScraperLog.logger.error 'End date cannot be parsed'
+      fail
+    end
   end
 end

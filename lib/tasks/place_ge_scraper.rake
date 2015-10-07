@@ -81,7 +81,7 @@ namespace :scraper do
 
   desc 'Output subset of ad data to CSV for analysis by ISET'
   task :export_ads_to_iset_csv do
-    Ad.to_iset_csv
+    Ad.to_iset_csv(Date.new(2015, 9, 1), Date.new(2015, 10, 8))
   end
 
   ########################################################################

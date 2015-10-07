@@ -6,6 +6,7 @@ class AdEntry < ActiveRecord::Base
 
   # Combines price, price_currency and price_timeframe
   def full_price
+    return price if price.nil?
     currency = price_currency == 'dollar' ? 'dollars' : price_currency
 
     if price_timeframe.nil?

@@ -25,6 +25,14 @@ class AdEntry < ActiveRecord::Base
     place_ge_entry_attributes == second_entry.place_ge_entry_attributes
   end
 
+  def self.published_on_or_after(start_date)
+    where('publication_date >= ?', start_date)
+  end
+
+  def self.published_on_or_before(end_date)
+    where('publication_date <= ?', end_date)
+  end
+
   def entries_of_same_ad
     AdEntry.where(ad_id: ad_id)
   end

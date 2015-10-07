@@ -37,7 +37,11 @@ class PlaceGeAdGroup
   end
 
   def run
+    start_time = Time.now.to_i
     yield self
+    end_time = Time.now.to_i
+    time_elapsed = Time.at(end_time - start_time).utc.strftime("%H:%M:%S")
+    ScraperLog.logger.info "Scraper ran for #{time_elapsed}"
     log_errors
     email_errors
   end

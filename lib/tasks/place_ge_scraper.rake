@@ -22,18 +22,12 @@ namespace :scraper do
       .run(&:scrape_and_save_ad_ids)
   end
 
-  desc 'Scrape ad ids posted within provided time period and flag for scraping; parameters should be in format yyyy-mm-dd, as in [2015-09-12,2015-09-14]'
+  desc 'Scrape ad ids posted within provided time period and flag for scraping; parameters should be in format [yyyy-mm-dd,yyyy-mm-dd]'
   task :scrape_ad_ids_posted_in_time_period, [:start_date, :end_date, :limit] do |_t, args|
-    ScraperLog.logger.info "INVOKED TASK: scrape_ad_ids_posted_in_time_period (between #{args[:start_date]} and #{args[:end_date]})"
+    ScraperLog.logger.info "INVOKED TASK: scrape_ad_ids_posted_in_time_period(#{args[:start_date]},#{args[:end_date]})"
 
-    if args[:start_date].nil?
-      ScraperLog.logger.error 'Please provide a start date'
-    elsif args[:end_date].nil?
-      ScraperLog.logger.error 'Please provide an end date'
-    end
-
-    start_date = Date.strptime(args[:start_date], '%Y-%m-%d')
-    end_date = Date.strptime(args[:end_date], '%Y-%m-%d')
+    start_date = process_start_date(args[:start_date])
+    end_date = process_end_date(args[:end_date])
     limit = clean_limit(args[:limit])
 
     PlaceGeAdGroup.new(start_date, end_date, limit)
@@ -79,9 +73,14 @@ namespace :scraper do
   ########################################################################
   # CSV Export #
 
-  desc 'Output subset of ad data to CSV for analysis by ISET'
-  task :export_ads_to_iset_csv do
-    Ad.to_iset_csv(Date.new(2015, 9, 1), Date.new(2015, 10, 8))
+  desc 'Output subset of ad data to CSV for analysis by ISET; parameters should be in format [yyyy-mm-dd,yyyy-mm-dd]'
+  task :export_ads_to_iset_csv, [:start_date, :end_date] do |_t, args|
+    ScraperLog.logger.info "INVOKED TASK: export_ads_to_iset_csv(#{args[:start_date]},#{args[:end_date]})"
+
+    start_date = process_start_date(args[:start_date])
+    end_date = process_end_date(args[:end_date])
+
+    Ad.to_iset_csv(start_date, end_date)
   end
 
   ########################################################################
@@ -91,5 +90,15 @@ namespace :scraper do
     return nil if unclean_limit.nil?
     return nil unless unclean_limit =~ /[[:digit:]]/
     unclean_limit.to_i
+  end
+
+  def process_start_date(start_date)
+    ScraperLog.logger.error 'Please provide a start date' if start_date.nil?
+    Date.strptime(start_date, '%Y-%m-%d')
+  end
+
+  def process_end_date(end_date)
+    ScraperLog.logger.error 'Please provide an end date' if end_date.nil?
+    Date.strptime(end_date, '%Y-%m-%d')
   end
 end

@@ -16,8 +16,6 @@ class PlaceGeAd
         ad_source = uri.read
         file.write(ad_source)
 
-        `tar -cvjSf #{ad_source_compressed_file_path} #{ad_source_file_path}`
-        File.delete(File.expand_path(ad_source_file_path))
         @html_copy_path = File.expand_path(ad_source_compressed_file_path)
         @page = Nokogiri::HTML(ad_source)
       end
@@ -32,6 +30,7 @@ class PlaceGeAd
   def ad_source_compressed_file_path
     "system/place_ge_ads_html/place_ge_ad_#{place_ge_id}_time_#{time_of_scrape.strftime('%Y_%m_%d_%H_%M_%S')}.html.tar.bz2"
   end
+  private :ad_source_compressed_file_path
 
   def open_in_browser
     `open "#{link}"`

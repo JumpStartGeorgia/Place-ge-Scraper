@@ -150,9 +150,9 @@ class PlaceGeAdGroup
   # Scraping and saving full ad info #
 
   def scrape_and_save_unscraped_ad_entries
-    ScraperLog.logger.info 'Scraping info of ads flagged as unscraped'
-
     @ad_ids = Ad.with_unscraped_entry.map(&:place_ge_id)
+
+    ScraperLog.logger.info "Scraping #{@ad_ids.size} ads flagged as unscraped"
 
     @ad_ids.each_with_index do |ad_id, index|
       scrape_and_save_ad(ad_id)
@@ -161,7 +161,7 @@ class PlaceGeAdGroup
         ScraperLog.logger.info "#{remaining_ads_to_scrape} ads remaining to be scraped"
       end
     end
-    ScraperLog.logger.info 'Finished scraping ads flagged as unscraped'
+    ScraperLog.logger.info "Finished scraping #{@ad_ids.size} ads flagged as unscraped"
   end
 
   def scrape_and_save_ad(ad_id)

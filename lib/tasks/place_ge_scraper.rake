@@ -84,6 +84,22 @@ namespace :scraper do
   end
 
   ########################################################################
+  # Compressing copies of ad entry HTML #
+
+  desc 'Compresses all uncompressed .html files in system/place_ge_ads_html'
+  task :compress_html_copies do
+    uncompressed = Dir.glob(File.join('system', 'place_ge_ads_html', '*.html'))
+
+    uncompressed.each do |file_name|
+      puts "Compressing #{file_name}"
+      compressed_name = "#{file_name}.tar.bz2"
+      `tar -cvjSf #{compressed_name} #{file_name}`
+      File.delete(file_name)
+      puts "Finished compressing #{compressed_name}"
+    end
+  end
+
+  ########################################################################
   # Helpers #
 
   def clean_limit(unclean_limit)

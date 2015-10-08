@@ -166,6 +166,20 @@ class PlaceGeAdGroup
       end
     end
     ScraperLog.logger.info "Finished scraping #{@ad_ids.size} ads flagged as unscraped"
+
+    remind_to_compress_html_copies
+  end
+
+  def remind_to_compress_html_copies
+    msgs = []
+    msgs.push('Reminder - compress copies of ad HTML to save space:')
+    msgs.push('')
+    msgs.push('rake scraper:compress_html_copies')
+    msgs.push('')
+    msgs.each do |msg|
+      ScraperLog.logger.info msg
+      puts msg
+    end
   end
 
   def scrape_and_save_ad(ad_id)

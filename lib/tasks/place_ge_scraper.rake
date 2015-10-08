@@ -83,6 +83,12 @@ namespace :scraper do
     Ad.to_iset_csv(start_date, end_date)
   end
 
+  desc 'Output info for ad ids to CSV'
+  task :export_ad_ids_to_csv, [:ad_ids] do |_t, args|
+    ids = args[:ad_ids].split('-')
+    Ad.to_csv(ids)
+  end
+
   ########################################################################
   # Compressing copies of ad entry HTML #
 

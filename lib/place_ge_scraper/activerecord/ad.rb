@@ -47,4 +47,19 @@ class Ad < ActiveRecord::Base
 
     ScraperLog.logger.info "Exported #{ad_entries.size} ads to #{file_name} for requested time period"
   end
+
+  def self.to_csv(ids)
+    ad_entries = AdEntry.where(id: ids)
+
+    file_name = "place_ge_data.csv"
+
+    require 'csv'
+    CSV.open(file_name, 'wb') do |csv|
+      csv << %w(pid price price_currency price_timeframe month year area larea type otype cid rid did tagged_sid renovation nrooms nbeds nbaths nbalcs wfloor status)
+
+      ad_entries.each do |ad_entry|
+        csv << [ad_entry.ad.place_ge_id, ad_entry.price, ad_entry.price_currency, ad_entry.price_timeframe, ad_entry.publication_date.month, ad_entry.publication_date.year, ad_entry.area, ad_entry.land_area, ad_entry.deal_type, ad_entry.property_type, ad_entry.city, ad_entry.region, ad_entry.district, ad_entry.street, ad_entry.condition, ad_entry.room_count, ad_entry.bedroom_count, ad_entry.bathroom_count, ad_entry.balcony_count, ad_entry.floor_number, ad_entry.status]
+      end
+    end
+  end
 end

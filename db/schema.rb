@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_151_005_090_217) do
+ActiveRecord::Schema.define(version: 20_151_008_074_423) do
   create_table 'ad_entries', force: :cascade do |t|
     t.text 'additional_information',    limit: 65_535
     t.string 'address',                   limit: 255

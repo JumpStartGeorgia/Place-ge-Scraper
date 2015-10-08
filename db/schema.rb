@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_151_008_074_423) do
+ActiveRecord::Schema.define(version: 20_151_008_084_956) do
   create_table 'ad_entries', force: :cascade do |t|
     t.text 'additional_information',    limit: 65_535
     t.string 'address',                   limit: 255
@@ -90,11 +90,15 @@ ActiveRecord::Schema.define(version: 20_151_008_074_423) do
   add_index 'ad_entries', ['ad_id'], name: 'index_ad_entries_on_ad_id', using: :btree
   add_index 'ad_entries', ['area'], name: 'index_ad_entries_on_area', using: :btree
   add_index 'ad_entries', ['city_id'], name: 'index_ad_entries_on_city_id', using: :btree
+  add_index 'ad_entries', ['deal_type'], name: 'index_ad_entries_on_deal_type', using: :btree
   add_index 'ad_entries', ['district_id'], name: 'index_ad_entries_on_district_id', using: :btree
   add_index 'ad_entries', ['land_area'], name: 'index_ad_entries_on_land_area', using: :btree
   add_index 'ad_entries', ['price'], name: 'index_ad_entries_on_price', using: :btree
+  add_index 'ad_entries', ['price_currency'], name: 'index_ad_entries_on_price_currency', using: :btree
   add_index 'ad_entries', ['price_timeframe'], name: 'index_ad_entries_on_price_timeframe', using: :btree
+  add_index 'ad_entries', ['property_type'], name: 'index_ad_entries_on_property_type', using: :btree
   add_index 'ad_entries', ['region_id'], name: 'index_ad_entries_on_region_id', using: :btree
+  add_index 'ad_entries', ['room_count'], name: 'index_ad_entries_on_room_count', using: :btree
   add_index 'ad_entries', ['street_id'], name: 'index_ad_entries_on_street_id', using: :btree
 
   create_table 'ads', force: :cascade do |t|

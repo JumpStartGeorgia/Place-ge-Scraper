@@ -3,6 +3,7 @@ require_relative '../../../environment'
 # An ActiveRecord class for saving data in a place.ge ad entry in a database
 class AdEntry < ActiveRecord::Base
   belongs_to :ad
+  belongs_to :property
 
   # Gets all attributes except for id and time of scrape, which are unrelated
   # to the actual info on place.ge
@@ -23,6 +24,10 @@ class AdEntry < ActiveRecord::Base
   end
 
   def self.most_recent_entry_for_each_ad
+  end
+
+  def self.is_primary_property
+    where(is_primary: true)
   end
 
   def entries_of_same_ad
@@ -116,4 +121,117 @@ class AdEntry < ActiveRecord::Base
       total_floor_count: place_ge_ad_info.total_floor_count
     )
   end
+
+
+
+  # look for two types of duplicates
+  # - if have same ad_id in same month -> duplicate
+  # - if primary fields match -> duplicate (i.e., price, area, address, etc)
+  # - make all duplicates have same property id
+  #   and set the most recent duplicate as the clean record
+  # any records that are not a duplicate get their own property id and is primary set to true
+  def self.identify_duplicates_for_month_year(month, year)
+    # get records for the provided month and year
+    records_to_check = where(['month(publication_date) = :month and year(publication_date) = :year', month: month, year: year]).count
+    if records_to_check > 0
+      AdEntry.transaction do 
+        puts ">> there are #{records_to_check} records in #{month} #{year}"
+
+        # reset the property id for these records
+        where(['month(publication_date) = :month and year(publication_date) = :year', month: month, year: year]).update_all(property_id: nil, is_primary: false)
+
+        puts "-----------"
+        puts ">> - looking for duplicate ad ids"
+
+        # get records that have same ad_id
+        sql = "select ad1.id as ad1_id, ad1.property_id as ad1_property_id, ad2.id as ad2_id, ad2.property_id as ad2_property_id from ad_entries as ad1 "
+        sql << "inner join ad_entries as ad2 on "
+        sql << "     ad1.id < ad2.id "
+        sql << "  and ad1.ad_id = ad2.ad_id "
+        sql << "  and month(ad1.publication_date) = month(ad2.publication_date) "
+        sql << "  and year(ad1.publication_date) = year(ad2.publication_date) "
+        sql << "where " 
+        sql << "month(ad1.publication_date) = :month "
+        sql << "and year(ad1.publication_date) = :year "
+        sql << "order by ad1.id "
+        duplicate_ad_ids = find_by_sql([sql, month: month, year: year])
+        if duplicate_ad_ids.length > 0
+          puts ">> - found #{duplicate_ad_ids.length} records with duplicate ad ids"
+
+          duplicate_ad_ids.each do |duplicate|
+            p = Property.create
+
+            AdEntry.where(id: [duplicate['ad1_id'], duplicate['ad2_id']]).update_all(property_id: p.id)
+          end
+
+          puts ">> - done saving property for duplicate ad ids"
+        end
+
+        puts "-----------"
+        puts ">> - looking for duplicate records by matching fields"
+
+        # look for duplicates by comparing fields
+        sql = "select ad1.id as ad1_id, ad2.id as ad2_id "
+        sql << "from ad_entries as ad1 "
+        sql << "inner join ad_entries as ad2 on "
+        sql << "      ad1.id < ad2.id "
+        sql << "  and month(ad1.publication_date) = month(ad2.publication_date) "
+        sql << "  and year(ad1.publication_date) = year(ad2.publication_date)  "
+        sql << "  and ad1.price = ad2.price "
+        sql << "  and ad1.price_currency = ad2.price_currency "
+        sql << "  and ad1.price_timeframe = ad2.price_timeframe "
+        sql << "  and ad1.area = ad2.area "
+        sql << "  and ad1.city_id = ad2.city_id "
+        sql << "  and ad1.region_id = ad2.region_id "
+        sql << "  and ad1.district_id = ad2.district_id "
+        sql << "  and ad1.room_count = ad2.room_count "
+        sql << "  and ad1.bedroom_count = ad2.bedroom_count  "
+        sql << "where  "
+        sql << "month(ad1.publication_date) = :month "
+        sql << "and year(ad1.publication_date) = :year "
+        sql << "order by ad1.id "
+
+        duplicates = find_by_sql([sql, month: month, year: year])
+        if duplicates.length > 0
+          puts ">> - found #{duplicates.length} records with matching fields"
+
+          last_id = nil
+          p = nil
+          unique_ids = duplicates.map{|x| x['ad1_id']}.uniq
+          unique_ids.each do |unique_id|
+            # if this id does not have a property id, add it
+            ad = where(id: unique_id).first
+            if !ad.nil? && ad.property_id.nil?
+              matching_duplicate_ids = duplicates.select{|x| x['ad1_id'] == unique_id}.map{|x| x['ad2_id']}
+              # puts ">>> - adding property id for #{unique_id} and duplicate ids #{matching_duplicate_ids}"
+
+              p = Property.create
+              where(id: matching_duplicate_ids.push(unique_id)).update_all(property_id: p.id)
+            end
+          end
+          puts ">> - done saving property for duplicate matching fields"
+        end
+
+        puts "-----------"
+
+        puts ">> - for each property with duplicates, mark the most recent one as primary"
+        select('distinct property_id').where(['month(publication_date) = :month and year(publication_date) = :year and property_id is not null', month: month, year: year]).each do |property|
+          # the ad with the most recent date will have is_primary flag set to true
+          sql = "select id, publication_date from ad_entries where property_id = :property_id order by publication_date desc"
+          properties = find_by_sql([sql, property_id: property['property_id']])
+          where(id: properties.first['id']).update_all(is_primary: true) if properties.length > 0
+        end
+
+        puts "-----------"
+
+        puts ">> - all other records are not duplicates, so give unique property id"
+        where(['month(publication_date) = :month and year(publication_date) = :year and property_id is null', month: month, year: year]).each do |ad|
+          ad.property_id = Property.create.id
+          ad.is_primary = true
+          ad.save
+        end
+      end
+    end
+  end
+
 end

@@ -23,11 +23,16 @@ class Ad < ActiveRecord::Base
     ad
   end
 
-  def self.to_iset_csv(start_date, end_date)
+  def self.to_iset_csv(start_date, end_date, with_duplicates=true)
     ad_entries = AdEntry
                  .published_on_or_after(start_date)
                  .published_on_or_before(end_date)
                 #  .most_recent_entry_for_each_ad
+
+    
+    # remove duplicate records if wanted
+    ad_entries = ad_entries.is_primary_property if !with_duplicates
+
 
     if ad_entries.nil?
       ScraperLog.logger.info 'No ads to export in that time period'

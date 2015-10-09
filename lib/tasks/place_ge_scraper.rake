@@ -73,14 +73,15 @@ namespace :scraper do
   ########################################################################
   # CSV Export #
 
-  desc 'Output subset of ad data to CSV for analysis by ISET; parameters should be in format [yyyy-mm-dd,yyyy-mm-dd]'
-  task :export_ads_to_iset_csv, [:start_date, :end_date] do |_t, args|
-    ScraperLog.logger.info "INVOKED TASK: export_ads_to_iset_csv(#{args[:start_date]},#{args[:end_date]})"
+  desc 'Output subset of ad data to CSV for analysis by ISET; parameters should be in format [yyyy-mm-dd,yyyy-mm-dd,with_duplicate(boolean)]'
+  task :export_ads_to_iset_csv, [:start_date, :end_date, :with_duplicates] do |_t, args|
+    with_duplicates = args[:with_duplicates].nil? ? true : args[:with_duplicates] == "false"
+    ScraperLog.logger.info "INVOKED TASK: export_ads_to_iset_csv(#{args[:start_date]},#{args[:end_date]},#{with_duplicates})"
 
     start_date = process_start_date(args[:start_date])
     end_date = process_end_date(args[:end_date])
 
-    Ad.to_iset_csv(start_date, end_date)
+    Ad.to_iset_csv(start_date, end_date, with_duplicates)
   end
 
   desc 'Output info for ad ids to CSV'
@@ -104,6 +105,17 @@ namespace :scraper do
       puts "Finished compressing #{compressed_name}"
     end
   end
+
+  ########################################################################
+  # Find duplicates
+
+  desc 'find duplicates for a given month and year'
+  task :find_duplicates, [:month, :year] do |_t, args|
+    ScraperLog.logger.info "INVOKED TASK: find_duplicates(#{args[:month]}, #{args[:year]})"
+
+    AdEntry.identify_duplicates_for_month_year(args[:month], args[:year])
+  end
+
 
   ########################################################################
   # Helpers #

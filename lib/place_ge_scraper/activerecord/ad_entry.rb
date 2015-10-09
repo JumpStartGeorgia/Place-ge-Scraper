@@ -134,7 +134,7 @@ class AdEntry < ActiveRecord::Base
     # get records for the provided month and year
     records_to_check = where(['month(publication_date) = :month and year(publication_date) = :year', month: month, year: year]).count
     if records_to_check > 0
-      AdEntry.transaction do 
+      AdEntry.transaction do
         puts ">> there are #{records_to_check} records in #{month} #{year}"
 
         # reset the property id for these records
@@ -150,7 +150,7 @@ class AdEntry < ActiveRecord::Base
         sql << "  and ad1.ad_id = ad2.ad_id "
         sql << "  and month(ad1.publication_date) = month(ad2.publication_date) "
         sql << "  and year(ad1.publication_date) = year(ad2.publication_date) "
-        sql << "where " 
+        sql << "where "
         sql << "month(ad1.publication_date) = :month "
         sql << "and year(ad1.publication_date) = :year "
         sql << "order by ad1.id "
@@ -195,8 +195,6 @@ class AdEntry < ActiveRecord::Base
         if duplicates.length > 0
           puts ">> - found #{duplicates.length} records with matching fields"
 
-          last_id = nil
-          p = nil
           unique_ids = duplicates.map{|x| x['ad1_id']}.uniq
           unique_ids.each do |unique_id|
             # if this id does not have a property id, add it
@@ -215,7 +213,9 @@ class AdEntry < ActiveRecord::Base
         puts "-----------"
 
         puts ">> - for each property with duplicates, mark the most recent one as primary"
-        select('distinct property_id').where(['month(publication_date) = :month and year(publication_date) = :year and property_id is not null', month: month, year: year]).each do |property|
+
+        properties = where(['month(publication_date) = :month and year(publication_date) = :year and property_id is not null', month: month, year: year]).pluck(:property_id).uniq
+        properties.each do |property|
           # the ad with the most recent date will have is_primary flag set to true
           sql = "select id, publication_date from ad_entries where property_id = :property_id order by publication_date desc"
           properties = find_by_sql([sql, property_id: property['property_id']])

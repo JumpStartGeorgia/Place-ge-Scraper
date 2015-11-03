@@ -72,6 +72,6 @@ test_place_ge_ad(
   has_generator: false,
   additional_information: 'magaria s a e l h o s t v i s ......fasi 1900000$ tel 2519411 577445907',
   telephone_number: '5-96-050404',
-  seller_type: 'Agency  ',
+  seller_type: 'Agency',
   seller_name: 'ოქროს გასაღები'
 )

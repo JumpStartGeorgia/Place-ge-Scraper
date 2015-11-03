@@ -181,6 +181,7 @@ class PlaceGeAd
 
       # If it contains a /, that means the price has a timeframe.
       # Example: '50 lari / day' (as opposed to just '50 lari')
+
       if full_price.include? '/'
         full_price_index = full_price.index('/')
         price_and_currency = full_price.slice(0, full_price_index)
@@ -190,7 +191,7 @@ class PlaceGeAd
       end
 
       @price = price_and_currency.remove_non_numbers.to_nil_if_empty
-      currency = price_and_currency.remove_numbers.sub(',', '').strip
+      currency = price_and_currency.remove_numbers.gsub(',', '').strip
       set_price_currency(currency)
     end
   end

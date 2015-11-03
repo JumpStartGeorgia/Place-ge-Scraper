@@ -17,5 +17,13 @@ describe 'Rake Task Helpers' do
           .to eq([Date.new(2015, 3, 1), Date.new(2015, 3, 31)])
       end
     end
+
+    context 'when date is in August' do
+      it 'returns first and last days of July' do
+        date = Date.new(2015, 8, 10)
+        expect(previous_month_start_and_end_dates(date))
+          .to eq([Date.new(2015, 7, 1), Date.new(2015, 7, 30)])
+      end
+    end
   end
 end

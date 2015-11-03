@@ -24,15 +24,9 @@ def process_end_date(end_date)
   end
 end
 
-def previous_month_start_and_end_dates(current_date)
-
-  # previous month = current month - 1
-
-  start_date = Date.new(2015, 1, 1)
-  end_date = Date.new(2015, 1, 31)
-
-  # start_date = previous_month.first_day
-  # end_date = previous_month.last_day
+def previous_month_start_and_end_dates(date)
+  start_date = date.last_month.at_beginning_of_month
+  end_date = date.last_month.at_end_of_month
 
   [start_date, end_date]
 end

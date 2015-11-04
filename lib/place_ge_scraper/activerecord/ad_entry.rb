@@ -214,11 +214,12 @@ class AdEntry < ActiveRecord::Base
 
         puts ">> - for each property with duplicates, mark the most recent one as primary"
 
-        properties = where(['month(publication_date) = :month and year(publication_date) = :year and property_id is not null', month: month, year: year]).pluck(:property_id).uniq
-        properties.each do |property|
+        property_ids = where(['month(publication_date) = :month and year(publication_date) = :year and property_id is not null', month: month, year: year]).pluck(:property_id).uniq
+        property_ids.each do |property|
           # the ad with the most recent date will have is_primary flag set to true
           sql = "select id, publication_date from ad_entries where property_id = :property_id order by publication_date desc"
-          properties = find_by_sql([sql, property_id: property['property_id']])
+
+          properties = find_by_sql([sql, property_id: property])
           where(id: properties.first['id']).update_all(is_primary: true) if properties.length > 0
         end
 

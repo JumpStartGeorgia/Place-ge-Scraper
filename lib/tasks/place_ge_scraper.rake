@@ -13,6 +13,7 @@ namespace :scraper do
       Rake.application.invoke_task('scraper:scrape_ad_ids_posted_last_month')
       Rake.application.invoke_task('scraper:scrape_ads_flagged_unscraped')
       Rake.application.invoke_task('scraper:compress_html_copies')
+      Rake.application.invoke_task('scraper:find_duplicates_last_month')
       Rake.application.invoke_task('scraper:export_last_month_ads_to_iset_csv')
     end
 
@@ -161,7 +162,19 @@ namespace :scraper do
   end
 
   ########################################################################
-  # Find duplicates
+  # Find duplicate ad entries and mark one of them as the primary property
+
+  desc 'Find duplicates for last month'
+  task :find_duplicates_last_month do
+    ScraperLog.logger.info 'INVOKED TASK: find_duplicates_last_month'
+
+    last_month = Date.today.last_month
+
+    AdEntry.identify_duplicates_for_month_year(
+      last_month.month,
+      last_month.year
+    )
+  end
 
   desc 'find duplicates for a given month and year'
   task :find_duplicates, [:month, :year] do |_t, args|

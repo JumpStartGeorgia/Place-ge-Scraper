@@ -104,6 +104,8 @@ namespace :scraper do
 
   desc 'Compresses all uncompressed .html files in system/place_ge_ads_html'
   task :compress_html_copies do
+    ScraperLog.logger.info 'INVOKED TASK: compress_html_copies'
+
     uncompressed = Dir.glob(File.join('system', 'place_ge_ads_html', '*.html'))
 
     uncompressed.each do |file_name|

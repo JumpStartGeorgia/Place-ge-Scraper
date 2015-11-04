@@ -3,6 +3,30 @@ require_relative 'helpers'
 
 namespace :scraper do
   ########################################################################
+  # Combinations of other tasks #
+
+  desc "Perform scrape tasks on today's ads"
+  task :perform_scrape_tasks_for_today, [:optional_limit] do |_t, args|
+    ScraperLog.logger.info 'INVOKED TASK: perform_scrape_tasks_for_today'
+    limit = clean_limit(args[:optional_limit])
+
+    if limit.nil?
+      Rake.application.invoke_task('scraper:scrape_ad_ids_posted_today')
+    else
+      Rake.application.invoke_task('scraper:scrape_ad_ids_posted_today[20]')
+    end
+
+    Rake.application.invoke_task('scraper:scrape_ads_flagged_unscraped')
+    Rake.application.invoke_task('scraper:compress_html_copies')
+
+    today = Date.today.strftime('%Y-%m-%d')
+
+    Rake.application.invoke_task(
+      "scraper:export_ads_to_iset_csv[#{today}, #{today}, false]"
+    )
+  end
+
+  ########################################################################
   # Scrape ad ids, save as ads and mark them with has_unscraped_ad_entry #
 
   desc 'Scrape ad ids posted on place.ge today and flag for scraping'

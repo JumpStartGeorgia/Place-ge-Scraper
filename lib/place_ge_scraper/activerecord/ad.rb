@@ -5,6 +5,22 @@ require_relative '../../../environment'
 class Ad < ActiveRecord::Base
   has_many :ad_entries
 
+  def entry_not_found
+    ScraperLog.logger.info "Entry for ad ##{place_ge_id} not found"
+
+    if ad_entries.count == 0
+      ScraperLog.logger
+        .info "Destroying Ad ##{place_ge_id} because it has no ad entries"
+
+      destroy
+    else
+      ScraperLog.logger
+        .info "Setting has_unscraped_ad_entry for Ad ##{place_ge_id} to false"
+
+      update_column(:has_unscraped_ad_entry, false)
+    end
+  end
+
   def self.with_unscraped_entry
     where(has_unscraped_ad_entry: true)
   end
@@ -29,7 +45,6 @@ class Ad < ActiveRecord::Base
                  .published_on_or_before(end_date)
                 #  .most_recent_entry_for_each_ad
 
-    
     # remove duplicate records if wanted
     ad_entries = ad_entries.is_primary_property if !with_duplicates
 

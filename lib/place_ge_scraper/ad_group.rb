@@ -193,6 +193,10 @@ class PlaceGeAdGroup
       error_msg = "Ad ID #{ad_id} had following error while being scraped: #{error.inspect}"
       ScraperLog.logger.error error_msg
       @errors.push error_msg
+
+      if error.message == '404 Not Found'
+        Ad.find_by_place_ge_id(ad_id).entry_not_found
+      end
     end
   end
 
@@ -222,7 +226,7 @@ class PlaceGeAdGroup
     return if @errors.empty? # Don't send email if no errors
     create_error_report if @error_report.nil?
 
-    error_body = @error_report.join("\n")
+    error_body = @error_report.join("\n").gsub('<', '').gsub('>', '')
 
     error_mail = Mail.new do
       from ENV['GMAIL_USER']

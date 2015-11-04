@@ -2,28 +2,40 @@ require_relative '../../environment'
 require_relative 'helpers'
 
 namespace :scraper do
-  ########################################################################
-  # Combinations of other tasks #
+  namespace :main_scrape_tasks do
+    ########################################################################
+    # Tasks for calling main scrape tasks together #
 
-  desc "Perform scrape tasks on today's ads"
-  task :perform_scrape_tasks_for_today, [:optional_limit] do |_t, args|
-    ScraperLog.logger.info 'INVOKED TASK: perform_scrape_tasks_for_today'
-    limit = clean_limit(args[:optional_limit])
+    desc 'Perform monthly scrape tasks'
+    task :last_month do
+      ScraperLog.logger.info 'INVOKED TASK: main_scrape_tasks:last_month'
 
-    if limit.nil?
-      Rake.application.invoke_task('scraper:scrape_ad_ids_posted_today')
-    else
       Rake.application.invoke_task('scraper:scrape_ad_ids_posted_today[20]')
+      Rake.application.invoke_task('scraper:scrape_ads_flagged_unscraped')
+      Rake.application.invoke_task('scraper:compress_html_copies')
+      Rake.application.invoke_task('scraper:export_last_month_ads_to_iset_csv')
     end
 
-    Rake.application.invoke_task('scraper:scrape_ads_flagged_unscraped')
-    Rake.application.invoke_task('scraper:compress_html_copies')
+    desc "Perform scrape tasks on today's ads"
+    task :today, [:optional_limit] do |_t, args|
+      ScraperLog.logger.info 'INVOKED TASK: main_scrape_tasks:today'
+      limit = clean_limit(args[:optional_limit])
 
-    today = Date.today.strftime('%Y-%m-%d')
+      if limit.nil?
+        Rake.application.invoke_task('scraper:scrape_ad_ids_posted_today')
+      else
+        Rake.application.invoke_task('scraper:scrape_ad_ids_posted_today[20]')
+      end
 
-    Rake.application.invoke_task(
-      "scraper:export_ads_to_iset_csv[#{today}, #{today}, false]"
-    )
+      Rake.application.invoke_task('scraper:scrape_ads_flagged_unscraped')
+      Rake.application.invoke_task('scraper:compress_html_copies')
+
+      today = Date.today.strftime('%Y-%m-%d')
+
+      Rake.application.invoke_task(
+        "scraper:export_ads_to_iset_csv[#{today}, #{today}, false]"
+      )
+    end
   end
 
   ########################################################################
@@ -105,6 +117,13 @@ namespace :scraper do
 
   ########################################################################
   # CSV Export #
+
+  desc "Export last month's ad data to CSV for analysis by ISET"
+  task :export_last_month_ads_to_iset_csv do
+    ScraperLog.logger.info 'INVOKED TASK: export_last_month_ads_to_iset_csv'
+
+    Ad.to_iset_csv(*previous_month_start_and_end_dates(Date.today), false)
+  end
 
   desc 'Output subset of ad data to CSV for analysis by ISET; parameters should be in format [yyyy-mm-dd,yyyy-mm-dd,with_duplicate(boolean)]'
   task :export_ads_to_iset_csv, [:start_date, :end_date, :with_duplicates] do |_t, args|

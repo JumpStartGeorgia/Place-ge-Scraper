@@ -223,8 +223,8 @@ class PlaceGeAd
     end
   end
 
-  def scrape_area
-    detail = @page.detail_value('Space')
+  def extract_area_amount_from_detail(detail)
+    return nil if detail.strip.empty?
     numbers = detail.gsub(/[^0-9]*$/, '') # remove everything after numbers
     number_array = numbers.scan(/[0-9]+/).map(&:to_i)
 
@@ -233,6 +233,10 @@ class PlaceGeAd
     else
       ((number_array[0] + number_array[1])/2).to_s
     end
+  end
+
+  def scrape_area
+    extract_area_amount_from_detail(@page.detail_value('Space'))
   end
 
   def extract_unit_from_area_detail(detail)
@@ -246,16 +250,7 @@ class PlaceGeAd
   end
 
   def scrape_land_area
-    detail = @page.detail_value('Land')
-    return nil if detail.strip.empty?
-    numbers = detail.gsub(/[^0-9]*$/, '') # remove everything after numbers
-    number_array = numbers.scan(/[0-9]+/).map(&:to_i)
-
-    if number_array.count == 1
-      number_array[0].to_s
-    else
-      ((number_array[0] + number_array[1])/2).to_s
-    end
+    extract_area_amount_from_detail(@page.detail_value('Land'))
   end
 
   def scrape_land_area_unit

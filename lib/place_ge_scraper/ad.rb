@@ -223,11 +223,14 @@ class PlaceGeAd
     @page.detail_value('Space').remove_non_numbers.to_nil_if_empty
   end
 
-  def scrape_area_unit
-    detail = @page.detail_value('Space')
+  def extract_unit_from_area_detail(detail)
     return nil if detail.strip.empty?
     text = detail.match(/[^0-9]*$/).to_s.strip
     text == 'sq.m.' ? 'sq. m.' : text
+  end
+
+  def scrape_area_unit
+    extract_unit_from_area_detail(@page.detail_value('Space'))
   end
 
   def scrape_land_area
@@ -244,10 +247,7 @@ class PlaceGeAd
   end
 
   def scrape_land_area_unit
-    detail = @page.detail_value('Land')
-    return nil if detail.strip.empty?
-    text = detail.match(/[^0-9]*$/).to_s.strip
-    text == 'sq.m.' ? 'sq. m.' : text
+    extract_unit_from_area_detail(@page.detail_value('Land'))
   end
 
   def scrape_room_count

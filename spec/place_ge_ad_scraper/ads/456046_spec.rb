@@ -20,7 +20,7 @@ test_place_ge_ad(
   price_timeframe: nil,
   area: nil,
   area_unit: nil,
-  land_area: '100 - 150',
+  land_area: '125',
   land_area_unit: 'sq. m.',
   distance_from_tbilisi: nil,
   distance_from_main_road: nil,

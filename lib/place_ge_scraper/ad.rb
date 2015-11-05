@@ -213,7 +213,15 @@ class PlaceGeAd
   end
 
   def scrape_land_area
-    @page.detail_value('Land').remove_non_numbers.to_nil_if_empty
+    detail = @page.detail_value('Land')
+    numbers = detail.gsub(/[^0-9]*$/, '') # remove everything after numbers
+    number_array = numbers.scan(/[0-9]+/).map(&:to_i)
+
+    if number_array.count == 1
+      number_array[0].to_s
+    else
+      ((number_array[0] + number_array[1])/2).to_s
+    end
   end
 
   def scrape_land_area_unit

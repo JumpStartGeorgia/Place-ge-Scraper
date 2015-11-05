@@ -166,6 +166,14 @@ class PlaceGeAd
       end
     end
 
+    # If there is no price listed
+    if price_info[0].text.strip.empty? && price_info[1].nil?
+      @price = nil
+      @price_per_area_unit = nil
+      @price_timeframe = nil
+      @price_currency = nil
+      return
+    end
     # If the only price info is the text 'Contract price'
     if price_info.text.include? 'Contract price'
       @price = 'Contract price'

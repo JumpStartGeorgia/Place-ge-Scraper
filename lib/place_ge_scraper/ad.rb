@@ -214,6 +214,7 @@ class PlaceGeAd
 
   def scrape_land_area
     detail = @page.detail_value('Land')
+    return nil if detail.strip.empty?
     numbers = detail.gsub(/[^0-9]*$/, '') # remove everything after numbers
     number_array = numbers.scan(/[0-9]+/).map(&:to_i)
 

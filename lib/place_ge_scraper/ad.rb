@@ -235,14 +235,14 @@ class PlaceGeAd
     end
   end
 
-  def scrape_area
-    extract_area_amount_from_detail(@page.detail_value('Space'))
-  end
-
   def extract_unit_from_area_detail(detail)
     return nil if detail.strip.empty?
     text = detail.match(/[^0-9]*$/).to_s.strip
     text == 'sq.m.' ? 'sq. m.' : text
+  end
+
+  def scrape_area
+    extract_area_amount_from_detail(@page.detail_value('Space'))
   end
 
   def scrape_area_unit

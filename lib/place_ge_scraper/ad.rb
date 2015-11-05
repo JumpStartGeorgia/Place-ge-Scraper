@@ -190,12 +190,22 @@ class PlaceGeAd
         @price_per_area_unit = nil
       end
 
-      full_price = price_info[0].text.strip
+      full_price = price_info[0].text.gsub(',', '').strip
+
+      # If the price contains multiple numbers, then it's a range.
+      # Example: $5,000 – $10,000
+      # What do we do in this case? Take the average!
+      number_array = full_price.scan(/[0-9]+/).map(&:to_i)
+
+      if number_array.count > 1
+        average_price = ((number_array[0] + number_array[1])/2).to_s
+        first_price = full_price.match("^.*#{number_array[0]}").to_s
+        price_and_currency = first_price.gsub(number_array[0].to_s,
+                                              average_price)
 
       # If it contains a /, that means the price has a timeframe.
       # Example: '50 lari / day' (as opposed to just '50 lari')
-
-      if full_price.include? '/'
+      elsif full_price.include? '/'
         full_price_index = full_price.index('/')
         price_and_currency = full_price.slice(0, full_price_index)
         @price_timeframe = full_price.slice(full_price_index + 1, full_price.size).strip

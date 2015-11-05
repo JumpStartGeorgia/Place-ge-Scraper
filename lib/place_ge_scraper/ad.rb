@@ -226,7 +226,10 @@ class PlaceGeAd
   end
 
   def scrape_land_area_unit
-    @page.detail_value('Land').remove_numbers.strip.to_nil_if_empty
+    detail = @page.detail_value('Land')
+    return nil if detail.strip.empty?
+    text = detail.match(/[^0-9]*$/).to_s.strip
+    text == 'sq.m.' ? 'sq. m.' : text
   end
 
   def scrape_room_count

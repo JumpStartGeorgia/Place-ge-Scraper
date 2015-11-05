@@ -183,7 +183,12 @@ class PlaceGeAd
 
     # If there's an actual price
     else
-      @price_per_area_unit = price_info[1].text.remove_non_numbers.to_nil_if_empty
+      if price_info[1].present?
+        @price_per_area_unit = price_info[1].text.remove_non_numbers
+          .to_nil_if_empty
+      else
+        @price_per_area_unit = nil
+      end
 
       full_price = price_info[0].text.strip
 

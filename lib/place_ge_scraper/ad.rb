@@ -190,7 +190,11 @@ class PlaceGeAd
         @price_per_area_unit = nil
       end
 
-      full_price = price_info[0].text.gsub(',', '').strip
+      full_price = price_info[0]
+                   .text
+                   .gsub(',', '') # Ex: '$60,000' -> '$60000'
+                   .gsub('from ', '') # Ex: 'from $60000' -> '$60000'
+                   .strip
 
       # If the price contains multiple numbers, then it's a range.
       # Example: $5,000 – $10,000

@@ -54,7 +54,7 @@ class Ad < ActiveRecord::Base
       return
     end
 
-    file_name = "place_ge_estate_data_#{start_date}_to_#{end_date}.csv"
+    file_name = "place_ge_real_estate_data_#{start_date}_to_#{end_date}.csv"
 
     require 'csv'
     CSV.open(file_name, 'wb') do |csv|

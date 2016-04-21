@@ -411,7 +411,11 @@ class PlaceGeAd
       @seller_name = nil
     else
       @seller_name = seller_data.css('a').text.to_nil_if_empty
-      @seller_type = seller_string.sub(@seller_name, '').strip.to_nil_if_empty
+      if @seller_name.nil?
+        @seller_type = seller_string.strip.to_nil_if_empty
+      else
+        @seller_type = seller_string.sub(@seller_name, '').strip.to_nil_if_empty
+      end
     end
   end
 

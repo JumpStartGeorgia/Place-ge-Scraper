@@ -2,7 +2,7 @@ test_place_ge_ad(
   410_181,
   place_ge_id: 410_181,
   link: 'http://place.ge/en/ads/view/410181',
-  publication_date: Date.new(2015, 9, 24),
+  publication_date: Date.new(2016, 4, 19),
   deal_type: 'for_sale',
   property_type: 'summer_house',
   city_id: 1,
@@ -72,6 +72,6 @@ test_place_ge_ad(
   has_generator: false,
   additional_information: '800 მ² - 199000 $ რატომ უნდა გადაიხადო ქირაში? 300 კვ.მ. 4 საძინებელი, კაბინეტი, მისაღები რომელიც გეუბნება ,,კეთილი იყოს თქვენი მობრძანება!", დიდი სამზარეულო, ორი ბუხარი, 3 სველი წერტილი, შესანიშნავი ბალახის გაზონი, აივანი. საცურაო აუზი. წყნეთი, გამგეობასთან',
   telephone_number: '579068764',
-  seller_type: nil,
-  seller_name: nil
+  seller_type: 'Agency',
+  seller_name: 'Mileni'
 )

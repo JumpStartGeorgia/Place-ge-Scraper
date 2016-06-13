@@ -210,17 +210,12 @@ class PlaceGeAd
     @price = number_scan[0]
     @price_per_area_unit = number_scan[1] if number_scan.length > 1
 
-    # # Check if price is a range
-    # # Example: $5,000 – $10,000
-    # # What do we do in this case? Take the average!
-    # unless full_price.scan(/[\$?\d]+ – [\$?\d]+/).empty?
-    #   number_array = full_price.scan(/[0-9]+/).map(&:to_i)
-    #
-    #   average_price = ((number_array[0] + number_array[1])/2).to_s
-    #   first_price = full_price.match("^.*#{number_array[0]}").to_s
-    #   price_and_currency = first_price.gsub(number_array[0].to_s,
-    #                                         average_price)
-    # end
+    # Check if price is a range
+    # Example: $5,000 – $10,000
+    # What do we do in this case? Take the average!
+    unless full_price.scan(/(–|-)/).empty?
+      AdInfo.logger.info "PRICE RANGE: Place.Ge Ad #{@place_ge_id} has a range in price section"
+    end
   end
 
   def extract_area_amount_from_detail(detail)

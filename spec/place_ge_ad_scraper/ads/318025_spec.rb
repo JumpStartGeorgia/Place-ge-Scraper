@@ -2,7 +2,7 @@ test_place_ge_ad(
   318_025,
   place_ge_id: 318_025,
   link: 'http://place.ge/en/ads/view/318025',
-  publication_date: Date.new(2015, 9, 16),
+  publication_date: Date.new(2016, 2, 29),
   deal_type: 'for_rent',
   property_type: 'summer_house',
   city_id: 1,

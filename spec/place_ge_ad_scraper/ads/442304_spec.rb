@@ -2,7 +2,7 @@ test_place_ge_ad(
   442_304,
   place_ge_id: 442_304,
   link: 'http://place.ge/en/ads/view/442304',
-  publication_date: Date.new(2015, 7, 10),
+  publication_date: Date.new(2016, 3, 9),
   deal_type: 'for_sale',
   property_type: 'flat',
   city_id: 1,

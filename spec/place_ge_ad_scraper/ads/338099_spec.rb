@@ -2,7 +2,7 @@ test_place_ge_ad(
   338_099,
   place_ge_id: 338_099,
   link: 'http://place.ge/en/ads/view/338099',
-  publication_date: Date.new(2015, 9, 21),
+  publication_date: Date.new(2016, 5, 24),
   deal_type: 'for_rent',
   property_type: 'commercial_estate',
   city_id: 1,

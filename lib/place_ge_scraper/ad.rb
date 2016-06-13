@@ -141,16 +141,13 @@ class PlaceGeAd
     Date.strptime(date, '%m/%d/%Y')
   end
 
-  def set_price_currency(currency)
-    case currency
-    when '$'
-      @price_currency = 'dollar'
-    when 'lari'
-      @price_currency = 'lari'
-    end
-  end
-
   def scrape_price_info
+    # set defaults
+    @price = nil
+    @price_per_area_unit = nil
+    @price_timeframe = nil
+    @price_currency = nil
+
     price_info = @page.css('.top-ad .price').children
 
     # Check if ad is urgent
@@ -168,28 +165,16 @@ class PlaceGeAd
 
     # If there is no price listed
     if price_info[0].text.strip.empty? && price_info[1].nil?
-      @price = nil
-      @price_per_area_unit = nil
-      @price_timeframe = nil
-      @price_currency = nil
       return
     end
     # If the only price info is the text 'Contract price'
     if price_info.text.include? 'Contract price'
       @price = 'Contract price'
-      @price_per_area_unit = nil
-      @price_timeframe = nil
-      @price_currency = nil
+
       return
     end
 
-    if price_info[1].present?
-      @price_per_area_unit = price_info[1].text.remove_non_numbers
-        .to_nil_if_empty
-    else
-      @price_per_area_unit = nil
-    end
-
+    # clean price info
     full_price = price_info[0]
                  .text
                  .gsub(',', '') # Ex: '$60,000' -> '$60000'
@@ -197,30 +182,43 @@ class PlaceGeAd
                  .gsub(/\s+/, ' ')
                  .strip
 
-    # If the price contains multiple numbers, then it's a range.
-    # Example: $5,000 – $10,000
-    # What do we do in this case? Take the average!
-    number_array = full_price.scan(/[0-9]+/).map(&:to_i)
+    price_currency_scan = full_price.scan(/(\$|lari)/)
 
-    if number_array.count > 1
-      average_price = ((number_array[0] + number_array[1])/2).to_s
-      first_price = full_price.match("^.*#{number_array[0]}").to_s
-      price_and_currency = first_price.gsub(number_array[0].to_s,
-                                            average_price)
-
-    # If it contains a /, that means the price has a timeframe.
-    # Example: '50 lari / day' (as opposed to just '50 lari')
-    elsif full_price.include? '/'
-      full_price_index = full_price.index('/')
-      price_and_currency = full_price.slice(0, full_price_index)
-      @price_timeframe = full_price.slice(full_price_index + 1, full_price.size).strip
-    else
-      price_and_currency = full_price
+    unless price_currency_scan.empty?
+      @price_currency = price_currency_scan[0][0]
+      @price_currency = 'dollar' if @price_currency == '$'
     end
 
-    @price = price_and_currency.remove_non_numbers.to_nil_if_empty
-    currency = price_and_currency.remove_numbers.gsub(',', '').strip
-    set_price_currency(currency)
+    # if there is a single word between two slashes, then
+    # the price has a timeframe.
+    # Example: $1,200 / month	/ $5 per sq.m.
+    # If there is a timeframe, set @price_timeframe and then
+    # remove the timeframe and the preceding slash
+    timeframe_scan = full_price.scan(/\s?\/ (\w+) \//)
+
+    unless timeframe_scan.empty?
+      @price_timeframe = timeframe_scan[0][0]
+
+      full_price = full_price.gsub(" / #{@price_timeframe}", '')
+    end
+
+    number_scan = full_price.scan(/\d+/)
+
+    @price = number_scan[0]
+
+    @price_per_area_unit = number_scan[1] if number_scan.length > 1
+
+    # # Check if price is a range
+    # # Example: $5,000 – $10,000
+    # # What do we do in this case? Take the average!
+    # unless full_price.scan(/[\$?\d]+ – [\$?\d]+/).empty?
+    #   number_array = full_price.scan(/[0-9]+/).map(&:to_i)
+    #
+    #   average_price = ((number_array[0] + number_array[1])/2).to_s
+    #   first_price = full_price.match("^.*#{number_array[0]}").to_s
+    #   price_and_currency = first_price.gsub(number_array[0].to_s,
+    #                                         average_price)
+    # end
   end
 
   def extract_area_amount_from_detail(detail)

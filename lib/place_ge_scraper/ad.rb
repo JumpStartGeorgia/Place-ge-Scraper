@@ -204,8 +204,10 @@ class PlaceGeAd
 
     number_scan = full_price.scan(/\d+/)
 
+    # Two assumptions:
+    # 1) The first number is the price
+    # 2) If there is a second number, then it is the price_per_area_unit
     @price = number_scan[0]
-
     @price_per_area_unit = number_scan[1] if number_scan.length > 1
 
     # # Check if price is a range

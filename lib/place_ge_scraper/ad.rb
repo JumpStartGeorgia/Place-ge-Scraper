@@ -156,6 +156,14 @@ class PlaceGeAd
     return 'dollar' if currency_str == '$'
   end
 
+  def scrape_price_timeframe(full_price)
+    timeframe_scan = full_price.scan(/\s?\/ ([\w]+)/)
+
+    return nil if timeframe_scan.empty?
+
+    @price_timeframe = timeframe_scan[0][0]
+  end
+
   def scrape_price_info
     price_info = @page.css('.top-ad .price').children
 
@@ -176,13 +184,13 @@ class PlaceGeAd
 
     @price = nil
     @price_per_area_unit = nil
-    @price_timeframe = nil
     @price_currency = scrape_price_currency(full_price)
 
     # If there is no price listed
     if price_info[0].text.strip.empty? && price_info[1].nil?
       return
     end
+
     # If the only price info is the text 'Contract price'
     if price_info.text.include? 'Contract price'
       @price = 'Contract price'
@@ -190,20 +198,8 @@ class PlaceGeAd
       return
     end
 
-    # clean price info
-
-    # if there is a single word between two slashes, then
-    # the price has a timeframe.
-    # Example: $1,200 / month	/ $5 per sq.m.
-    # If there is a timeframe, set @price_timeframe and then
-    # remove the timeframe and the preceding slash
-    timeframe_scan = full_price.scan(/\s?\/ ([\w]+)/)
-
-    unless timeframe_scan.empty?
-      @price_timeframe = timeframe_scan[0][0]
-
-      full_price = full_price.gsub(" / #{@price_timeframe}", '')
-    end
+    @price_timeframe = scrape_price_timeframe(full_price)
+    full_price = full_price.gsub(" / #{@price_timeframe}", '') unless @price_timeframe.nil?
 
     number_scan = full_price.scan(/\d+/)
 

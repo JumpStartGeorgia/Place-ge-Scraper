@@ -204,17 +204,27 @@ class PlaceGeAd
 
     number_scan = full_price.scan(/\d+/)
 
-    # Two assumptions:
-    # 1) The first number is the price
-    # 2) If there is a second number, then it is the price_per_area_unit
-    @price = number_scan[0]
-    @price_per_area_unit = number_scan[1] if number_scan.length > 1
+    # If there is only one number, then it is the price and
+    # there is no price_per_area_unit
+    if number_scan.length == 1
+      @price = number_scan[0]
+      return
+    end
 
     # Check if price is a range
-    # Example: $5,000 – $10,000
-    # What do we do in this case? Take the average!
-    unless full_price.scan(/(–|-)/).empty?
-      AdInfo.logger.info "PRICE RANGE: Place.Ge Ad #{@place_ge_id} has a range in price section"
+    # Example: $30 – $40
+    range_scan = full_price.scan(/(–|-)/)
+
+    # If price is not range, then the first number is the price and the second
+    # is the price_per_area_unit
+    if range_scan.empty?
+      @price = number_scan[0]
+      @price_per_area_unit = number_scan[1]
+
+    # What do we do if price is range? Take the average!
+    else
+      @price = ((number_scan[0].to_i + number_scan[1].to_i) / 2).to_s
+      @price_per_area_unit = number_scan[2]
     end
   end
 

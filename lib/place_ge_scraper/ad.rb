@@ -175,6 +175,35 @@ class PlaceGeAd
     end
   end
 
+  def scrape_price(price_info)
+    full_price = price_info[0]
+                 .text
+                 .gsub(',', '') # Ex: '$60,000' -> '$60000'
+                 .gsub('from ', '') # Ex: 'from $60000' -> '$60000'
+                 .gsub(/\s+/, ' ')
+                 .strip
+
+    number_scan = full_price.scan(/\d+/)
+
+    # If there is no price listed
+    return nil if price_info[0].text.strip.empty? && price_info[1].nil?
+
+    # If the only price info is the text 'Contract price'
+    return 'Contract price' if price_info.text.include? 'Contract price'
+
+    # If there is only one number, then it is the price
+    return number_scan[0] if number_scan.length == 1
+
+    # Check if price is a range
+    # Example: $30 – $40
+    range_scan = full_price.scan(/(–|-)/)
+
+    return number_scan[0] if range_scan.empty?
+
+    # price is range, so take average
+    return ((number_scan[0].to_i + number_scan[1].to_i) / 2).to_s
+  end
+
   def scrape_price_info
     price_info = @page.css('.top-ad .price').children
 
@@ -193,50 +222,10 @@ class PlaceGeAd
                  .gsub(/\s+/, ' ')
                  .strip
 
-    @price = nil
-
-    # If there is no price listed
-    if price_info[0].text.strip.empty? && price_info[1].nil?
-      return
-    end
-
-    # If the only price info is the text 'Contract price'
-    if price_info.text.include? 'Contract price'
-      @price = 'Contract price'
-
-      return
-    end
-
+    @price = scrape_price(price_info)
     @price_currency = scrape_price_currency(full_price)
-
     @price_timeframe = scrape_price_timeframe(full_price)
-    full_price = full_price.gsub(" / #{@price_timeframe}", '') unless @price_timeframe.nil?
-
-    number_scan = full_price.scan(/\d+/)
-
-    # If there is only one number, then it is the price and
-    # there is no price_per_area_unit
-    if number_scan.length == 1
-      @price = number_scan[0]
-      return
-    end
-
-    # Check if price is a range
-    # Example: $30 – $40
-    range_scan = full_price.scan(/(–|-)/)
-
-    # If price is not range, then the first number is the price and the second
-    # is the price_per_area_unit
-
     @price_per_area_unit = scrape_price_per_area_unit(full_price)
-
-    if range_scan.empty?
-      @price = number_scan[0]
-
-    # What do we do if price is range? Take the average!
-    else
-      @price = ((number_scan[0].to_i + number_scan[1].to_i) / 2).to_s
-    end
   end
 
   def extract_area_amount_from_detail(detail)

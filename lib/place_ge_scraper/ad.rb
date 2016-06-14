@@ -164,6 +164,17 @@ class PlaceGeAd
     @price_timeframe = timeframe_scan[0][0]
   end
 
+  def scrape_price_per_area_unit(full_price)
+    number_scan = full_price.scan(/\d+/)
+    range_scan = full_price.scan(/(–|-)/)
+
+    if range_scan.empty?
+      return number_scan[1]
+    else
+      return number_scan[2]
+    end
+  end
+
   def scrape_price_info
     price_info = @page.css('.top-ad .price').children
 
@@ -183,8 +194,6 @@ class PlaceGeAd
                  .strip
 
     @price = nil
-    @price_per_area_unit = nil
-    @price_currency = scrape_price_currency(full_price)
 
     # If there is no price listed
     if price_info[0].text.strip.empty? && price_info[1].nil?
@@ -197,6 +206,8 @@ class PlaceGeAd
 
       return
     end
+
+    @price_currency = scrape_price_currency(full_price)
 
     @price_timeframe = scrape_price_timeframe(full_price)
     full_price = full_price.gsub(" / #{@price_timeframe}", '') unless @price_timeframe.nil?
@@ -216,14 +227,15 @@ class PlaceGeAd
 
     # If price is not range, then the first number is the price and the second
     # is the price_per_area_unit
+
+    @price_per_area_unit = scrape_price_per_area_unit(full_price)
+
     if range_scan.empty?
       @price = number_scan[0]
-      @price_per_area_unit = number_scan[1]
 
     # What do we do if price is range? Take the average!
     else
       @price = ((number_scan[0].to_i + number_scan[1].to_i) / 2).to_s
-      @price_per_area_unit = number_scan[2]
     end
   end
 

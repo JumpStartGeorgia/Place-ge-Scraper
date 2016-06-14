@@ -175,14 +175,7 @@ class PlaceGeAd
     end
   end
 
-  def scrape_price(price_info)
-    full_price = price_info[0]
-                 .text
-                 .gsub(',', '') # Ex: '$60,000' -> '$60000'
-                 .gsub('from ', '') # Ex: 'from $60000' -> '$60000'
-                 .gsub(/\s+/, ' ')
-                 .strip
-
+  def scrape_price(price_info, full_price)
     number_scan = full_price.scan(/\d+/)
 
     # If there is no price listed
@@ -222,7 +215,7 @@ class PlaceGeAd
                  .gsub(/\s+/, ' ')
                  .strip
 
-    @price = scrape_price(price_info)
+    @price = scrape_price(price_info, full_price)
     @price_currency = scrape_price_currency(full_price)
     @price_timeframe = scrape_price_timeframe(full_price)
     @price_per_area_unit = scrape_price_per_area_unit(full_price)

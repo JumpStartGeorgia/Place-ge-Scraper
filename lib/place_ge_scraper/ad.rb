@@ -145,8 +145,8 @@ class PlaceGeAd
     !price_info[1].nil? && price_info[1].text == 'urgently'
   end
 
-  def scrape_price_currency(full_price)
-    price_currency_scan = full_price.scan(/(\$|lari)/)
+  def scrape_price_currency(cleaned_price_info)
+    price_currency_scan = cleaned_price_info.scan(/(\$|lari)/)
 
     return nil if price_currency_scan.empty?
 
@@ -156,17 +156,17 @@ class PlaceGeAd
     return 'dollar' if currency_str == '$'
   end
 
-  def scrape_price_timeframe(full_price)
-    timeframe_scan = full_price.scan(/\s?\/ ([\w]+)/)
+  def scrape_price_timeframe(cleaned_price_info)
+    timeframe_scan = cleaned_price_info.scan(/\s?\/ ([\w]+)/)
 
     return nil if timeframe_scan.empty?
 
     @price_timeframe = timeframe_scan[0][0]
   end
 
-  def scrape_price_per_area_unit(full_price)
-    number_scan = full_price.scan(/\d+/)
-    range_scan = full_price.scan(/(–|-)/)
+  def scrape_price_per_area_unit(cleaned_price_info)
+    number_scan = cleaned_price_info.scan(/\d+/)
+    range_scan = cleaned_price_info.scan(/(–|-)/)
 
     if range_scan.empty?
       return number_scan[1]
@@ -175,21 +175,21 @@ class PlaceGeAd
     end
   end
 
-  def scrape_price(price_info, full_price)
-    number_scan = full_price.scan(/\d+/)
-
-    # If there is no price listed
-    return nil if price_info[0].text.strip.empty? && price_info[1].nil?
+  def scrape_price(cleaned_price_info)
+    number_scan = cleaned_price_info.scan(/\d+/)
 
     # If the only price info is the text 'Contract price'
-    return 'Contract price' if price_info.text.include? 'Contract price'
+    return 'Contract price' if cleaned_price_info.include? 'Contract price'
+
+    # No number
+    return nil if number_scan.length == 0
 
     # If there is only one number, then it is the price
     return number_scan[0] if number_scan.length == 1
 
     # Check if price is a range
     # Example: $30 – $40
-    range_scan = full_price.scan(/(–|-)/)
+    range_scan = cleaned_price_info.scan(/(–|-)/)
 
     return number_scan[0] if range_scan.empty?
 
@@ -208,17 +208,17 @@ class PlaceGeAd
       price_info.delete(price_info[0])
     end
 
-    full_price = price_info[0]
+    cleaned_price_info = price_info[0]
                  .text
                  .gsub(',', '') # Ex: '$60,000' -> '$60000'
                  .gsub('from ', '') # Ex: 'from $60000' -> '$60000'
                  .gsub(/\s+/, ' ')
                  .strip
 
-    @price = scrape_price(price_info, full_price)
-    @price_currency = scrape_price_currency(full_price)
-    @price_timeframe = scrape_price_timeframe(full_price)
-    @price_per_area_unit = scrape_price_per_area_unit(full_price)
+    @price = scrape_price(cleaned_price_info)
+    @price_currency = scrape_price_currency(cleaned_price_info)
+    @price_timeframe = scrape_price_timeframe(cleaned_price_info)
+    @price_per_area_unit = scrape_price_per_area_unit(cleaned_price_info)
   end
 
   def extract_area_amount_from_detail(detail)

@@ -141,27 +141,43 @@ class PlaceGeAd
     Date.strptime(date, '%m/%d/%Y')
   end
 
+  def scrape_is_urgent(price_info)
+    !price_info[1].nil? && price_info[1].text == 'urgently'
+  end
+
+  def scrape_price_currency(full_price)
+    price_currency_scan = full_price.scan(/(\$|lari)/)
+
+    return nil if price_currency_scan.empty?
+
+    currency_str = price_currency_scan[0][0]
+
+    return 'lari' if currency_str == 'lari'
+    return 'dollar' if currency_str == '$'
+  end
+
   def scrape_price_info
-    # set defaults
+    price_info = @page.css('.top-ad .price').children
+
+    @is_urgent = scrape_is_urgent(price_info)
+
+    # If 'urgently' markup is next to price, remove it
+    if @is_urgent
+      price_info.delete(price_info[0])
+      price_info.delete(price_info[0])
+    end
+
+    full_price = price_info[0]
+                 .text
+                 .gsub(',', '') # Ex: '$60,000' -> '$60000'
+                 .gsub('from ', '') # Ex: 'from $60000' -> '$60000'
+                 .gsub(/\s+/, ' ')
+                 .strip
+
     @price = nil
     @price_per_area_unit = nil
     @price_timeframe = nil
-    @price_currency = nil
-
-    price_info = @page.css('.top-ad .price').children
-
-    # Check if ad is urgent
-    if price_info[1].nil?
-      @is_urgent = false
-    else
-      @is_urgent = price_info[1].text == 'urgently'
-
-      # If 'urgently' markup is next to price, remove it
-      if @is_urgent
-        price_info.delete(price_info[0])
-        price_info.delete(price_info[0])
-      end
-    end
+    @price_currency = scrape_price_currency(full_price)
 
     # If there is no price listed
     if price_info[0].text.strip.empty? && price_info[1].nil?
@@ -175,26 +191,13 @@ class PlaceGeAd
     end
 
     # clean price info
-    full_price = price_info[0]
-                 .text
-                 .gsub(',', '') # Ex: '$60,000' -> '$60000'
-                 .gsub('from ', '') # Ex: 'from $60000' -> '$60000'
-                 .gsub(/\s+/, ' ')
-                 .strip
-
-    price_currency_scan = full_price.scan(/(\$|lari)/)
-
-    unless price_currency_scan.empty?
-      @price_currency = price_currency_scan[0][0]
-      @price_currency = 'dollar' if @price_currency == '$'
-    end
 
     # if there is a single word between two slashes, then
     # the price has a timeframe.
     # Example: $1,200 / month	/ $5 per sq.m.
     # If there is a timeframe, set @price_timeframe and then
     # remove the timeframe and the preceding slash
-    timeframe_scan = full_price.scan(/\s?\/ (\w+) \//)
+    timeframe_scan = full_price.scan(/\s?\/ ([\w]+)/)
 
     unless timeframe_scan.empty?
       @price_timeframe = timeframe_scan[0][0]

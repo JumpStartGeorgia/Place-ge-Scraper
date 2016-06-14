@@ -157,7 +157,7 @@ class PlaceGeAd
   end
 
   def scrape_price_timeframe(cleaned_price_info)
-    timeframe_scan = cleaned_price_info.scan(/\s?\/ ([\w]+)/)
+    timeframe_scan = cleaned_price_info.scan(/\s\/\s([a-z]+)/)
 
     return nil if timeframe_scan.empty?
 

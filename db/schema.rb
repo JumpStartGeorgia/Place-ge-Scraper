@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151008190921) do
+ActiveRecord::Schema.define(version: 20170302070756) do
 
   create_table "ad_entries", force: :cascade do |t|
     t.text     "additional_information",    limit: 65535
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 20151008190921) do
     t.string   "price_timeframe",           limit: 255
     t.string   "project",                   limit: 255
     t.string   "property_type",             limit: 255
+    t.string   "property_sub_type",         limit: 255
     t.date     "publication_date"
     t.string   "region",                    limit: 255
     t.integer  "region_id",                 limit: 4

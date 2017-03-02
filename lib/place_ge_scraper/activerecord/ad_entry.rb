@@ -107,6 +107,7 @@ class AdEntry < ActiveRecord::Base
       price_timeframe: place_ge_ad_info.price_timeframe,
       project: place_ge_ad_info.project,
       property_type: place_ge_ad_info.property_type,
+      property_sub_type: place_ge_ad_info.property_sub_type,
       publication_date: place_ge_ad_info.publication_date,
       region: place_ge_ad_info.region,
       region_id: place_ge_ad_info.region_id,

@@ -25,7 +25,7 @@ namespace :scraper do
       if limit.nil?
         Rake.application.invoke_task('scraper:scrape_ad_ids_posted_today')
       else
-        Rake.application.invoke_task('scraper:scrape_ad_ids_posted_today[20]')
+        Rake.application.invoke_task("scraper:scrape_ad_ids_posted_today[#{limit}]")
       end
 
       Rake.application.invoke_task('scraper:scrape_ads_flagged_unscraped')

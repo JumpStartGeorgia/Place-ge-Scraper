@@ -12,7 +12,9 @@ class PlaceGeAdBox
   attr_writer :id
 
   def scrape_id
-    @html.css('.editFilter').children.find { |x| x.text.include? 'ID: ' }.text.remove_non_numbers.to_nil_or_i
+    match = @html.css('.editFilter').children.find { |x| x.text.include? 'ID: ' }.text
+    return nil if match.nil?
+    return match.remove_non_numbers.to_nil_or_i
   end
 
   def scrape_pub_date

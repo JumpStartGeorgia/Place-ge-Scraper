@@ -1,7 +1,10 @@
 require_relative '../../environment'
 require_relative 'helpers'
 
+
+
 namespace :scraper do
+
   namespace :main_scrape_tasks do
     ########################################################################
     # Tasks for calling main scrape tasks together #
@@ -15,6 +18,7 @@ namespace :scraper do
       Rake.application.invoke_task('scraper:compress_html_copies')
       Rake.application.invoke_task('scraper:find_duplicates_last_month')
       Rake.application.invoke_task('scraper:export_last_month_ads_to_iset_csv')
+      Rake.application.invoke_task('data:update_github')
     end
 
     desc "Perform scrape tasks on today's ads"
@@ -181,5 +185,14 @@ namespace :scraper do
     ScraperLog.logger.info "INVOKED TASK: find_duplicates(#{args[:month]}, #{args[:year]})"
 
     AdEntry.identify_duplicates_for_month_year(args[:month], args[:year])
+  end
+end
+
+namespace :data do
+  desc "Add the files in the data directory to the data repo on github"
+  task :update_github do
+    ScraperLog.logger.info 'INVOKED TASK: data:update_github'
+
+    update_data_github
   end
 end

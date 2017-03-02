@@ -57,7 +57,11 @@ class Ad < ActiveRecord::Base
     file_name = "place_ge_real_estate_data_#{start_date}_to_#{end_date}.csv"
 
     require 'csv'
-    CSV.open(file_name, 'wb') do |csv|
+
+    # check that the data directory exists.
+    # - if not, just save to the root
+    dir = Dir.exists?('data') ? 'data/' : ''
+    CSV.open("#{dir}#{file_name}", 'wb') do |csv|
       csv << %w(pid price price_currency price_timeframe month year area larea type otype otype_sub cid rid did tagged_sid renovation nrooms nbeds nbaths nbalcs wfloor status)
 
       ad_entries.each do |ad_entry|
@@ -67,6 +71,7 @@ class Ad < ActiveRecord::Base
 
     ScraperLog.logger.info "Exported #{ad_entries.size} ads to #{file_name} for requested time period"
   end
+
 
   def self.to_csv(ids)
     ad_entries = AdEntry.where(id: ids)

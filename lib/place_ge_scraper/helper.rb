@@ -29,3 +29,18 @@ class Nokogiri::XML::Node
     xpath("//*[contains(concat(' ', @class, ' '), ' detailBox2 ' )][descendant::div[@class='detailLeft'][contains(., '#{detail_label}')]]//*[contains(concat(' ', @class, ' '), ' detailRight ')]/text()").text
   end
 end
+
+# update github with any changes
+def update_data_github
+  unless !ENV['PROJECT_ENV'].empty? && ENV['PROJECT_ENV'].downcase == 'production'
+    ScraperLog.logger.info 'NOT updating github because environment is not production'
+    return false
+  end
+
+  ScraperLog.logger.info 'pushing data files to github'
+
+  `cd data && git add -A`
+  `cd data && git commit -m 'Added new the csv file for the last month'`
+  `cd data && git push origin master`
+end
+

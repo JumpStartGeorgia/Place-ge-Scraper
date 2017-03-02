@@ -58,10 +58,10 @@ class Ad < ActiveRecord::Base
 
     require 'csv'
     CSV.open(file_name, 'wb') do |csv|
-      csv << %w(pid price price_currency price_timeframe month year area larea type otype cid rid did tagged_sid renovation nrooms nbeds nbaths nbalcs wfloor status)
+      csv << %w(pid price price_currency price_timeframe month year area larea type otype otype_sub cid rid did tagged_sid renovation nrooms nbeds nbaths nbalcs wfloor status)
 
       ad_entries.each do |ad_entry|
-        csv << [ad_entry.ad.place_ge_id, ad_entry.price, ad_entry.price_currency, ad_entry.price_timeframe, ad_entry.publication_date.month, ad_entry.publication_date.year, ad_entry.area, ad_entry.land_area, ad_entry.deal_type, ad_entry.property_type, ad_entry.city, ad_entry.region, ad_entry.district, ad_entry.street, ad_entry.condition, ad_entry.room_count, ad_entry.bedroom_count, ad_entry.bathroom_count, ad_entry.balcony_count, ad_entry.floor_number, ad_entry.status]
+        csv << [ad_entry.ad.place_ge_id, ad_entry.price, ad_entry.price_currency, ad_entry.price_timeframe, ad_entry.publication_date.month, ad_entry.publication_date.year, ad_entry.area, ad_entry.land_area, ad_entry.deal_type, ad_entry.property_type, ad_entry.property_sub_type, ad_entry.city, ad_entry.region, ad_entry.district, ad_entry.street, ad_entry.condition, ad_entry.room_count, ad_entry.bedroom_count, ad_entry.bathroom_count, ad_entry.balcony_count, ad_entry.floor_number, ad_entry.status]
       end
     end
 
@@ -75,7 +75,7 @@ class Ad < ActiveRecord::Base
 
     require 'csv'
     CSV.open(file_name, 'wb') do |csv|
-      csv << %w(place_ge_id ad_id additional_information address apartment_number area area_unit balcony_count bathroom_count bedroom_count building_number city city_id condition deal_type district district_id features floor_number function has_air_conditioning has_alarm has_appliances has_conference_hall has_doorphone has_electricity has_fireplace has_furniture has_garage_or_parking has_gas has_generator has_heating has_hot_water has_internet has_inventory has_lift has_loggia has_network has_phone has_security has_sewage has_storage_area has_tv has_veranda has_wardrobe has_water_supply html_copy_path is_bank_real_estate is_mansard is_urgent land_area land_area_unit price price_currency price_per_area_unit price_timeframe project property_type publication_date region region_id room_count seller_name seller_type status telephone_number time_of_scrape total_floor_count street street_id has_stained_glass_windows distance_from_main_road distance_from_tbilisi)
+      csv << %w(place_ge_id ad_id additional_information address apartment_number area area_unit balcony_count bathroom_count bedroom_count building_number city city_id condition deal_type district district_id features floor_number function has_air_conditioning has_alarm has_appliances has_conference_hall has_doorphone has_electricity has_fireplace has_furniture has_garage_or_parking has_gas has_generator has_heating has_hot_water has_internet has_inventory has_lift has_loggia has_network has_phone has_security has_sewage has_storage_area has_tv has_veranda has_wardrobe has_water_supply html_copy_path is_bank_real_estate is_mansard is_urgent land_area land_area_unit price price_currency price_per_area_unit price_timeframe project property_type property_sub_type publication_date region region_id room_count seller_name seller_type status telephone_number time_of_scrape total_floor_count street street_id has_stained_glass_windows distance_from_main_road distance_from_tbilisi)
 
       ad_entries.each do |ad_entry|
         csv << [ad_entry.ad.place_ge_id,
@@ -136,6 +136,7 @@ class Ad < ActiveRecord::Base
                 ad_entry.price_timeframe,
                 ad_entry.project,
                 ad_entry.property_type,
+                ad_entry.property_sub_type,
                 ad_entry.publication_date,
                 ad_entry.region,
                 ad_entry.region_id,

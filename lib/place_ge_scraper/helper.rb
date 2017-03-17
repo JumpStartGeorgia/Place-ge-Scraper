@@ -32,7 +32,7 @@ end
 
 # update github with any changes
 def update_data_github
-  unless !ENV['PROJECT_ENV'].empty? && ENV['PROJECT_ENV'].downcase == 'production'
+  unless !ENV['PROJECT_ENV'].nil? && !ENV['PROJECT_ENV'].empty? && ENV['PROJECT_ENV'].downcase == 'production'
     ScraperLog.logger.info 'NOT updating github because environment is not production'
     return false
   end
